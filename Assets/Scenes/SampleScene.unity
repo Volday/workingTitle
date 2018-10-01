@@ -296,6 +296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92d67143e39c3ec4cbb222cbe85168d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawMode: 1
   mapWidth: 71
   mapHeigth: 74
   noiseScale: 24.04
@@ -303,8 +304,24 @@ MonoBehaviour:
   persistance: 0.36
   lacunarity: 3.07
   seed: 8
-  offset: {x: 2.04, y: 1.83}
+  offset: {x: 0, y: 0}
   autoUpdate: 1
+  regions:
+  - name: Water
+    height: 0.4
+    colour: {r: 0.28248486, g: 0.7426135, b: 0.8679245, a: 0}
+  - name: Send
+    height: 0.5
+    colour: {r: 0.7424788, g: 0.7735849, b: 0.3466536, a: 0}
+  - name: Grows
+    height: 0.6
+    colour: {r: 0.19828263, g: 0.754717, b: 0.16731933, a: 0}
+  - name: Rock
+    height: 0.8
+    colour: {r: 0.4056604, g: 0.24044329, b: 0.074626215, a: 0}
+  - name: Snow
+    height: 1
+    colour: {r: 1, g: 1, b: 1, a: 0}
 --- !u!4 &1258183035
 Transform:
   m_ObjectHideFlags: 0
