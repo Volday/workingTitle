@@ -11,7 +11,7 @@ public class MapGenerator : MonoBehaviour {
 
     public Noise.NormalizeMode normalizeMode;
 
-    public const int mapChunkSize = 95;
+    public const int mapChunkSize = 97;
     [Range(0, 4)]
     public int editorPreviewLOD;
     public float noiseScale;
@@ -35,18 +35,29 @@ public class MapGenerator : MonoBehaviour {
 
     public TerrainType[] regions;
 
+    float[,] falloffMapContain;
     float[,] falloffMap;
+    float[,] falloffMapEdge;
+    float[,] falloffMapOuterCorner;
+    float[,] falloffMapExceptEdge;
+    float[,] falloffMapDoubleEdge;
 
     Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
     Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
 
     public void Awake()
     {
-        falloffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize);
+        // 0 Вокруг, 1 с одной стороны, 2 с двух сторон(внешний угол), 3 кроме стороны, 4 с двух сторон
+        falloffMapContain = FalloffGenerator.GenerateFalloffMap(mapChunkSize + 2, 0);
+        falloffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize + 2, 0);
+        falloffMapEdge = FalloffGenerator.GenerateFalloffMap(mapChunkSize + 2, 1);
+        falloffMapOuterCorner = FalloffGenerator.GenerateFalloffMap(mapChunkSize + 2, 2);
+        falloffMapExceptEdge = FalloffGenerator.GenerateFalloffMap(mapChunkSize + 2, 3);
+        falloffMapDoubleEdge = FalloffGenerator.GenerateFalloffMap(mapChunkSize + 2, 4);
     }
 
     public void DrawMapInEditor() {
-        MapData mapData = GenerateMapData(Vector2.zero);
+        MapData mapData = GenerateMapData(Vector2.zero, 0);
         MapDisplay display = FindObjectOfType<MapDisplay>();
         if (drawMode == DrawMode.NoiseMap)
         {
@@ -66,17 +77,17 @@ public class MapGenerator : MonoBehaviour {
         }
     }
 
-    public void RequestMapData(Vector2 center, Action<MapData> callback) {
+    public void RequestMapData(Vector2 center, Action<MapData> callback, int falloffAngle) {
         ThreadStart threadStart = delegate
         {
-            MapDataThread(center, callback);
+            MapDataThread(center, callback, falloffAngle);
         };
 
         new Thread(threadStart).Start();
     }
 
-    void MapDataThread(Vector2 center, Action<MapData> callback) {
-        MapData mapData = GenerateMapData(center);
+    void MapDataThread(Vector2 center, Action<MapData> callback, int falloffAngle) {
+        MapData mapData = GenerateMapData(center, falloffAngle);
         lock (mapDataThreadInfoQueue)
         {
             mapDataThreadInfoQueue.Enqueue(new MapThreadInfo<MapData>(callback, mapData));
@@ -92,7 +103,7 @@ public class MapGenerator : MonoBehaviour {
         new Thread(threadStart).Start();
     }
 
-    public void MeshDataThread(MapData mapData, int lod, Action<MeshData> callback) {
+    void MeshDataThread(MapData mapData, int lod, Action<MeshData> callback) {
         MeshData meshData = MeshGenerator.GenerateTerrainMesh(mapData.heightMap, meshHeightMultiplier, meshHeightCurve, lod, useFlatShading);
         lock (meshDataThreadInfoQueue) {
             meshDataThreadInfoQueue.Enqueue(new MapThreadInfo<MeshData>(callback, meshData));
@@ -118,15 +129,85 @@ public class MapGenerator : MonoBehaviour {
         }
     }
 
-    MapData GenerateMapData(Vector2 center) {
-        float[,] noiseMap = Noise.GenerateNoiseMap(seed, center + offset, mapChunkSize + 2, mapChunkSize + 2, noiseScale, octaves, persistance, lacunarity, normalizeMode);
+    MapData GenerateMapData(Vector2 center, int falloffAngle) {
+        float[,] noiseMap = Noise.GenerateNoiseMap(seed, center + offset, (mapChunkSize + 2), (mapChunkSize + 2), noiseScale, octaves, persistance, lacunarity, normalizeMode);
 
-        Color[] colourMap = new Color[mapChunkSize*mapChunkSize];
-        for (int y = 0; y < mapChunkSize; y++) {
-            for (int x = 0; x < mapChunkSize; x++){
+        Color[] colourMap = new Color[(mapChunkSize) * (mapChunkSize)];
+        for (int y = 1; y < (mapChunkSize + 1); y++) {
+            for (int x = 1; x < (mapChunkSize + 1); x++) {
 
                 if (useFalloff) {
-                    noiseMap[x, y] = Mathf.Clamp01(noiseMap[x, y] - falloffMap[x,y]);
+                    if (falloffAngle == 44)
+                    {
+                        falloffMapContain[x, y] = falloffMapOuterCorner[mapChunkSize + 1 - y, x];
+                    }
+                    if (falloffAngle == 33)
+                    {
+                        falloffMapContain[x, y] = falloffMapOuterCorner[mapChunkSize + 1 - x, y];
+                    }
+                    if (falloffAngle == 22)
+                    {
+                        falloffMapContain[x, y] = falloffMapOuterCorner[mapChunkSize + 1 - x, mapChunkSize + 1 - y];
+                    }
+                    if (falloffAngle == 11)
+                    {
+                        falloffMapContain[x, y] = falloffMapOuterCorner[x, y];
+                    }
+
+
+                    if (falloffAngle == 4)
+                    {
+                        falloffMapContain[x, y] = falloffMapEdge[mapChunkSize + 1 - y, x];
+                    }
+                    if (falloffAngle == 3)
+                    {
+                        falloffMapContain[x, y] = falloffMapEdge[mapChunkSize+1 - x, y];
+                    }
+                    if (falloffAngle == 2)
+                    {
+                        falloffMapContain[x, y] = falloffMapEdge[y, x];
+                    }
+                    if (falloffAngle == 1)
+                    {
+                        falloffMapContain[x, y] = falloffMapEdge[x, y];
+                    }
+
+                    if (falloffAngle == 444)
+                    {
+                        falloffMapContain[x, y] = falloffMapExceptEdge[mapChunkSize + 1 - y, x];
+                    }
+                    if (falloffAngle == 333)
+                    {
+                        falloffMapContain[x, y] = falloffMapExceptEdge[mapChunkSize + 1 - y, mapChunkSize + 1 - x];
+                    }
+                    if (falloffAngle == 222)
+                    {
+                        falloffMapContain[x, y] = falloffMapExceptEdge[mapChunkSize + 1 - x, mapChunkSize + 1 - y];
+                    }
+                    if (falloffAngle == 111)
+                    {
+                        falloffMapContain[x, y] = falloffMapExceptEdge[x, y];
+                    }
+
+                    if (falloffAngle == 555)
+                    {
+                        falloffMapContain[x, y] = falloffMapDoubleEdge[y, x];
+                    }
+                    if (falloffAngle == 666)
+                    {
+                        falloffMapContain[x, y] = falloffMapDoubleEdge[x, y];
+                    }
+                    if (falloffAngle == 5) {
+                        falloffMapContain[x, y] = falloffMap[x, y];
+                    }
+                    if (falloffAngle == 0)
+                    {
+
+                    }
+                    else
+                    {
+                        noiseMap[x, y] = Mathf.Clamp01(noiseMap[x, y] - Mathf.Clamp01(falloffMapContain[x, y]));
+                    }
                 }
 
                 float currentHeight = noiseMap[x, y];
@@ -134,7 +215,7 @@ public class MapGenerator : MonoBehaviour {
                 {
                     if (currentHeight >= regions[i].height)
                     {
-                        colourMap[y * mapChunkSize + x] = regions[i].colour;
+                        colourMap[(y - 1) * mapChunkSize + (x - 1)] = regions[i].colour;
                     }
                     else {
                         break;
@@ -165,7 +246,13 @@ public class MapGenerator : MonoBehaviour {
             noiseScale = 1;
         }
 
-        falloffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize);
+        // 0 Вокруг, 1 с одной стороны, 2 с двух сторон(внешний угол), 3 кроме стороны, 4 с двух сторон
+        falloffMapContain = FalloffGenerator.GenerateFalloffMap(mapChunkSize + 2, 0);
+        falloffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize + 2, 0);
+        falloffMapEdge = FalloffGenerator.GenerateFalloffMap(mapChunkSize + 2, 1);
+        falloffMapOuterCorner = FalloffGenerator.GenerateFalloffMap(mapChunkSize + 2, 2);
+        falloffMapExceptEdge = FalloffGenerator.GenerateFalloffMap(mapChunkSize + 2, 3);
+        falloffMapDoubleEdge = FalloffGenerator.GenerateFalloffMap(mapChunkSize + 2, 4);
 
     }
 

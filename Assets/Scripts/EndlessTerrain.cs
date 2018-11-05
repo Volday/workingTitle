@@ -107,14 +107,12 @@ public class EndlessTerrain : MonoBehaviour {
             meshObject.transform.localScale = Vector3.one * scale;
             SetVisible(false);
 
-
-            //Если что-то не работает замени lodMeshes.Length на ditailLevels.Length
             lodMeshes = new LODMesh[ditailLevels.Length];
             for (int i = 0; i < lodMeshes.Length; i++) {
                 lodMeshes[i] = new LODMesh(ditailLevels[i].lod, UpdateTerrainChunk);
             }
 
-            mapGenerator.RequestMapData(position ,OnMapDataReceived);
+            //mapGenerator.RequestMapData(position ,OnMapDataReceived);
         } 
 
         void OnMapDataReceived(MapData mapData) {
