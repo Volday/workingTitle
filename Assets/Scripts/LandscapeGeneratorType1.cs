@@ -21,6 +21,15 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
 
     public float maxVievDst;
 
+    public Color colorRoad;
+
+    [Range(10, 90)]
+    public float angle;
+    public float stapLenght;
+    public float widthRoad;
+    public float minDistanceBetweenRoads;
+    public int minRoadLenght;
+
     public Transform viewer;
     public Material mapMaterial;
 
@@ -203,21 +212,33 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
     public void CheckLoadedWholeMapData() {
         if (mapDataLoaded == widthLocation * heightLocation)
         {
-            float[,] coverageMap = new float[chunkSize * widthLocation, chunkSize * heightLocation];
-            for (int i = 0; i < heightLocation * chunkSize; i++) {
-                for (int t = 0; t < widthLocation * chunkSize; t++)
+            int[,] coverageMap = new int[chunkSize * widthLocation, chunkSize * heightLocation];
+            for (int y = 0; y < heightLocation * chunkSize; y++) {
+                for (int x = 0; x < widthLocation * chunkSize; x++)
                 {
-                    if (wholeMapData[i, t] > minFreeHeight && wholeMapData[i, t] < maxFreeHeight)
+                    if (wholeMapData[x, y] > minFreeHeight && wholeMapData[x, y] < maxFreeHeight)
                     {
-                        coverageMap[i, t] = 0; //свободно
+                        coverageMap[x, y] = 0; //свободно
                     }
                     else {
-                        coverageMap[i, t] = 0.9f; //занято ландшафтом
+                        coverageMap[x, y] = 1; //занято ландшафтом
                     }
                 }
             }
+
+            RoadGenerator roadGenerator = new RoadGenerator(wholeMapData, coverageMap, minFreeHeight, maxFreeHeight, angle, stapLenght, widthRoad, mapGenerator.seed, minDistanceBetweenRoads, minRoadLenght);
+            coverageMap = roadGenerator.RoadGenerateFromNoise();
+
+            for (int y = 0; y < heightLocation; y++)
+            {
+                for (int x = 0; x < widthLocation; x++)
+                {
+                    terrainChunkDictionary[new Vector2(x, y)].RoadTextureUpdate(colorRoad, coverageMap);
+                }
+            }
+
             MapDisplay display = FindObjectOfType<MapDisplay>();
-            display.DrawTexture(TextureGenerator.TextureFromHeightMap(coverageMap));
+            display.DrawTexture(TextureGenerator.TextureFromHeightMap(coverageMap, 2));
         }
         else {
             LoadNextChunks();
@@ -286,9 +307,23 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
             }
 
             mapDataLoaded++;
-            locationGeneratorType1.CheckLoadedWholeMapData();
 
             UpdateTerrainChunk();
+        }
+
+        public void RoadTextureUpdate(Color colorRoad, int[,] coverageMap) {
+            for (int y = 0; y < chunkSize; y++)
+            {
+                for (int x = 0; x < chunkSize; x++)
+                {
+                    if (coverageMap[coverageMap.GetLength(0) - (x + chunkSize * (int)coord.x) - 1, coverageMap.GetLength(0) - ((chunkSize - 1 - y) + chunkSize * (int)coord.y) - 1] == 2)
+                    {
+                        mapData.colourMap[y * MapGenerator.mapChunkSize + x] = colorRoad;
+                    }
+                }
+            }
+            Texture2D texture = TextureGenerator.TextureFromColourMap(mapData.colourMap, MapGenerator.mapChunkSize, MapGenerator.mapChunkSize);
+            meshRenderer.material.mainTexture = texture;
         }
 
         public void UpdateTerrainChunk()
@@ -307,6 +342,8 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
                     {
                         meshFilter.mesh = mesh;
                         meshCollider.sharedMesh = mesh;
+
+                        locationGeneratorType1.CheckLoadedWholeMapData();
                     }
                     else if (!hasRequestedMesh)
                     {
@@ -354,6 +391,9 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
         }
         if (maxFreeHeight < minFreeHeight) {
             minFreeHeight = maxFreeHeight;
+        }
+        if (minDistanceBetweenRoads > minRoadLenght * stapLenght - stapLenght) {
+            minDistanceBetweenRoads = minRoadLenght * stapLenght - stapLenght;
         }
     }
 }

@@ -249,13 +249,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 282840810}
-  m_LocalRotation: {x: 0.6246461, y: -0, z: -0, w: 0.7809079}
-  m_LocalPosition: {x: 0.5, y: 15, z: -3.7}
+  m_LocalRotation: {x: 0.5530326, y: -0, z: -0, w: 0.8331596}
+  m_LocalPosition: {x: -0.11, y: 15.29, z: -6.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1785639926}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 77.312004, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 67.151, y: 0, z: 0}
 --- !u!1 &1258183032
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,7 +307,7 @@ MonoBehaviour:
   octaves: 5
   persistance: 0.5
   lacunarity: 2
-  seed: 180
+  seed: 140
   offset: {x: 0, y: 0}
   useFalloff: 1
   useFlatShading: 1
@@ -360,14 +360,14 @@ MonoBehaviour:
     height: 0
     colour: {r: 0.28248486, g: 0.7426135, b: 0.8679245, a: 0}
   - name: Send
-    height: 0.1
+    height: 0
     colour: {r: 0.7424788, g: 0.7735849, b: 0.3466536, a: 0}
   - name: Grows
-    height: 0.3
+    height: 0.1
     colour: {r: 0.19828263, g: 0.754717, b: 0.16731933, a: 0}
   - name: Rock
     height: 0.57
-    colour: {r: 0.3773585, g: 0.32662868, b: 0.2758989, a: 0}
+    colour: {r: 0.46226418, g: 0.448091, b: 0.4339178, a: 0}
   - name: Snow
     height: 0.8
     colour: {r: 1, g: 1, b: 1, a: 0}
@@ -406,12 +406,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1ec64b75e68eee4e9e532666c0afc10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  widthLocation: 3
-  heightLocation: 3
+  widthLocation: 2
+  heightLocation: 2
   maxFreeHeight: 0.5
   minFreeHeight: 0.2
   hideRemoteChunks: 0
   maxVievDst: 50
+  colorRoad: {r: 0.8113208, g: 0.77359766, b: 0.54725885, a: 0}
+  angle: 45
+  stapLenght: 10
+  widthRoad: 3
+  minDistanceBetweenRoads: 40
+  minRoadLenght: 6
   viewer: {fileID: 1785639926}
   mapMaterial: {fileID: 2100000, guid: ee023b4aa0f898646ba73b74032f98b0, type: 2}
 --- !u!1 &1371370574
