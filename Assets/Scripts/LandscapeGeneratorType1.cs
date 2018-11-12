@@ -30,6 +30,9 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
     public float minDistanceBetweenRoads;
     public int minRoadLenght;
 
+    [Range(0, 0.1f)]
+    public float closedArea;
+
     public Transform viewer;
     public Material mapMaterial;
 
@@ -213,21 +216,12 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
         if (mapDataLoaded == widthLocation * heightLocation)
         {
             int[,] coverageMap = new int[chunkSize * widthLocation, chunkSize * heightLocation];
-            for (int y = 0; y < heightLocation * chunkSize; y++) {
-                for (int x = 0; x < widthLocation * chunkSize; x++)
-                {
-                    if (wholeMapData[x, y] > minFreeHeight && wholeMapData[x, y] < maxFreeHeight)
-                    {
-                        coverageMap[x, y] = 0; //свободно
-                    }
-                    else {
-                        coverageMap[x, y] = 1; //занято ландшафтом
-                    }
-                }
-            }
 
-            RoadGenerator roadGenerator = new RoadGenerator(wholeMapData, coverageMap, minFreeHeight, maxFreeHeight, angle, stapLenght, widthRoad, mapGenerator.seed, minDistanceBetweenRoads, minRoadLenght);
+            RoadGenerator roadGenerator = new RoadGenerator(wholeMapData, coverageMap, minFreeHeight, maxFreeHeight, angle, stapLenght, widthRoad, mapGenerator.seed, minDistanceBetweenRoads, minRoadLenght, closedArea);
             coverageMap = roadGenerator.RoadGenerateFromNoise();
+
+            MapDisplay display = FindObjectOfType<MapDisplay>();
+            display.DrawTexture(TextureGenerator.TextureFromHeightMap(coverageMap, 2));
 
             for (int y = 0; y < heightLocation; y++)
             {
@@ -236,9 +230,6 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
                     terrainChunkDictionary[new Vector2(x, y)].RoadTextureUpdate(colorRoad, coverageMap);
                 }
             }
-
-            MapDisplay display = FindObjectOfType<MapDisplay>();
-            display.DrawTexture(TextureGenerator.TextureFromHeightMap(coverageMap, 2));
         }
         else {
             LoadNextChunks();
@@ -316,7 +307,7 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
             {
                 for (int x = 0; x < chunkSize; x++)
                 {
-                    if (coverageMap[coverageMap.GetLength(0) - (x + chunkSize * (int)coord.x) - 1, coverageMap.GetLength(0) - ((chunkSize - 1 - y) + chunkSize * (int)coord.y) - 1] == 2)
+                    if (coverageMap[coverageMap.GetLength(0) - (x + chunkSize * (int)coord.x) - 1, coverageMap.GetLength(1) - ((chunkSize - 1 - y) + chunkSize * (int)coord.y) - 1] == 2)
                     {
                         mapData.colourMap[y * MapGenerator.mapChunkSize + x] = colorRoad;
                     }
