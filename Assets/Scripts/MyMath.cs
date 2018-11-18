@@ -39,4 +39,17 @@ public static class MyMath {
         return rotated_point;
     }
 
+    public static Vector2[] MixVector2(Vector2[] vector, int seed) {
+        System.Random prng = new System.Random(seed);
+
+        for (int i = 0; i < vector.Length; i++){
+            int temp = prng.Next(0, vector.Length);
+            Vector2 temporaryVector = vector[temp];
+            vector[temp] = vector[i];
+            vector[i] = temporaryVector;
+        }
+
+        return vector;
+    }
+
 }

@@ -51,8 +51,9 @@ public class MeshGenerator {
                 Vector2 percent = new Vector2((x - meshSimplificationIncrement) / (float)meshSize, (y - meshSimplificationIncrement) / (float)meshSize);
                 float height = heightCurve.Evaluate(heightMap[x, y]) * heightMultiplier;
                 Vector3 vertexPosition = new Vector3(topLeftX + percent.x * meshSizeUnsimplified, height, topLeftZ - percent.y * meshSizeUnsimplified);
-                
-                meshData.AddVertex(vertexPosition, percent, vertexIndex);
+
+                //Vector2 UVOffset = new Vector2(percent.x - (x - borderedSize / 1.5f) / (borderedSize * borderedSize) + (1.0f / ((borderedSize) * 2)), percent.y - (y - borderedSize / 2.0f) / (borderedSize * borderedSize) + (1.0f / ((borderedSize) * 2)));
+                meshData.AddVertex(vertexPosition, new Vector2(percent.x + (1.0f / ((borderedSize) * 2)), percent.y + (1.0f / ((borderedSize) * 2))), vertexIndex);
 
                 if (x < borderedSize - 1 && y < borderedSize - 1) {
                     int a = vertexIndicesMap[x, y];

@@ -130,13 +130,17 @@ public class MapGenerator : MonoBehaviour {
     }
 
     MapData GenerateMapData(Vector2 center, int falloffAngle) {
-        float[,] noiseMap = Noise.GenerateNoiseMap(seed, center + offset, (mapChunkSize + 2), (mapChunkSize + 2), noiseScale, octaves, persistance, lacunarity, normalizeMode);
 
-        Color[] colourMap = new Color[(mapChunkSize) * (mapChunkSize)];
-        for (int y = 1; y < (mapChunkSize + 1); y++) {
-            for (int x = 1; x < (mapChunkSize + 1); x++) {
+        float[,] noiseMap = Noise.GenerateNoiseMap(seed, center + offset, mapChunkSize + 2, mapChunkSize + 2, noiseScale, octaves, persistance, lacunarity, normalizeMode);
 
-                if (useFalloff) {
+        Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
+        for (int y = 1; y < (mapChunkSize + 1); y++)
+        {
+            for (int x = 1; x < (mapChunkSize + 1); x++)
+            {
+
+                if (useFalloff)
+                {
                     if (falloffAngle == 44)
                     {
                         falloffMapContain[x, y] = falloffMapOuterCorner[mapChunkSize + 1 - y, x];
@@ -161,7 +165,7 @@ public class MapGenerator : MonoBehaviour {
                     }
                     if (falloffAngle == 3)
                     {
-                        falloffMapContain[x, y] = falloffMapEdge[mapChunkSize+1 - x, y];
+                        falloffMapContain[x, y] = falloffMapEdge[mapChunkSize + 1 - x, y];
                     }
                     if (falloffAngle == 2)
                     {
@@ -197,7 +201,8 @@ public class MapGenerator : MonoBehaviour {
                     {
                         falloffMapContain[x, y] = falloffMapDoubleEdge[x, y];
                     }
-                    if (falloffAngle == 5) {
+                    if (falloffAngle == 5)
+                    {
                         falloffMapContain[x, y] = falloffMap[x, y];
                     }
                     if (falloffAngle == 0)
@@ -217,7 +222,8 @@ public class MapGenerator : MonoBehaviour {
                     {
                         colourMap[(y - 1) * mapChunkSize + (x - 1)] = regions[i].colour;
                     }
-                    else {
+                    else
+                    {
                         break;
                     }
                 }

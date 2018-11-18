@@ -15,6 +15,7 @@ public class RoadGenerator2
     float widthRoad;
     float minDistanceBetweenRoads;
     int minRoadLenght;
+    float closedArea;
 
     int alreadyFindStartPoint;
 
@@ -55,6 +56,7 @@ public class RoadGenerator2
         this.widthRoad = widthRoad;
         this.minDistanceBetweenRoads = minDistanceBetweenRoads;
         this.minRoadLenght = minRoadLenght;
+        this.closedArea = closedArea;
 
         freeRoadJunctions = new int[coverageMap.GetLength(0), coverageMap.GetLength(1)];
         for (int y = 0; y < coverageMap.GetLength(1); y++)
@@ -72,13 +74,14 @@ public class RoadGenerator2
             }
         }
 
-        //freeRoadJunctions = new int[coverageMap.GetLength(0), coverageMap.GetLength(1)];
-        //for (int y = 0; y < coverageMap.GetLength(1); y++) {
-        //    for (int x = 0; x < coverageMap.GetLength(0); x++)
-        //    {
-        //        freeRoadJunctions[x, y] = coverageMap[x, y];
-        //    }
-        //}
+        freeRoadJunctions = new int[coverageMap.GetLength(0), coverageMap.GetLength(1)];
+        for (int y = 0; y < coverageMap.GetLength(1); y++)
+        {
+            for (int x = 0; x < coverageMap.GetLength(0); x++)
+            {
+                freeRoadJunctions[x, y] = coverageMap[x, y];
+            }
+        }
     }
 
     public int[,] RoadGenerateFromNoise()
@@ -169,7 +172,7 @@ public class RoadGenerator2
                         {
                             if (sqrWidthRoad >= MyMath.sqrDistanceFromPointToSection(new Vector2(x, y), new Vector2(roadJunctions[i].neighbors[t].location.x - roadJunctions[i].location.x, roadJunctions[i].neighbors[t].location.y - roadJunctions[i].location.y)))
                             {
-                                if (coverageMap[(int)roadJunctions[i].location.x + x, (int)roadJunctions[i].location.y + y] == 0)
+                                if (wholeMapData[(int)roadJunctions[i].location.x + x, (int)roadJunctions[i].location.y + y] > (minFreeHeight - closedArea) && wholeMapData[(int)roadJunctions[i].location.x + x, (int)roadJunctions[i].location.y + y] < (maxFreeHeight + closedArea))
                                 {
                                     coverageMap[(int)roadJunctions[i].location.x + x, (int)roadJunctions[i].location.y + y] = 2;
                                 }
@@ -270,8 +273,9 @@ public class RoadGenerator2
             offset = MyMath.Rotate(offset, direction * 90).normalized;
         }
 
-        if (roadJunction == rootRoadJunction)
+        if (roadJunction == rootRoadJunction && stop < 500)
         {
+            stop++;
             MakeWay((int)roadJunction.location.x, (int)roadJunction.location.y, offset);
         }
 

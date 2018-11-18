@@ -33,6 +33,8 @@ public class RoadGenerator {
 
     List<RoadJunction> roadJunctions = new List<RoadJunction>();
 
+    List<RoadJunction> roadJunctionsCopy = new List<RoadJunction>();
+
     List<RoadJunction> singleRoadJunctions = new List<RoadJunction>();
 
     public RoadGenerator(float[,] wholeMapData, int[,] coverageMap, float minFreeHeight, float maxFreeHeight, float angle, float stapLenght, float widthRoad, int seed, float minDistanceBetweenRoads, int minRoadLenght, float closedArea) {
@@ -52,7 +54,7 @@ public class RoadGenerator {
         {
             for (int x = 0; x < coverageMap.GetLength(0); x++)
             {
-                if (wholeMapData[x, y] > (minFreeHeight - closedArea) && wholeMapData[x, y] < (maxFreeHeight - closedArea))
+                if (wholeMapData[x, y] > (minFreeHeight + closedArea) && wholeMapData[x, y] < (maxFreeHeight - closedArea))
                 {
                     coverageMap[x, y] = 0; //свободно
                 }
@@ -94,7 +96,8 @@ public class RoadGenerator {
                 }
                 else if (roadJunctions[i].neighbors[0].location.x == -1 && roadJunctions[i].neighbors[1].location.x == -1 && roadJunctions[i].neighbors[2].location.x == -1 && roadJunctions[i].neighbors[3].location.x == -1)
                 {
-                    if (singleRoadJunctions.IndexOf(roadJunctions[i]) == -1) {
+                    if (singleRoadJunctions.IndexOf(roadJunctions[i]) == -1)
+                    {
                         singleRoadJunctions.Add(roadJunctions[i]);
                     }
                 }
@@ -116,7 +119,11 @@ public class RoadGenerator {
             coverageMap[(int)singleRoadJunctions[i].location.x, (int)singleRoadJunctions[i].location.y] = 0;
             roadJunctions.Remove(singleRoadJunctions[i]);
         }
-
+        roadJunctionsCopy = new List<RoadJunction>();
+        for (int i = 0; i < roadJunctions.Count; i++)
+        {
+            roadJunctionsCopy.Add(roadJunctions[i]);
+        }
         DrowWidthRoad();
         FindStartAndFinish();
 
@@ -137,7 +144,7 @@ public class RoadGenerator {
                         if (roadJunctions[i].neighbors[t].location.x != -1 && x + (int)roadJunctions[i].location.x >= 0 && x + (int)roadJunctions[i].location.x < coverageMap.GetLength(0) && y + (int)roadJunctions[i].location.y >= 0 && y + (int)roadJunctions[i].location.y < coverageMap.GetLength(1))
                         {
                             if (sqrWidthRoad >= MyMath.sqrDistanceFromPointToSection(new Vector2(x, y), new Vector2(roadJunctions[i].neighbors[t].location.x - roadJunctions[i].location.x, roadJunctions[i].neighbors[t].location.y - roadJunctions[i].location.y))) {
-                                if (wholeMapData[(int)roadJunctions[i].location.x + x, (int)roadJunctions[i].location.y + y] > minFreeHeight && wholeMapData[(int)roadJunctions[i].location.x + x, (int)roadJunctions[i].location.y + y] < maxFreeHeight) {
+                                if (wholeMapData[(int)roadJunctions[i].location.x + x, (int)roadJunctions[i].location.y + y] > (minFreeHeight - closedArea) && wholeMapData[(int)roadJunctions[i].location.x + x, (int)roadJunctions[i].location.y + y] < (maxFreeHeight + closedArea)) {
                                     coverageMap[(int)roadJunctions[i].location.x + x, (int)roadJunctions[i].location.y + y] = 2;
                                 }
                             }
@@ -198,6 +205,17 @@ public class RoadGenerator {
         }
     }
 
+    public Vector2[] GetRoadJunctions()
+    {
+        Vector2[] getRoadJunctions = new Vector2[roadJunctionsCopy.Count];
+
+        for (int i = 0; i < roadJunctionsCopy.Count; i++)
+        {
+            getRoadJunctions[i] = new Vector2(roadJunctionsCopy[i].location.x, roadJunctionsCopy[i].location.y);
+        }
+
+        return getRoadJunctions;
+    }
     public Vector2 getStartPoint() {
         return finishPoint;
     }

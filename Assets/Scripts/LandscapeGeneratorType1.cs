@@ -33,6 +33,10 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
     [Range(0, 0.1f)]
     public float closedArea;
 
+    public int minBuildSide;
+    public int maxBuildSide;
+    public int numberOfBuildings;
+
     public Transform viewer;
     public Material mapMaterial;
 
@@ -223,11 +227,30 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
             MapDisplay display = FindObjectOfType<MapDisplay>();
             display.DrawTexture(TextureGenerator.TextureFromHeightMap(coverageMap, 2));
 
+            StaticObjectAssemble staticObjectAssemble = new StaticObjectAssemble(mapGenerator.seed);
+            Vector3[] buildingAssemble = staticObjectAssemble.BuildingAssemble(coverageMap, wholeMapData, roadGenerator.GetRoadJunctions(), numberOfBuildings, minBuildSide, maxBuildSide);
+
             for (int y = 0; y < heightLocation; y++)
             {
                 for (int x = 0; x < widthLocation; x++)
                 {
                     terrainChunkDictionary[new Vector2(x, y)].RoadTextureUpdate(colorRoad, coverageMap);
+                }
+            }
+
+            for (int y = 0; y < heightLocation; y++)
+            {
+                for (int x = 0; x < widthLocation; x++)
+                {
+                    terrainChunkDictionary[new Vector2(x, y)].RoadTextureUpdateBorder(terrainChunkDictionary, widthLocation, heightLocation);
+                }
+            }
+
+            for (int y = 0; y < heightLocation; y++)
+            {
+                for (int x = 0; x < widthLocation; x++)
+                {
+                    terrainChunkDictionary[new Vector2(x, y)].RoadTextureUpdateBorder2(terrainChunkDictionary, widthLocation, heightLocation);
                 }
             }
         }
@@ -257,6 +280,8 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
 
         int chunkSize;
         Vector2 coord;
+
+        Color[] newColorMap;
 
         public TerrainChunk(bool hideRemoteChunks, float maxVievDst, Vector2 coord, int size, Transform parent, Material material, int falloffAngle)
         {
@@ -289,17 +314,68 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
 
             Texture2D texture = TextureGenerator.TextureFromColourMap(mapData.colourMap, MapGenerator.mapChunkSize, MapGenerator.mapChunkSize);
             meshRenderer.material.mainTexture = texture;
-            
-            for (int i = 0; i < chunkSize; i++) {
+
+            for (int i = 0; i < chunkSize; i++)
+            {
                 for (int t = 0; t < chunkSize; t++)
                 {
-                    wholeMapData[wholeMapData.GetLength(0) - 1 - (t + chunkSize * (int)coord.x), wholeMapData.GetLength(1) - 1 - ((chunkSize - 1 - i) + chunkSize * (int)coord.y )] = mapData.heightMap[(t + 1), (i + 1)];
+                    wholeMapData[wholeMapData.GetLength(0) - 1 - (t + chunkSize * (int)coord.x), wholeMapData.GetLength(1) - 1 - ((chunkSize - 1 - i) + chunkSize * (int)coord.y)] = mapData.heightMap[(t + 1), (i + 1)];
                 }
             }
 
             mapDataLoaded++;
 
             UpdateTerrainChunk();
+        }
+
+        public void RoadTextureUpdateBorder(Dictionary<Vector2, TerrainChunk> terrainChunkDictionary, int widthLocation, int heightLocation) {
+
+            for (int y = 0; y < chunkSize + 2; y++)
+            {
+                for (int x = 0; x < chunkSize + 2; x++)
+                {
+                    if (y == 0 && coord.y < heightLocation - 1)
+                    {
+                        newColorMap[y * (chunkSize + 2) + x] = terrainChunkDictionary[new Vector2(coord.x, coord.y + 1)].newColorMap[(chunkSize) * (chunkSize + 2) + x];
+                    }
+                    if (y == chunkSize + 1 && coord.y > 0)
+                    {
+                        newColorMap[y * (chunkSize + 2) + x] = terrainChunkDictionary[new Vector2(coord.x, coord.y - 1)].newColorMap[0 * (chunkSize + 2) + x];
+                    }
+                    if (x == 0 && coord.x > 0)
+                    {
+                        newColorMap[y * (chunkSize + 2) + x] = terrainChunkDictionary[new Vector2(coord.x - 1, coord.y)].newColorMap[y * (chunkSize + 2) + (chunkSize)];
+                    }
+                }
+            }
+        }
+
+        public void RoadTextureUpdateBorder2(Dictionary<Vector2, TerrainChunk> terrainChunkDictionary, int widthLocation, int heightLocation)
+        {
+            for (int y = 0; y < chunkSize + 2; y++)
+            {
+                for (int x = 0; x < chunkSize + 2; x++)
+                {
+                    if (x == chunkSize + 1 && coord.x < widthLocation - 1)
+                    {
+                        newColorMap[y * (chunkSize + 2) + x] = terrainChunkDictionary[new Vector2(coord.x + 1, coord.y)].newColorMap[y * (chunkSize + 2) + 0];
+                    }
+                    if (x == 0 && coord.x == 0) {
+                        newColorMap[y * (chunkSize + 2) + x].r = 0.282353f;
+                        newColorMap[y * (chunkSize + 2) + x].g = 0.7426135f;
+                        newColorMap[y * (chunkSize + 2) + x].b = 0.8679245f;
+                    }
+                    if (y == 0 && coord.y == heightLocation - 1)
+                    {
+                        newColorMap[y * (chunkSize + 2) + x].r = 0.282353f;
+                        newColorMap[y * (chunkSize + 2) + x].g = 0.7426135f;
+                        newColorMap[y * (chunkSize + 2) + x].b = 0.8679245f;
+                    }
+                }
+            }
+
+            Texture2D texture = TextureGenerator.TextureFromColourMap(newColorMap, (chunkSize + 2), (chunkSize + 2));
+            meshRenderer.material.mainTexture = texture;
         }
 
         public void RoadTextureUpdate(Color colorRoad, int[,] coverageMap) {
@@ -313,8 +389,19 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
                     }
                 }
             }
-            Texture2D texture = TextureGenerator.TextureFromColourMap(mapData.colourMap, MapGenerator.mapChunkSize, MapGenerator.mapChunkSize);
-            meshRenderer.material.mainTexture = texture;
+
+            newColorMap = new Color[(chunkSize + 2) * (chunkSize + 2)];
+
+            for (int y = 0; y < chunkSize + 2; y++)
+            {
+                for (int x = 0; x < chunkSize + 2; x++)
+                {
+                    if (x > 0 && y > 0)
+                    {
+                        newColorMap[y * (chunkSize + 2) + x] = mapData.colourMap[(y - 1) * MapGenerator.mapChunkSize + (x - 1)];
+                    }
+                }
+            }
         }
 
         public void UpdateTerrainChunk()

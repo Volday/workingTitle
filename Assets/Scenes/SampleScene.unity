@@ -307,7 +307,7 @@ MonoBehaviour:
   octaves: 5
   persistance: 0.5
   lacunarity: 2
-  seed: 91
+  seed: 230
   offset: {x: 0, y: 0}
   useFalloff: 1
   useFlatShading: 1
@@ -406,19 +406,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1ec64b75e68eee4e9e532666c0afc10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  widthLocation: 4
-  heightLocation: 5
+  widthLocation: 5
+  heightLocation: 6
   maxFreeHeight: 0.5
   minFreeHeight: 0.2
   hideRemoteChunks: 0
   maxVievDst: 50
   colorRoad: {r: 0.8113208, g: 0.77359766, b: 0.54725885, a: 0}
-  angle: 52
-  stapLenght: 10
-  widthRoad: 3
+  angle: 60
+  stapLenght: 9
+  widthRoad: 2.39
   minDistanceBetweenRoads: 40
-  minRoadLenght: 6
+  minRoadLenght: 7
   closedArea: 0.04
+  minBuildSide: 0
+  maxBuildSide: 0
+  numberOfBuildings: 0
   viewer: {fileID: 1785639926}
   mapMaterial: {fileID: 2100000, guid: ee023b4aa0f898646ba73b74032f98b0, type: 2}
 --- !u!1 &1371370574
