@@ -12,6 +12,10 @@ public class MapGenerator : MonoBehaviour {
     public Noise.NormalizeMode normalizeMode;
 
     public const int mapChunkSize = 97;
+
+    private int widthLocation;
+    private int heightLocation;
+
     [Range(0, 4)]
     public int editorPreviewLOD;
     public float noiseScale;
@@ -25,6 +29,12 @@ public class MapGenerator : MonoBehaviour {
     public Vector2 offset;
 
     public bool useFalloff;
+    public bool useIslands;
+    [Range(1, 0)]
+    public float immersionDepth;
+    [Range(0.1f, 1)]
+    public float coastalSlope;
+    public float islandsNoiseScale;
 
     public bool useFlatShading;
 
@@ -42,6 +52,8 @@ public class MapGenerator : MonoBehaviour {
     float[,] falloffMapExceptEdge;
     float[,] falloffMapDoubleEdge;
 
+    [HideInInspector] public float[,] islandsMap;
+
     Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
     Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
 
@@ -57,7 +69,7 @@ public class MapGenerator : MonoBehaviour {
     }
 
     public void DrawMapInEditor() {
-        MapData mapData = GenerateMapData(Vector2.zero, 0);
+        MapData mapData = GenerateMapData(Vector2.zero, 0, new Vector2(0, 0));
         MapDisplay display = FindObjectOfType<MapDisplay>();
         if (drawMode == DrawMode.NoiseMap)
         {
@@ -77,17 +89,17 @@ public class MapGenerator : MonoBehaviour {
         }
     }
 
-    public void RequestMapData(Vector2 center, Action<MapData> callback, int falloffAngle) {
+    public void RequestMapData(Vector2 center, Action<MapData> callback, int falloffAngle, Vector2 coord) {
         ThreadStart threadStart = delegate
         {
-            MapDataThread(center, callback, falloffAngle);
+            MapDataThread(center, callback, falloffAngle, coord);
         };
 
         new Thread(threadStart).Start();
     }
 
-    void MapDataThread(Vector2 center, Action<MapData> callback, int falloffAngle) {
-        MapData mapData = GenerateMapData(center, falloffAngle);
+    void MapDataThread(Vector2 center, Action<MapData> callback, int falloffAngle, Vector2 coord) {
+        MapData mapData = GenerateMapData(center, falloffAngle, coord);
         lock (mapDataThreadInfoQueue)
         {
             mapDataThreadInfoQueue.Enqueue(new MapThreadInfo<MapData>(callback, mapData));
@@ -129,17 +141,25 @@ public class MapGenerator : MonoBehaviour {
         }
     }
 
-    MapData GenerateMapData(Vector2 center, int falloffAngle) {
+    MapData GenerateMapData(Vector2 center, int falloffAngle, Vector2 coord) {
 
         float[,] noiseMap = Noise.GenerateNoiseMap(seed, center + offset, mapChunkSize + 2, mapChunkSize + 2, noiseScale, octaves, persistance, lacunarity, normalizeMode);
 
-        Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
-        for (int y = 1; y < (mapChunkSize + 1); y++)
+        if (useIslands)
         {
-            for (int x = 1; x < (mapChunkSize + 1); x++)
+            for (int y = 0; y < (mapChunkSize + 2); y++)
             {
+                for (int x = 0; x < (mapChunkSize + 2); x++)
+                {
+                    noiseMap[x, y] = Mathf.Clamp01(noiseMap[x, y] - Mathf.Clamp01(islandsMap[mapChunkSize + 1 - x + (widthLocation - 1 - (int)coord.x) * (mapChunkSize - 1), y + (heightLocation - 1 - (int)coord.y) * (mapChunkSize - 1)]));
+                }
+            }
+        }
 
-                if (useFalloff)
+        if (useFalloff) {
+            for (int y = 0; y < (mapChunkSize + 2); y++)
+            {
+                for (int x = 0; x < (mapChunkSize + 2); x++)
                 {
                     if (falloffAngle == 44)
                     {
@@ -214,6 +234,14 @@ public class MapGenerator : MonoBehaviour {
                         noiseMap[x, y] = Mathf.Clamp01(noiseMap[x, y] - Mathf.Clamp01(falloffMapContain[x, y]));
                     }
                 }
+            }
+        }
+
+        Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
+        for (int y = 1; y < (mapChunkSize + 1); y++)
+        {
+            for (int x = 1; x < (mapChunkSize + 1); x++)
+            {
 
                 float currentHeight = noiseMap[x, y];
                 for (int i = 0; i < regions.Length; i++)
@@ -231,6 +259,24 @@ public class MapGenerator : MonoBehaviour {
         }
 
         return new MapData(noiseMap, colourMap);
+    }
+
+    public void SetIslandsMapSize(int widthLocation, int heightLocation) {
+        this.widthLocation = widthLocation;
+        this.heightLocation = heightLocation;
+        System.Random prng = new System.Random(seed);
+        islandsMap = Noise.GenerateNoiseMap(seed, new Vector2(prng.Next(-100000, 100000), prng.Next(-100000, 100000)), mapChunkSize * widthLocation + 2, mapChunkSize * heightLocation + 2, islandsNoiseScale, 2, persistance, lacunarity, normalizeMode);
+
+        for (int y = 0; y < mapChunkSize * heightLocation + 2; y++)
+        {
+            for (int x = 0; x < mapChunkSize * widthLocation + 2; x++)
+            {
+                islandsMap[x, y] = Mathf.Clamp01((islandsMap[x, y] - immersionDepth) * (1 / coastalSlope) + immersionDepth);
+            }
+        }
+
+        MapDisplay display = FindObjectOfType<MapDisplay>();
+        display.DrawTexture(TextureGenerator.TextureFromHeightMap(islandsMap));
     }
 
     void OnValidate()

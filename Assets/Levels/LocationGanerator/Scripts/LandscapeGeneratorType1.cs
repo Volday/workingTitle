@@ -37,6 +37,9 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
     public int maxBuildSide;
     public int numberOfBuildings;
 
+    [Range(0, 0.1f)]
+    public float closedAreaHouse;
+
     public Transform viewer;
     public Material mapMaterial;
 
@@ -81,6 +84,10 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
         chunkSize = MapGenerator.mapChunkSize - 1;
 
         wholeMapData = new float[chunkSize * widthLocation, chunkSize * heightLocation];
+
+        if (mapGenerator.useIslands) {
+            mapGenerator.SetIslandsMapSize(widthLocation, heightLocation);
+        }
 
         LoadNextChunks();
 
@@ -220,15 +227,9 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
         if (mapDataLoaded == widthLocation * heightLocation)
         {
             int[,] coverageMap = new int[chunkSize * widthLocation, chunkSize * heightLocation];
-
+            Debug.Log(Time.realtimeSinceStartup);
             RoadGenerator roadGenerator = new RoadGenerator(wholeMapData, coverageMap, minFreeHeight, maxFreeHeight, angle, stapLenght, widthRoad, mapGenerator.seed, minDistanceBetweenRoads, minRoadLenght, closedArea);
             coverageMap = roadGenerator.RoadGenerateFromNoise();
-
-            MapDisplay display = FindObjectOfType<MapDisplay>();
-            display.DrawTexture(TextureGenerator.TextureFromHeightMap(coverageMap, 2));
-
-            StaticObjectAssemble staticObjectAssemble = new StaticObjectAssemble(mapGenerator.seed);
-            Vector3[] buildingAssemble = staticObjectAssemble.BuildingAssemble(coverageMap, wholeMapData, roadGenerator.GetRoadJunctions(), numberOfBuildings, minBuildSide, maxBuildSide);
 
             for (int y = 0; y < heightLocation; y++)
             {
@@ -253,6 +254,20 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
                     terrainChunkDictionary[new Vector2(x, y)].RoadTextureUpdateBorder2(terrainChunkDictionary, widthLocation, heightLocation);
                 }
             }
+            Debug.Log(Time.realtimeSinceStartup);
+
+            StaticObjectGenerator staticObjectGenerator = FindObjectOfType<StaticObjectGenerator>();
+            StaticObjectAssemble staticObjectAssemble = new StaticObjectAssemble(mapGenerator.seed, staticObjectGenerator);
+            coverageMap = staticObjectAssemble.BuildingAssemble(coverageMap, wholeMapData, roadGenerator, numberOfBuildings, minBuildSide, maxBuildSide, widthRoad, minFreeHeight, maxFreeHeight, closedAreaHouse);
+
+            MapDisplay display = FindObjectOfType<MapDisplay>();
+            //display.DrawTexture(TextureGenerator.TextureFromHeightMap(coverageMap, 3));
+
+            //display.DrawTexture(TextureGenerator.TextureFromHeightMap(mapGenerator.islandsMap));
+
+            FindObjectOfType<LocationGenerator>().GenerationComplete();
+
+            Debug.Log(Time.realtimeSinceStartup);
         }
         else {
             LoadNextChunks();
@@ -299,12 +314,12 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
             meshCollider = meshObject.AddComponent<MeshCollider>();
             meshRenderer.material = material;
 
-            meshObject.transform.position = positionV3 * scale;
             meshObject.transform.parent = parent;
+            meshObject.transform.position = positionV3 * scale;
             meshObject.transform.localScale = Vector3.one * scale;
             SetVisible(false);
 
-            mapGenerator.RequestMapData(position, OnMapDataReceived, falloffAngle);
+            mapGenerator.RequestMapData(position, OnMapDataReceived, falloffAngle, coord);
         }
 
         void OnMapDataReceived(MapData mapData)

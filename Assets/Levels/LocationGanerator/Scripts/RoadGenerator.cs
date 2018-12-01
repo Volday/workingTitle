@@ -34,6 +34,7 @@ public class RoadGenerator {
     List<RoadJunction> roadJunctions = new List<RoadJunction>();
 
     List<RoadJunction> roadJunctionsCopy = new List<RoadJunction>();
+    Dictionary<Vector2, RoadJunction> roadJunctionsCopyDictionary = new Dictionary<Vector2, RoadJunction>();
 
     List<RoadJunction> singleRoadJunctions = new List<RoadJunction>();
 
@@ -50,20 +51,20 @@ public class RoadGenerator {
         this.minRoadLenght = minRoadLenght;
         this.closedArea = closedArea;
 
-        for (int y = 0; y < coverageMap.GetLength(1); y++)
-        {
-            for (int x = 0; x < coverageMap.GetLength(0); x++)
-            {
-                if (wholeMapData[x, y] > (minFreeHeight + closedArea) && wholeMapData[x, y] < (maxFreeHeight - closedArea))
-                {
-                    coverageMap[x, y] = 0; //свободно
-                }
-                else
-                {
-                    coverageMap[x, y] = 1; //занято ландшафтом
-                }
-            }
-        }
+        //for (int y = 0; y < coverageMap.GetLength(1); y++)
+        //{
+        //    for (int x = 0; x < coverageMap.GetLength(0); x++)
+        //    {
+        //        if (wholeMapData[x, y] > (minFreeHeight + closedArea) && wholeMapData[x, y] < (maxFreeHeight - closedArea))
+        //        {
+        //            coverageMap[x, y] = 0; //свободно
+        //        }
+        //        else
+        //        {
+        //            coverageMap[x, y] = 1; //занято ландшафтом
+        //        }
+        //    }
+        //}
     }
 
     public int[,] RoadGenerateFromNoise()
@@ -72,7 +73,8 @@ public class RoadGenerator {
         {
             bool roadJunctionsEmpty = true;
             int branchLenght = roadJunctions.Count;
-            for (int i = 0; i < branchLenght; i++)
+            int checkedRoadJunctions = 0;
+            for (int i = checkedRoadJunctions; i < branchLenght; i++)
             {
                 if (roadJunctions[i].neighbors[0] == null)
                 {
@@ -101,6 +103,7 @@ public class RoadGenerator {
                         singleRoadJunctions.Add(roadJunctions[i]);
                     }
                 }
+                checkedRoadJunctions++;
             }
 
             if (roadJunctionsEmpty)
@@ -122,12 +125,12 @@ public class RoadGenerator {
         roadJunctionsCopy = new List<RoadJunction>();
         for (int i = 0; i < roadJunctions.Count; i++)
         {
+            roadJunctionsCopyDictionary.Add(roadJunctions[i].location, roadJunctions[i]);
             roadJunctionsCopy.Add(roadJunctions[i]);
         }
         DrowWidthRoad();
         FindStartAndFinish();
 
-        Debug.Log(Time.realtimeSinceStartup);
         return coverageMap;
     }
 
@@ -205,6 +208,11 @@ public class RoadGenerator {
         }
     }
 
+
+    public Vector2 GetRoadJunctionsNeighbor(Vector2 roadJunction, int nomberOfNeighbors) {
+        return roadJunctionsCopyDictionary[roadJunction].neighbors[nomberOfNeighbors].location;
+    }
+
     public Vector2[] GetRoadJunctions()
     {
         Vector2[] getRoadJunctions = new Vector2[roadJunctionsCopy.Count];
@@ -216,9 +224,11 @@ public class RoadGenerator {
 
         return getRoadJunctions;
     }
+
     public Vector2 getStartPoint() {
         return finishPoint;
     }
+
     public Vector2 getFinishPoint(){
         return startPoint;
     }
@@ -250,27 +260,31 @@ public class RoadGenerator {
         Vector2 bestChoiceRoadJunction = new Vector2(-1, -1);
         float midFreeHeight = (minFreeHeight + maxFreeHeight) / 2;
         float bestDifferentHeight = float.MaxValue;
-        for (int localY = -(int)stapLenght; localY <= (int)stapLenght; localY++)
-        {
-            for (int localX = -(int)stapLenght; localX <= (int)stapLenght; localX++)
+
+        neighborsRoadJunctions.Clear();
+        neighborsRoadJunctions.Add(roadJunction);
+        FindNeighborsRoadJunctions(roadJunction, minRoadLenght);
+
+        if (CheckNextRoadJunction((int)roadJunction.location.x, (int)roadJunction.location.y)) {
+            for (int localY = -(int)stapLenght; localY <= (int)stapLenght; localY++)
             {
-                if (sqrStapsLenght > localX * localX + localY * localY)
+                for (int localX = -(int)stapLenght; localX <= (int)stapLenght; localX++)
                 {
-                    if (halfSqrStapsLenght < localX * localX + localY * localY)
+                    if (sqrStapsLenght > localX * localX + localY * localY)
                     {
-                        Vector2 currentPoint = new Vector2(localX, localY).normalized;
-                        if ((Mathf.Acos(offset.x * currentPoint.x + offset.y * currentPoint.y) / Mathf.PI) * 180 < halfAngle)
+                        if (halfSqrStapsLenght < localX * localX + localY * localY)
                         {
-                            neighborsRoadJunctions.Clear();
-                            neighborsRoadJunctions.Add(roadJunction);
-                            FindNeighborsRoadJunctions(roadJunction, minRoadLenght);
-                            if (CheckNextRoadJunction((int)roadJunction.location.x + localX, (int)roadJunction.location.y + localY))
+                            Vector2 currentPoint = new Vector2(localX, localY).normalized;
+                            if ((Mathf.Acos(offset.x * currentPoint.x + offset.y * currentPoint.y) / Mathf.PI) * 180 < halfAngle)
                             {
-                                if (Mathf.Abs(midFreeHeight - wholeMapData[(int)roadJunction.location.x + (int)localX, (int)roadJunction.location.y + (int)localY]) < bestDifferentHeight)
+                                if (CheckNextRoadJunctionSimplified((int)roadJunction.location.x + localX, (int)roadJunction.location.y + localY))
                                 {
-                                    bestDifferentHeight = Mathf.Abs(midFreeHeight - wholeMapData[(int)roadJunction.location.x + (int)localX, (int)roadJunction.location.y + (int)localY]);
-                                    bestChoiceRoadJunction.x = (int)roadJunction.location.x + localX;
-                                    bestChoiceRoadJunction.y = (int)roadJunction.location.y + localY;
+                                    if (Mathf.Abs(midFreeHeight - wholeMapData[(int)roadJunction.location.x + (int)localX, (int)roadJunction.location.y + (int)localY]) < bestDifferentHeight)
+                                    {
+                                        bestDifferentHeight = Mathf.Abs(midFreeHeight - wholeMapData[(int)roadJunction.location.x + (int)localX, (int)roadJunction.location.y + (int)localY]);
+                                        bestChoiceRoadJunction.x = (int)roadJunction.location.x + localX;
+                                        bestChoiceRoadJunction.y = (int)roadJunction.location.y + localY;
+                                    }
                                 }
                             }
                         }
@@ -338,6 +352,18 @@ public class RoadGenerator {
             }
         }
         return new RoadJunction(new Vector2(-1, -1));
+    }
+
+    bool CheckNextRoadJunctionSimplified(int x, int y)
+    {
+        if (x >= 0 && x < coverageMap.GetLength(0) && y >= 0 && y < coverageMap.GetLength(1) && wholeMapData[x, y] > (minFreeHeight - closedArea) && wholeMapData[x, y] < (maxFreeHeight - closedArea))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     bool CheckNextRoadJunction(int x, int y) {

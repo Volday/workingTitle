@@ -52,4 +52,45 @@ public static class MyMath {
         return vector;
     }
 
+    //public static bool PointBelongsQuadrilateral(Vector2 point, Vector2 quadrilateralPoint1, Vector2 quadrilateralPoint2, Vector2 quadrilateralPoint3, Vector2 quadrilateralPoint4) {
+    //    if (PointBelongsTriangle(point, quadrilateralPoint1, quadrilateralPoint2, quadrilateralPoint3) ||
+    //        PointBelongsTriangle(point, quadrilateralPoint3, quadrilateralPoint4, quadrilateralPoint1) ||
+    //        PointBelongsTriangle(point, quadrilateralPoint3, quadrilateralPoint4, quadrilateralPoint2) ||
+    //        PointBelongsTriangle(point, quadrilateralPoint4, quadrilateralPoint2, quadrilateralPoint1)
+    //        )
+    //    {
+    //        return true;
+    //    }
+    //    else {
+    //        return false;
+    //    }
+    //}
+
+    public static bool PointBelongsTriangle(Vector2 point, Vector2 trianglePoint1, Vector2 trianglePoint2, Vector2 trianglePoint3)
+    {
+        float a = (trianglePoint1.x - point.x) * (trianglePoint2.y - trianglePoint1.y) - (trianglePoint2.x - trianglePoint1.x) * (trianglePoint1.y - point.y);
+        float b = (trianglePoint2.x - point.x) * (trianglePoint3.y - trianglePoint2.y) - (trianglePoint3.x - trianglePoint2.x) * (trianglePoint2.y - point.y);
+        float c = (trianglePoint3.x - point.x) * (trianglePoint1.y - trianglePoint3.y) - (trianglePoint1.x - trianglePoint3.x) * (trianglePoint3.y - point.y);
+
+        if ((a >= 0 && b >= 0 && c >= 0) || (a <= 0 && b <= 0 && c <= 0))
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public static bool PointBelongsCircle(Vector2 point, Vector2 centor, float radius)
+    {
+        point = new Vector2(point.x - centor.x, point.y - centor.y);
+
+        if ((point.x * point.x + point.y * point.y) <= radius * radius)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
