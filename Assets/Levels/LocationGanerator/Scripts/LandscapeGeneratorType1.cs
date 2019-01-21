@@ -31,14 +31,18 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
     public int minRoadLenght;
 
     [Range(0, 0.1f)]
-    public float closedArea;
+    public float closedAreaRoad;
 
     public int minBuildSide;
     public int maxBuildSide;
     public int numberOfBuildings;
 
     [Range(0, 0.1f)]
-    public float closedAreaHouse;
+    public float openAreaHouse;
+
+    public int treeCount;
+
+    public int minIslandSize;
 
     public Transform viewer;
     public Material mapMaterial;
@@ -228,7 +232,7 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
         {
             int[,] coverageMap = new int[chunkSize * widthLocation, chunkSize * heightLocation];
             Debug.Log(Time.realtimeSinceStartup);
-            RoadGenerator roadGenerator = new RoadGenerator(wholeMapData, coverageMap, minFreeHeight, maxFreeHeight, angle, stapLenght, widthRoad, mapGenerator.seed, minDistanceBetweenRoads, minRoadLenght, closedArea);
+            RoadGenerator roadGenerator = new RoadGenerator(wholeMapData, coverageMap, minFreeHeight, maxFreeHeight, angle, stapLenght, widthRoad, mapGenerator.seed, minDistanceBetweenRoads, minRoadLenght, closedAreaRoad);
             coverageMap = roadGenerator.RoadGenerateFromNoise();
 
             for (int y = 0; y < heightLocation; y++)
@@ -257,11 +261,14 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
             Debug.Log(Time.realtimeSinceStartup);
 
             StaticObjectGenerator staticObjectGenerator = FindObjectOfType<StaticObjectGenerator>();
-            StaticObjectAssemble staticObjectAssemble = new StaticObjectAssemble(mapGenerator.seed, staticObjectGenerator);
-            coverageMap = staticObjectAssemble.BuildingAssemble(coverageMap, wholeMapData, roadGenerator, numberOfBuildings, minBuildSide, maxBuildSide, widthRoad, minFreeHeight, maxFreeHeight, closedAreaHouse);
-
+            StaticObjectAssemble staticObjectAssemble = new StaticObjectAssemble(mapGenerator.seed, staticObjectGenerator, mapGenerator);
+            coverageMap = staticObjectAssemble.BuildingAssemble(coverageMap, wholeMapData, roadGenerator, numberOfBuildings, minBuildSide, maxBuildSide, widthRoad, minFreeHeight, maxFreeHeight, openAreaHouse);
+            coverageMap = staticObjectAssemble.TreeAssemble(coverageMap, wholeMapData, minFreeHeight, maxFreeHeight, treeCount);
+            Debug.Log(Time.realtimeSinceStartup + "Начало ");
+            coverageMap = staticObjectAssemble.PierAssemble(coverageMap, wholeMapData, minFreeHeight, maxFreeHeight, minIslandSize);
+            Debug.Log(Time.realtimeSinceStartup + "Конец ");
             MapDisplay display = FindObjectOfType<MapDisplay>();
-            //display.DrawTexture(TextureGenerator.TextureFromHeightMap(coverageMap, 3));
+            display.DrawTexture(TextureGenerator.TextureFromHeightMapResize(coverageMap));
 
             //display.DrawTexture(TextureGenerator.TextureFromHeightMap(mapGenerator.islandsMap));
 

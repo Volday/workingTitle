@@ -11,10 +11,150 @@ public class StaticObjectAssemble
 
     List<HouseStaticObject> houseStaticObjects = new List<HouseStaticObject>();
 
-    public StaticObjectAssemble(int seed, StaticObjectGenerator staticObjectGenerator) {
+    List<IslandForPier> islandForPiers = new List<IslandForPier>();
+
+    int[,] islandsMap;
+
+    int currentIslandSize;
+
+    MapGenerator mapGenerator;
+
+    public StaticObjectAssemble(int seed, StaticObjectGenerator staticObjectGenerator, MapGenerator mapGenerator) {
         this.seed = seed;
         prng = new System.Random(seed);
         this.staticObjectGenerator = staticObjectGenerator;
+        this.mapGenerator = mapGenerator;
+    }
+
+    public int[,] PierAssemble(int[,] coverageMap, float[,] wholeMapData, float minFreeHeight, float maxFreeHeight, int minIslandSize) {
+        float coastHeight = minFreeHeight - 0.1f;
+
+        islandsMap = new int[coverageMap.GetLength(0), coverageMap.GetLength(1)];
+        for (int y = 11; y < islandsMap.GetLength(1) - 10; y++) {
+            for (int x = 11; x < islandsMap.GetLength(0) - 10; x++)
+            {
+                if (islandsMap[x, y] == 0 && wholeMapData[x, y] > coastHeight)
+                {
+                    currentIslandSize = 0;
+                    IslandForPier newIslandForPier = new IslandForPier();
+                    FindFullIsland(new Vector2(x, y), newIslandForPier, wholeMapData, coastHeight);
+                    if (currentIslandSize > minIslandSize)
+                    {
+                        islandForPiers.Add(newIslandForPier);
+                    }
+                }
+            }
+        }
+
+        for (int t = 0; t < islandForPiers.Count; t++)
+        {
+            Debug.Log(islandForPiers[t].coastline.Count);
+        }
+
+        return islandsMap;
+    }
+
+    void FindFullIsland(Vector2 coord, IslandForPier newIslandForPier, float[,] wholeMapData, float coastHeight) {
+        Queue<Vector2> coords = new Queue<Vector2>();
+        coords.Enqueue(coord);
+        islandsMap[(int)coord.x, (int)coord.y] = 1;
+        while (coords.Count > 0) {
+            if (coords.Count > 1000000) {
+                break;
+            }
+            currentIslandSize++;
+            bool isPartOfCoastline = false;
+            Vector2 currentCoord = coords.Dequeue();
+            if (currentCoord.x > 10 && currentCoord.y > 10 && currentCoord.x < islandsMap.GetLength(0) - 10 && currentCoord.y < islandsMap.GetLength(1) - 10) {
+                if (islandsMap[(int)currentCoord.x - 1, (int)currentCoord.y] == 0)
+                {
+                    if (wholeMapData[(int)currentCoord.x - 1, (int)currentCoord.y] > coastHeight) {
+                        islandsMap[(int)currentCoord.x - 1, (int)currentCoord.y] = 1;
+                        coords.Enqueue(new Vector2(currentCoord.x - 1, currentCoord.y));
+                    }
+                    else
+                    {
+                        isPartOfCoastline = true;
+                    }
+                }
+
+
+                if (islandsMap[(int)currentCoord.x + 1, (int)currentCoord.y] == 0)
+                {
+                    if (wholeMapData[(int)currentCoord.x + 1, (int)currentCoord.y] > coastHeight)
+                    {
+                        islandsMap[(int)currentCoord.x + 1, (int)currentCoord.y] = 1;
+                        coords.Enqueue(new Vector2(currentCoord.x + 1, currentCoord.y));
+                    }
+                    else
+                    {
+                        isPartOfCoastline = true;
+                    }
+                }
+
+                if (islandsMap[(int)currentCoord.x, (int)currentCoord.y - 1] == 0)
+                {
+                    if (wholeMapData[(int)currentCoord.x, (int)currentCoord.y - 1] > coastHeight)
+                    {
+                        islandsMap[(int)currentCoord.x, (int)currentCoord.y - 1] = 1;
+                        coords.Enqueue(new Vector2(currentCoord.x, currentCoord.y - 1));
+                    }
+                    else
+                    {
+                        isPartOfCoastline = true;
+                    }
+                }
+
+                if (islandsMap[(int)currentCoord.x, (int)currentCoord.y + 1] == 0)
+                {
+                    if (wholeMapData[(int)currentCoord.x, (int)currentCoord.y + 1] > coastHeight)
+                    {
+                        islandsMap[(int)currentCoord.x, (int)currentCoord.y + 1] = 1;
+                        coords.Enqueue(new Vector2(currentCoord.x, currentCoord.y + 1));
+                    }
+                    else
+                    {
+                        isPartOfCoastline = true;
+                    }
+                }
+            }
+            if (isPartOfCoastline)
+            {
+                newIslandForPier.coastline.Add(currentCoord);
+            }
+        }
+    }
+
+    public int[,] TreeAssemble(int[,] coverageMap, float[,] wholeMapData, float minFreeHeight, float maxFreeHeight, int treeCount) {
+
+        Vector2[] trees = new Vector2[(coverageMap.GetLength(1)) * (coverageMap.GetLength(0))];
+        for (int y = 0; y < coverageMap.GetLength(1) - 1; y++) {
+            for (int x = 0; x < coverageMap.GetLength(0) - 1; x++) {
+                trees[y * coverageMap.GetLength(0) + x] = new Vector2(x, y);
+            }
+        }
+
+        trees = MyMath.MixVector2(trees, seed);
+        List<Vector2> treesPosition = new List<Vector2>();
+
+        int treesCurrentCount = 0;
+        for (int i = 0; i < trees.Length; i++) {
+            if (treesCurrentCount < treeCount) {
+                if (wholeMapData[(int)trees[i].x, (int)trees[i].y] > minFreeHeight && wholeMapData[(int)trees[i].x, (int)trees[i].y] < maxFreeHeight && coverageMap[(int)trees[i].x, (int)trees[i].y] == 0) {
+                    treesCurrentCount++;
+                    treesPosition.Add(new Vector2(trees[i].x, trees[i].y));
+                    coverageMap[(int)trees[i].x, (int)trees[i].y] = 4;
+                }
+            }
+        }
+
+        for (int i = 0; i < treesPosition.Count; i++)
+        {
+            float height = mapGenerator.meshHeightCurve.Evaluate(wholeMapData[(int)treesPosition[i].x, (int)treesPosition[i].y]) * mapGenerator.meshHeightMultiplier;
+            staticObjectGenerator.TreeGenerate(treesPosition[i], seed, coverageMap.GetLength(0), coverageMap.GetLength(1), height);
+        }
+
+        return coverageMap;
     }
 
     public int[,] BuildingAssemble(int[,] coverageMap, float[,] wholeMapData, RoadGenerator roadGenerator, int numberOfBuildings, int minBuildSide, int maxBuildSide, float widthRoad, float minFreeHeight, float maxFreeHeight, float closedAreaHouse) {
@@ -179,6 +319,13 @@ public class StaticObjectAssemble
         }
 
         return coverageMap;
+    }
+
+    class IslandForPier {
+        public List<Vector2> coastline;
+        public IslandForPier() {
+            coastline = new List<Vector2>();
+        }
     }
 
     class HouseStaticObject {

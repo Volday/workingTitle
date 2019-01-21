@@ -274,9 +274,6 @@ public class MapGenerator : MonoBehaviour {
                 islandsMap[x, y] = Mathf.Clamp01((islandsMap[x, y] - immersionDepth) * (1 / coastalSlope) + immersionDepth);
             }
         }
-
-        MapDisplay display = FindObjectOfType<MapDisplay>();
-        display.DrawTexture(TextureGenerator.TextureFromHeightMap(islandsMap));
     }
 
     void OnValidate()

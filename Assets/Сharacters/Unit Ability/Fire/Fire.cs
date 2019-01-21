@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Unit/Ability/Fire")]
 public class Fire : MonoBehaviour {
 
-    public Transform muzzle;
-    public GameObject bullet;
-    public float fireRate = 0.2f;
+    Transform muzzle;
+    GameObject bullet;
+    float fireRate = 0.2f;
     float cooldown = 0;
 
-    private void Update()
+    public void Update()
     {
+
         if (cooldown > 0) {
             cooldown -= Time.deltaTime;
         }
