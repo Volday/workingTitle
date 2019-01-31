@@ -4,6 +4,22 @@ using UnityEngine;
 
 public static class MyMath {
 
+    public static float Angle360BetweenClockwiseVector2(Vector2 point, Vector2 finishSection, Vector2 startSection)
+    {
+        float D = (point.x - startSection.x) * (finishSection.y - startSection.y) - (point.y - startSection.y) * (finishSection.x - startSection.x);
+        finishSection.x -= startSection.x;
+        finishSection.y -= startSection.y;
+        point.x -= startSection.x;
+        point.y -= startSection.y;
+        if (D <= 0)
+        {
+            return Vector2.Angle(finishSection, point);
+        }
+        else {
+            return 360 - Vector2.Angle(finishSection, point);
+        }
+    }
+
     public static float sqrDistanceFromPointToSection(Vector2 point, Vector2 finishSection, Vector2 startSection) {
         finishSection.x -= startSection.x;
         finishSection.y -= startSection.y;

@@ -5,10 +5,9 @@ using UnityEngine;
 [System.Serializable]
 public class Team
 {
-    public int number;
+    public string name;
     public List<GameObject> units = new List<GameObject>();
-    public Team(int number)
-    {
-        this.number = number;
+    public Team(string name) {
+        this.name = name;
     }
 }

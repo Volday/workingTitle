@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 
-public class MouseFollow : MonoBehaviour
+public class MouseFollowRotation : MonoBehaviour
 {
-
-    private Vector3 mousePosition;
     Camera cam;
 
     void Start()
@@ -18,7 +16,6 @@ public class MouseFollow : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-
             Vector3 target = hit.point;
             target.y = transform.position.y;
 

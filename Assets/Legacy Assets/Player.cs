@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-    public float m_Speed = 12f;
+    float m_Speed;
 
+    private MoveSpeed moveSpeed;
     private string m_MovementForwardAxisName;
     private string m_MovementRightAxisName;
     private Rigidbody m_Rigidbody;
@@ -15,6 +16,7 @@ public class Player : MonoBehaviour {
 
     private void Awake()
     {
+        moveSpeed = GetComponent<MoveSpeed>();
         m_Rigidbody = GetComponent<Rigidbody>();
     }
 
@@ -31,11 +33,13 @@ public class Player : MonoBehaviour {
     }
 
     void Start() {
+        
         m_MovementForwardAxisName = "Vertical";
         m_MovementRightAxisName = "Horizontal";
     }
 
     void Update() {
+        m_Speed = moveSpeed.moveSpeed;
         m_MovementForwardInputValue = Input.GetAxis(m_MovementForwardAxisName);
         m_MovementRightInputValue = Input.GetAxis(m_MovementRightAxisName);
     }
@@ -48,13 +52,13 @@ public class Player : MonoBehaviour {
 
     private void MoveForward()
     {
-        Vector3 movement = transform.forward * m_MovementForwardInputValue * m_Speed * Time.deltaTime;
+        Vector3 movement = new Vector3(0, 0, 1) * m_MovementForwardInputValue * m_Speed * Time.deltaTime;
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
     }
 
     private void MoveRight()
     {
-        Vector3 movement = transform.right * m_MovementRightInputValue * m_Speed * Time.deltaTime;
+        Vector3 movement = new Vector3(1, 0, 0) * m_MovementRightInputValue * m_Speed * Time.deltaTime;
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
     }
 
