@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class DecisionFactor : ScriptableObject
 {
-    public abstract float GetDecisionFactor();
+    public abstract float GetDecisionFactor(StateController controller);
 }

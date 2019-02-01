@@ -7,6 +7,7 @@ public class ToIdleModeFromFightMode : Decision
 {
     public override float Decide(StateController controller)
     {
+        bool haveEnemy = true;
         for (int i = 0; i < controller.unitManager.teams.Count; i++)
         {
             if (controller.unitManager.teams[i].name != controller.unitTeam.name)
@@ -16,12 +17,17 @@ public class ToIdleModeFromFightMode : Decision
                     Vector3 differenceVector = controller.unitManager.teams[i].units[t].transform.position - controller.transform.position;
                     if ((differenceVector.x * differenceVector.x) + (differenceVector.z * differenceVector.z) > controller.radiusOfView.radiusOfView * controller.radiusOfView.radiusOfView)
                     {
-                        controller.navMeshAgent.destination = controller.transform.position;
-                        return 1000;
+                        haveEnemy = false;
                     }
                 }
             }
         }
-        return float.MinValue;
+        if (haveEnemy) {
+            controller.navMeshAgent.destination = controller.transform.position;
+            return float.MaxValue;
+        }
+        else {
+            return float.MinValue;
+        }
     }
 }

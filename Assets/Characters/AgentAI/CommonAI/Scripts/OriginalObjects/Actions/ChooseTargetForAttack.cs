@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "PluggableAI/Action/ChooseTargetForAttack")]
+[CreateAssetMenu(menuName = "PluggableAI/ActionInState/ChooseTargetForAttack")]
 public class ChooseTargetForAttack : ActionInState
 {
     float minDistance;

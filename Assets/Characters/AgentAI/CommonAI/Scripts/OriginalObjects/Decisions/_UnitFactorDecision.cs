@@ -10,9 +10,13 @@ public class _UnitFactorDecision : Decision
     public override float Decide(StateController controller)
     {
         float factorsSum = 0;
+        float factorCoefficientSum = 0;
         for (int t = 0; t < factors.Length; t++) {
-            factorsSum += factors[t].decisionFactors.GetDecisionFactor() * factors[t].factorCoefficient;
+            factorsSum += factors[t].decisionFactors.GetDecisionFactor(controller) * factors[t].factorCoefficient;
+            factorCoefficientSum += Mathf.Abs(factors[t].factorCoefficient);
         }
+        factorsSum = factorsSum * (factors.Length / factorCoefficientSum);
+        factorsSum = factorsSum * (4 / factors.Length);
         return factorsSum;
     }
 

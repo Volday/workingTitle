@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "PluggableAI/Action/MoveToPoint")]
+[CreateAssetMenu(menuName = "PluggableAI/ActionInState/MoveToPoint")]
 public class MoveToPoint : ActionInState
 {
     public override void Act(StateController controller)

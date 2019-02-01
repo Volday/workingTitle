@@ -10,12 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bf2d62994940da45a0f94613c7280a4, type: 3}
-  m_Name: MeleeAtack
+  m_Name: DoAttack
   m_EditorClassIdentifier: 
-  updateFrequency: 0.001
+  transitionsUpdateFrequency: 0.001
+  actionsUpdateFrequency: 0.001
   actions: []
   transitions:
   - decision: {fileID: 11400000, guid: 328fff84011210741bc5e06d95277adc, type: 2}
     newState: {fileID: 11400000, guid: bb70698608e18b94892d9b5251578c67, type: 2}
+  - decision: {fileID: 11400000, guid: 84f722c678fef714882ae1596265773d, type: 2}
+    newState: {fileID: 11400000, guid: 4aed5dcc5d3a8094f97a560d5cce700a, type: 2}
   - decision: {fileID: 11400000, guid: 84f722c678fef714882ae1596265773d, type: 2}
     newState: {fileID: 11400000, guid: 4aed5dcc5d3a8094f97a560d5cce700a, type: 2}

@@ -22,7 +22,7 @@ public class StateController : MonoBehaviour
     [HideInInspector] public NavMeshAgent navMeshAgent;
     [HideInInspector] public UnitAbility nextUnitAbility;
     [HideInInspector] public PointToMove pointToMove;
-
+    [HideInInspector] public UnitAbility abilityPending;
 
     void Awake()
     {
@@ -51,6 +51,7 @@ public class StateController : MonoBehaviour
     {
         if (nextState != remainState)
         {
+            //Debug.Log(nextState);
             currentState = nextState;
         }
     }

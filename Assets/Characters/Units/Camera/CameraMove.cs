@@ -8,7 +8,7 @@ public class CameraMove : MonoBehaviour
     void Update()
     {
         if (target != null) {
-            transform.position = new Vector3(target.position.x, target.position.y + 40, target.position.z - 18);
+            transform.position = new Vector3(target.position.x, target.position.y + 20, target.position.z - 9);
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitAbilities : MonoBehaviour
+public class Projectile : MonoBehaviour
 {
-    public List<UnitAbility> unitAbilities;
+
 }

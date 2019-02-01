@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "PluggableAI/Action/DoRunAway")]
+[CreateAssetMenu(menuName = "PluggableAI/ActionInState/DoRunAway")]
 public class DoRunAway : ActionInState
 {
     public override void Act(StateController controller)

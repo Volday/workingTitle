@@ -2,6 +2,8 @@
 
 public class MeleeAttack : UnitAbility
 {
+    public float damage = 10; 
+
     public override void UseAbility(GameObject abilityTarget)
     {
         if (timeAfterLastCast > cooldown) {
@@ -10,7 +12,7 @@ public class MeleeAttack : UnitAbility
                 gameObject.AddComponent<CastAbilityTime>();
                 HealthPoints targetHP = abilityTarget.GetComponent<HealthPoints>();
                 if (targetHP != null) {
-                    targetHP.currentHealthPoints -= Damage;
+                    targetHP.TakeDamage(damage);
                     timeAfterLastCast = 0;
                 }
             }

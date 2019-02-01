@@ -130,9 +130,9 @@ GameObject:
   - component: {fileID: 5598483661318566708}
   - component: {fileID: 5751501200327253097}
   - component: {fileID: 3800412252055906944}
+  - component: {fileID: 5457838213761785231}
   - component: {fileID: 2927637073103177549}
   - component: {fileID: 5718502744406487346}
-  - component: {fileID: 7803626016951856920}
   - component: {fileID: 4147800347241999619}
   - component: {fileID: 2488567493515505478}
   - component: {fileID: 6860256009682398858}
@@ -378,6 +378,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1348c303a4bb984f959a4338b1f3c00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5457838213761785231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083527572793143893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3861efb08594204fac22f7f7c4984db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 2
+  timeAfterLastCast: 0
+  rangeCast: 2
+  value: 1
+  decision: {fileID: 11400000, guid: ff7954c61ea4b0546be7bb8d542f0a2e, type: 2}
+  flyingProjectile: 0
+  areaEffect: 0
+  pointUse: 0
+  muzzle: {fileID: 0}
+  damage: 10
 --- !u!114 &2927637073103177549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,22 +431,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseMoveSpeed: 5
   moveSpeed: 5
---- !u!114 &7803626016951856920
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7083527572793143893}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3861efb08594204fac22f7f7c4984db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cooldown: 2
-  timeAfterLastCast: 0
-  rangeCast: 2
-  Damage: 20
 --- !u!114 &4147800347241999619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -471,13 +477,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7083527572793143893}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 03c6695339a6ab64e83f96f08e31db12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   timeBetweenSteps: 0.2
   trackedTime: 5
+  beginTail: 1
+  finishTail: 2
   steps: []
 --- !u!114 &1229018541908507049
 MonoBehaviour:

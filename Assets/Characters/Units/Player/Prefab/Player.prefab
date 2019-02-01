@@ -95,7 +95,6 @@ GameObject:
   - component: {fileID: 3712015601752361393}
   - component: {fileID: 7398168866226318697}
   - component: {fileID: 3952746614023565631}
-  - component: {fileID: 6142900025536502225}
   - component: {fileID: 7124115348944201085}
   - component: {fileID: 7128728473871582878}
   - component: {fileID: 186724200888449273}
@@ -256,24 +255,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitAbilities: []
---- !u!114 &6142900025536502225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3559141445525831181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 023a4d155063e3d44ab53608678b109b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cooldown: 0
-  timeAfterLastCast: 0
-  rangeCast: 0
-  Damage: 0
-  bullet: {fileID: 1399653139172916, guid: ad3a59fbed9001249994328d87e1257f, type: 3}
-  fireRate: 0.2
 --- !u!114 &7124115348944201085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,7 +373,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenSteps: 0.2
   trackedTime: 20
-  partForVector: 3
+  beginTail: 1
+  finishTail: 2
   steps: []
 --- !u!114 &711847227136703049
 MonoBehaviour:

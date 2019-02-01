@@ -20,7 +20,9 @@ public class TimeManager : MonoBehaviour
         for (int t = 0; t < actionsToDo.Count; t++) {
             if (actionsToDo[t].timeToStart < gameTime)
             {
-                actionsToDo[t].action();
+                if (actionsToDo[t].gameObject != null) {
+                    actionsToDo[t].action();
+                }
                 actionsToDo.Remove(actionsToDo[t]);
             }
             else {
@@ -29,10 +31,10 @@ public class TimeManager : MonoBehaviour
         }
     }
 
-    public void AddAction(Action action,float waitingTime) {
+    public void AddAction(Action action, float waitingTime, GameObject _gameObject) {
         float timeToStart = waitingTime + gameTime;
         int indexForInsert = 0;
-        ActionToDo actionToDo = new ActionToDo(action, timeToStart);
+        ActionToDo actionToDo = new ActionToDo(action, timeToStart, _gameObject);
         for (int t = 0; t < actionsToDo.Count; t++)
         {
             if (actionsToDo[t].timeToStart > timeToStart)
@@ -52,10 +54,12 @@ public class TimeManager : MonoBehaviour
 
     class ActionToDo {
         public float timeToStart;
-        public readonly Action action;
-        public ActionToDo(Action _action, float _timeToStart) {
+        public Action action;
+        public GameObject gameObject;
+        public ActionToDo(Action _action, float _timeToStart, GameObject _gameObject) {
             timeToStart = _timeToStart;
             action = _action;
+            gameObject = _gameObject;
         }
     }
 }

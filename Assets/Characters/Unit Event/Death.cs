@@ -19,10 +19,12 @@ public class Death : MonoBehaviour {
     void Update () {
         float currentHealthPoints = gameObject.GetComponent<HealthPoints>().currentHealthPoints;
         if (currentHealthPoints <= 0) {
-            if (unitManager.teams.IndexOf(unitTeam.team) != -1) {
-                unitManager.teams[unitManager.teams.IndexOf(unitTeam.team)].units.Remove(gameObject);
-            }
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    public void Die() {
+        unitTeam.СhangeTeam("Dead");
+        Destroy(gameObject);
     }
 }

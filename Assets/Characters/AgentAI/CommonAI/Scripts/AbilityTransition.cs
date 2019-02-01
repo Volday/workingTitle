@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitAbilities : MonoBehaviour
+public class AbilityTransition
 {
-    public List<UnitAbility> unitAbilities;
+
 }
+

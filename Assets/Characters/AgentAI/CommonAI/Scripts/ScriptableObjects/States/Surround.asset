@@ -10,12 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bf2d62994940da45a0f94613c7280a4, type: 3}
-  m_Name: AttackMode
+  m_Name: Surround
   m_EditorClassIdentifier: 
   transitionsUpdateFrequency: 0.001
   actionsUpdateFrequency: 0.001
-  actions:
-  - {fileID: 11400000, guid: bf5be96f956a7cb45b8cbe7ff8e404c1, type: 2}
-  transitions:
-  - decision: {fileID: 11400000, guid: 4cbb88e2c6dec8042a7df85df79c2567, type: 2}
-    newState: {fileID: 11400000, guid: 57d2ef7d1797b6b4ebf7c06cb2c7e42c, type: 2}
+  actions: []
+  transitions: []

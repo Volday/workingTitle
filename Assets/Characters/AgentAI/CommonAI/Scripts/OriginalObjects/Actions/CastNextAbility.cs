@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "PluggableAI/Action/CastNextAbility")]
+[CreateAssetMenu(menuName = "PluggableAI/ActionInState/CastNextAbility")]
 public class CastNextAbility : ActionInState
 {
     public override void Act(StateController controller)
     {
         CastAbilityTime castAbilityTime = controller.gameObject.GetComponent<CastAbilityTime>();
-        if (controller.nextUnitAbility != null && castAbilityTime == null) {
+        if (castAbilityTime == null && controller.nextUnitAbility != null) {
             controller.nextUnitAbility.UseAbility(controller.targetToAttack.targetToAtack);
         }
     }
