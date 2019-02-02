@@ -15,12 +15,12 @@ public class DistanceFactor : DecisionFactor
 
         float radiusOfView = controller.radiusOfView.radiusOfView * controller.radiusOfView.radiusOfView;
         float rangeCast = controller.abilityPending.rangeCast * controller.abilityPending.rangeCast;
-        if (distanceToTarget < rangeCast)
+        if (distanceToTarget < rangeCast || radiusOfView < rangeCast)
         {
             distanceFactorValue = 50;
         }
         else {
-            distanceFactorValue = ((radiusOfView - rangeCast) / (radiusOfView - distanceToTarget) - 0.5f) * 100;
+            distanceFactorValue = ((radiusOfView - distanceToTarget) / (radiusOfView - rangeCast) - 0.5f) * 100;
         }
         return distanceFactorValue;
     }

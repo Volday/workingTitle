@@ -5,18 +5,18 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "PluggableAI/Decision/_UnitFactorDecision")]
 public class _UnitFactorDecision : Decision
 {
-    public Factor[] factors;
+    public List<Factor> factors;
 
     public override float Decide(StateController controller)
     {
         float factorsSum = 0;
         float factorCoefficientSum = 0;
-        for (int t = 0; t < factors.Length; t++) {
+        for (int t = 0; t < factors.Count; t++) {
             factorsSum += factors[t].decisionFactors.GetDecisionFactor(controller) * factors[t].factorCoefficient;
             factorCoefficientSum += Mathf.Abs(factors[t].factorCoefficient);
         }
-        factorsSum = factorsSum * (factors.Length / factorCoefficientSum);
-        factorsSum = factorsSum * (4 / factors.Length);
+        factorsSum = factorsSum * (factors.Count / factorCoefficientSum);
+        factorsSum = factorsSum * (4 / factors.Count);
         return factorsSum;
     }
 
@@ -24,5 +24,8 @@ public class _UnitFactorDecision : Decision
     public class Factor {
         public DecisionFactor decisionFactors;
         public float factorCoefficient = 1;
+        public Factor() {
+            factorCoefficient = 1;
+        }
     }
 }

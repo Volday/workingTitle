@@ -14,7 +14,7 @@ public class EnemiesAround : MonoBehaviour
         unitManager = gameManager.GetComponent<UnitManager>();
     }
 
-    public void FindEnemiesAround() {
+    public int FindEnemiesAround() {
         enemiesAround.Clear();
         string myTeam = GetComponent<UnitTeam>().name;
         for (int i = 0; i < unitManager.teams.Count; i++)
@@ -32,5 +32,6 @@ public class EnemiesAround : MonoBehaviour
                 }
             }
         }
+        return enemiesAround.Count;
     }
 }

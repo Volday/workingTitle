@@ -11,11 +11,6 @@ public class ToFightModeFromDoAbility : Decision
         if (castAbilityDone != null)
         {
             Destroy(castAbilityDone);
-            CastAbilityTime castAbilityTime = controller.gameObject.GetComponent<CastAbilityTime>();
-            if (castAbilityTime != null)
-            {
-                Destroy(castAbilityTime);
-            }
             return float.MaxValue;
         }
         else {

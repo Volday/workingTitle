@@ -4,7 +4,7 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - decision: {instanceID: 0}
+  - decision: {fileID: 11400000, guid: 071dd5f1863e7a94785b82b4ce28d572, type: 2}
   - muzzle: {instanceID: 0}
   - projectile: {fileID: 1399653139172916, guid: ad3a59fbed9001249994328d87e1257f,
       type: 3}

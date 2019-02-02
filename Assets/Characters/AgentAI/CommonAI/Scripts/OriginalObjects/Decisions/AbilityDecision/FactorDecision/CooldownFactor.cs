@@ -8,11 +8,19 @@ public class CooldownFactor : DecisionFactor
     public override float GetDecisionFactor(StateController controller)
     {
         float cooldownFactorValue = 0;
-        if (controller.abilityPending.cooldown < controller.abilityPending.timeAfterLastCast) {
-            cooldownFactorValue = 50;
+        if (controller.abilityPending.cooldown > 0)
+        {
+            if (controller.abilityPending.cooldown < controller.abilityPending.timeAfterLastCast)
+            {
+                cooldownFactorValue = 50;
+            }
+            else
+            {
+                cooldownFactorValue = ((controller.abilityPending.timeAfterLastCast / controller.abilityPending.cooldown) - 0.5f) * 100;
+            }
         }
         else {
-            cooldownFactorValue = ((controller.abilityPending.timeAfterLastCast / controller.abilityPending.cooldown) - 0.5f) * 100;
+            cooldownFactorValue = 50;
         }
         return cooldownFactorValue;
     }

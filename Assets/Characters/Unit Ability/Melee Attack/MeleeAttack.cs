@@ -9,7 +9,6 @@ public class MeleeAttack : UnitAbility
         if (timeAfterLastCast > cooldown) {
             Vector3 differenceVector = abilityTarget.transform.position - transform.position;
             if ((differenceVector.x * differenceVector.x) + (differenceVector.y * differenceVector.y) + (differenceVector.z * differenceVector.z) < rangeCast * rangeCast) {
-                gameObject.AddComponent<CastAbilityTime>();
                 HealthPoints targetHP = abilityTarget.GetComponent<HealthPoints>();
                 if (targetHP != null) {
                     targetHP.TakeDamage(damage);
@@ -18,8 +17,6 @@ public class MeleeAttack : UnitAbility
             }
         }
 
-        if (gameObject.GetComponent<CastAbilityDone>() == null) {
-            gameObject.AddComponent<CastAbilityDone>();
-        }
+        CastAbilityEnd();
     }
 }

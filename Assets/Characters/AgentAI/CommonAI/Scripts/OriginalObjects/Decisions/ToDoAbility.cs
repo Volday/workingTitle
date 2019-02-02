@@ -7,11 +7,10 @@ public class ToDoAbility : Decision
 {
     public override float Decide(StateController controller)
     {
-        MeleeAttack meleeAttack = controller.GetComponent<MeleeAttack>();
-        controller.nextUnitAbility = meleeAttack;
         Vector3 differenceVector = controller.targetToAttack.targetToAtack.transform.position - controller.transform.position;
         float distance = (differenceVector.x * differenceVector.x) + (differenceVector.z * differenceVector.z);
-        if (meleeAttack.timeAfterLastCast > meleeAttack.cooldown && distance < meleeAttack.rangeCast * meleeAttack.rangeCast)
+        if (controller.nextUnitAbility.timeAfterLastCast > controller.nextUnitAbility.cooldown && distance 
+            < controller.nextUnitAbility.rangeCast * controller.nextUnitAbility.rangeCast)
         {
             return float.MaxValue;
         }

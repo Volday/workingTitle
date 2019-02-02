@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d399335e5a6f134985bac3364ab61c4, type: 3}
   m_Name: ToHeavyStrike
   m_EditorClassIdentifier: 
-  factors: []
+  factors:
+  - decisionFactors: {fileID: 11400000, guid: c9ffefb02b1b1074d897f3c3ca4a40a2, type: 2}
+    factorCoefficient: 1
+  - decisionFactors: {fileID: 11400000, guid: d49a41fdec37598489d02589484cb1ae, type: 2}
+    factorCoefficient: 1
+  - decisionFactors: {fileID: 11400000, guid: e4d914c9ea80cc843b0b278fe3746beb, type: 2}
+    factorCoefficient: 1

@@ -31,4 +31,20 @@ public abstract class UnitAbility : MonoBehaviour
     {
         timeAfterLastCast += Time.deltaTime;
     }
+
+    public void CastAbilityEnd() {
+        if (gameObject.GetComponent<CastAbilityDone>() == null)
+        {
+            gameObject.AddComponent<CastAbilityDone>();
+        }
+    }
+
+    public bool CooldownReady()
+    {
+        if (timeAfterLastCast > cooldown)
+        {
+            return true;
+        }
+        return false;
+    }
 }

@@ -14,10 +14,12 @@ public class HeavyStrike : UnitAbility
 
     public override void UseAbility(GameObject abilityTarget)
     {
-        if (timeAfterLastCast > cooldown)
+        if (CooldownReady())
         {
             Instantiate(projectile, muzzle.muzzle.position, transform.rotation);
             timeAfterLastCast = 0;
         }
+
+        CastAbilityEnd();
     }
 }
