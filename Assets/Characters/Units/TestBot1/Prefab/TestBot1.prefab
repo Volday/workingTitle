@@ -481,6 +481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemiesAround: []
+  distanceToCheck: 25
 --- !u!114 &2488567493515505478
 MonoBehaviour:
   m_ObjectHideFlags: 0

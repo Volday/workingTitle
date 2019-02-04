@@ -293,6 +293,9 @@ GameObject:
   - component: {fileID: 903863161}
   - component: {fileID: 903863160}
   - component: {fileID: 903863159}
+  - component: {fileID: 903863168}
+  - component: {fileID: 903863167}
+  - component: {fileID: 903863169}
   m_Layer: 0
   m_Name: HeavyStrikeProjectile
   m_TagString: Untagged
@@ -328,8 +331,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b190e4a9a5dde34095cd32ec8d7e05f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseMoveSpeed: 20
-  moveSpeed: 20
+  baseMoveSpeed: 0
+  moveSpeed: 0
 --- !u!114 &903863161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,8 +345,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acfefbae653bcd41b883c5ff00ba505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoints: 0
-  currentHealthPoints: 0
+  maxHealthPoints: 1
+  currentHealthPoints: 1
 --- !u!114 &903863162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,6 +359,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17ca046bbebb77948a76c3bb86cab00e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  radius: 1
+  owner: {fileID: 0}
+  penetrating: 0
+  lifeTime: 5
+  projectileEffects: {fileID: 0}
 --- !u!65 &903863163
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -428,6 +436,46 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &903863167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903863158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 754b985666e4fa94e82f61a364d5f454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemiesAround: []
+  distanceToCheck: 25
+--- !u!114 &903863168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903863158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 046138a2ca1ff8d4b91a99c90b206fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &903863169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903863158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 504b50dd29bd8ae468ac819ee79f6746, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileEffects: []
+  abilityEffects: []
 --- !u!1001 &1223849267
 PrefabInstance:
   m_ObjectHideFlags: 0

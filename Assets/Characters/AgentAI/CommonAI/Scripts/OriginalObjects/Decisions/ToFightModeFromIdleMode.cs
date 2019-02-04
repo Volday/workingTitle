@@ -9,14 +9,17 @@ public class ToFightModeFromIdleMode : Decision
     {
         for (int i = 0; i < controller.unitManager.teams.Count; i++)
         {
-            if (controller.unitManager.teams[i].name != controller.unitTeam.name)
+            if (controller.unitManager.teams[i].name != controller.unitTeam.name && controller.unitManager.teams[i].name != "Dead")
             {
                 for (int t = 0; t < controller.unitManager.teams[i].units.Count; t++)
                 {
-                    Vector3 differenceVector = controller.unitManager.teams[i].units[t].transform.position - controller.transform.position;
-                    if ((differenceVector.x * differenceVector.x) + (differenceVector.z * differenceVector.z) < controller.radiusOfView.radiusOfView * controller.radiusOfView.radiusOfView)
+                    if (controller.unitManager.teams[i].units[t].GetComponent<Creature>() != null)
                     {
-                        return float.MaxValue;
+                        Vector3 differenceVector = controller.unitManager.teams[i].units[t].transform.position - controller.transform.position;
+                        if ((differenceVector.x * differenceVector.x) + (differenceVector.z * differenceVector.z) < controller.radiusOfView.radiusOfView * controller.radiusOfView.radiusOfView)
+                        {
+                            return float.MaxValue;
+                        }
                     }
                 }
             }

@@ -27,7 +27,7 @@ public class ChooseAbility : ActionInState
                 }
             }
         }
-        Debug.Log(nextUnitAbility);
+        Debug.Log(maxValue + " " + nextUnitAbility);
         Destroy(alreadyHasFactorDecision);
         controller.nextUnitAbility = nextUnitAbility;
     }

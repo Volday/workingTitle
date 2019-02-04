@@ -15,8 +15,9 @@ public class _UnitFactorDecision : Decision
             factorsSum += factors[t].decisionFactors.GetDecisionFactor(controller) * factors[t].factorCoefficient;
             factorCoefficientSum += Mathf.Abs(factors[t].factorCoefficient);
         }
-        factorsSum = factorsSum * (factors.Count / factorCoefficientSum);
-        factorsSum = factorsSum * (4 / factors.Count);
+        float factorsCount = factors.Count;
+        factorsSum = factorsSum * (factorsCount / factorCoefficientSum);
+        factorsSum = factorsSum * (4 / factorsCount);
         return factorsSum;
     }
 

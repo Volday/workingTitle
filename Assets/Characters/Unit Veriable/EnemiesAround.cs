@@ -6,6 +6,7 @@ public class EnemiesAround : MonoBehaviour
 {
     UnitManager unitManager;
     public List<GameObject> enemiesAround;
+    public float distanceToCheck = 25;
 
     private void Awake()
     {
@@ -19,19 +20,39 @@ public class EnemiesAround : MonoBehaviour
         string myTeam = GetComponent<UnitTeam>().name;
         for (int i = 0; i < unitManager.teams.Count; i++)
         {
-            if (unitManager.teams[i].name != myTeam)
+            if (unitManager.teams[i].name != myTeam && unitManager.teams[i].name != "Dead")
             {
                 for (int t = 0; t < unitManager.teams[i].units.Count; t++)
                 {
-                    Vector3 differenceVector = unitManager.teams[i].units[t].transform.position - transform.position;
-                    float newDistance = (differenceVector.x * differenceVector.x) + (differenceVector.z * differenceVector.z);
-                    if (newDistance < 625)
-                    {
-                        enemiesAround.Add(unitManager.teams[i].units[t]);
+                    if (unitManager.teams[i].units[t].GetComponent<Creature>() != null) {
+                        Vector3 differenceVector = unitManager.teams[i].units[t].transform.position - transform.position;
+                        float newDistance = (differenceVector.x * differenceVector.x) + (differenceVector.z * differenceVector.z);
+                        if (newDistance < distanceToCheck * distanceToCheck)
+                        {
+                            enemiesAround.Add(unitManager.teams[i].units[t]);
+                        }
                     }
                 }
             }
         }
         return enemiesAround.Count;
+    }
+
+    public List<GameObject> FindTargetsAroundInRadius(float radius)
+    {
+        List<GameObject> targetsAroundInRadius = new List<GameObject>();
+        for (int i = 0; i < unitManager.teams.Count; i++)
+        {
+            for (int t = 0; t < unitManager.teams[i].units.Count; t++)
+            {
+                Vector3 differenceVector = unitManager.teams[i].units[t].transform.position - transform.position;
+                float newDistance = (differenceVector.x * differenceVector.x) + (differenceVector.z * differenceVector.z);
+                if (newDistance < radius * radius)
+                {
+                    targetsAroundInRadius.Add(unitManager.teams[i].units[t]);
+                }
+            }
+        }
+        return targetsAroundInRadius;
     }
 }
