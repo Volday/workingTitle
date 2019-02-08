@@ -9,8 +9,8 @@ public class State : ScriptableObject
     public float transitionsUpdateFrequency = 0.001f;
     [Range(0.001f, 3)]
     public float actionsUpdateFrequency = 0.001f;
-    float remainTimeForTransitions = 0;
-    float remainTimeForActions = 0;
+    float remainTimeForTransitions = 100;
+    float remainTimeForActions = 100;
 
     public ActionInState[] actions;
     public Transition[] transitions;
@@ -50,6 +50,9 @@ public class State : ScriptableObject
                 {
                     maxDecision = newDecision;
                     bestTransition = i;
+                    if (newDecision == float.MaxValue) {
+                        break;
+                    }
                 }
             }
 

@@ -129,12 +129,14 @@ GameObject:
   - component: {fileID: 5698074106496158710}
   - component: {fileID: 3040813771687330360}
   - component: {fileID: 8009233707047955628}
+  - component: {fileID: 4303854585664221323}
   - component: {fileID: 5598483661318566708}
   - component: {fileID: 5751501200327253097}
   - component: {fileID: 3800412252055906944}
+  - component: {fileID: 2402426958944325899}
+  - component: {fileID: 7748444826843206265}
   - component: {fileID: 2927637073103177549}
   - component: {fileID: 5718502744406487346}
-  - component: {fileID: 1295858219754783755}
   - component: {fileID: 4147800347241999619}
   - component: {fileID: 2488567493515505478}
   - component: {fileID: 6860256009682398858}
@@ -287,6 +289,8 @@ MonoBehaviour:
   nextUnitAbility: {fileID: 0}
   pointToMove: {fileID: 0}
   abilityPending: {fileID: 0}
+  futureTargetPosition: {x: 0, y: 0, z: 0}
+  pointEscape: {x: 0, y: 0, z: 0}
 --- !u!114 &3908562163198923524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,8 +328,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acfefbae653bcd41b883c5ff00ba505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoints: 100
-  currentHealthPoints: 100
+  maxHealthPoints: 200
+  currentHealthPoints: 200
 --- !u!114 &5698074106496158710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,8 +355,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9eea33a1a69994bbdd71f8b2349ac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseRadiusOfView: 25
-  radiusOfView: 25
+  baseRadiusOfView: 30
+  radiusOfView: 30
 --- !u!114 &8009233707047955628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,16 +369,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d57bc1af5455094caa8d0a34f3929c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 4
+  cooldown: 3
   timeAfterLastCast: 0
   rangeCast: 20
   value: 1
   decision: {fileID: 11400000, guid: 071dd5f1863e7a94785b82b4ce28d572, type: 2}
   flyingProjectile: 0
-  areaEffect: 0
-  pointUse: 0
   muzzle: {fileID: 0}
-  projectile: {fileID: 1399653139172916, guid: ad3a59fbed9001249994328d87e1257f, type: 3}
+  projectile: {fileID: 5579999711580737452, guid: 76c0a55aaba48034b886240bb787bcf3,
+    type: 3}
+  abilityEffects: []
+  projectileEffects: []
+--- !u!114 &4303854585664221323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083527572793143893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 079ba5e1a82c00e4ba220525e7e496ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 0
+  timeAfterLastCast: 0
+  rangeCast: 0
+  value: 1
+  decision: {fileID: 11400000, guid: c42e02ef7f865e74cadd6c117f8d255b, type: 2}
+  flyingProjectile: 0
+  muzzle: {fileID: 0}
+  projectile: {fileID: 2116159841598432315, guid: e1d4edf7e62a2a842a4c51cd7510f281,
+    type: 3}
+  abilityEffects: []
+  projectileEffects: []
 --- !u!114 &5598483661318566708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,6 +443,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1348c303a4bb984f959a4338b1f3c00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2402426958944325899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083527572793143893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a37eb38c3cca98341beae9acdcd422d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7748444826843206265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083527572793143893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c17b04becfa9a94e80715517dad033c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2927637073103177549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,28 +498,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseMoveSpeed: 5
   moveSpeed: 5
---- !u!114 &1295858219754783755
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7083527572793143893}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3861efb08594204fac22f7f7c4984db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cooldown: 1
-  timeAfterLastCast: 0
-  rangeCast: 2
-  value: 1
-  decision: {fileID: 11400000, guid: 9d9bbc3c1e86e1f4cb00583d9a596ea7, type: 2}
-  flyingProjectile: 0
-  areaEffect: 0
-  pointUse: 0
-  muzzle: {fileID: 0}
-  damage: 20
 --- !u!114 &4147800347241999619
 MonoBehaviour:
   m_ObjectHideFlags: 0

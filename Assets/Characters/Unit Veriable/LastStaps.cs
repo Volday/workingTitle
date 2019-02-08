@@ -22,15 +22,26 @@ public class LastStaps : MonoBehaviour
         timeManager = gameManager.GetComponent<TimeManager>();
 
         maxStaps = trackedTime / timeBetweenSteps;
+        StapsClear();
+        NextStep();
+    }
+
+    void StapsClear()
+    {
+        steps.Clear();
+        Vector3 currentPosition = transform.position;
         for (int t = 0; t < maxStaps; t++)
         {
-            steps.Add(Vector3.zero);
+            steps.Add(currentPosition);
         }
-        NextStep();
     }
 
     public Vector3 GetMotionVector(float time)
     {
+        if (time < timeBetweenSteps) {
+            return transform.position;
+        }
+
         float distance = 0;
         float angle = 0;
 
@@ -102,6 +113,6 @@ public class LastStaps : MonoBehaviour
     {
         steps.Remove(steps[0]);
         steps.Add(transform.position);
-        timeManager.AddAction(NextStep, timeBetweenSteps, gameObject);
+        timeManager.AddAction(NextStep, timeBetweenSteps, this);
     }
 }

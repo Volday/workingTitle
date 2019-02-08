@@ -6,7 +6,7 @@ MonoImporter:
   defaultReferences:
   - decision: {fileID: 11400000, guid: 071dd5f1863e7a94785b82b4ce28d572, type: 2}
   - muzzle: {instanceID: 0}
-  - projectile: {fileID: 1399653139172916, guid: ad3a59fbed9001249994328d87e1257f,
+  - projectile: {fileID: 5579999711580737452, guid: 76c0a55aaba48034b886240bb787bcf3,
       type: 3}
   executionOrder: 0
   icon: {instanceID: 0}

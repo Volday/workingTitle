@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf2d62994940da45a0f94613c7280a4, type: 3}
   m_Name: DoAbility
   m_EditorClassIdentifier: 
-  updateFrequency: 0.001
+  transitionsUpdateFrequency: 0.001
+  actionsUpdateFrequency: 0.001
   actions:
   - {fileID: 11400000, guid: 16e209b940412f647817a385bb5ef143, type: 2}
   transitions:
+  - decision: {fileID: 11400000, guid: 94fa4a1800af50f499b4d4bd0895b101, type: 2}
+    newState: {fileID: 11400000, guid: 8b5c75e07bb96b145ae0f4dc08094d65, type: 2}
   - decision: {fileID: 11400000, guid: 2c0bb8ec7147c504798c0b7d71f24d87, type: 2}
     newState: {fileID: 11400000, guid: 8b5c75e07bb96b145ae0f4dc08094d65, type: 2}

@@ -18,13 +18,15 @@ public class Death : MonoBehaviour {
 
     void Update () {
         float currentHealthPoints = gameObject.GetComponent<HealthPoints>().currentHealthPoints;
-        if (currentHealthPoints <= 0) {
+        if (currentHealthPoints <= 0 && gameObject.activeSelf == true) {
             Die();
         }
     }
 
     public void Die() {
-        unitTeam.СhangeTeam("Dead");
-        Destroy(gameObject);
+        DeathEffect[] deathEffects = GetComponents<DeathEffect>();
+        for (int t = 0; t < deathEffects.Length; t++) {
+            deathEffects[t].DoDeathEffect();
+        }
     }
 }

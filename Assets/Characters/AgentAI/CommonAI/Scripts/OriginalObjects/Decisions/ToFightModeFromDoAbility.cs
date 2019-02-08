@@ -7,10 +7,9 @@ public class ToFightModeFromDoAbility : Decision
 {
     public override float Decide(StateController controller)
     {
-        CastAbilityDone castAbilityDone = controller.gameObject.GetComponent<CastAbilityDone>();
-        if (castAbilityDone != null)
+        CastAbilityTime castAbilityTime = controller.gameObject.GetComponent<CastAbilityTime>();
+        if (castAbilityTime == null)
         {
-            Destroy(castAbilityDone);
             return float.MaxValue;
         }
         else {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ProjectileEffect : MonoBehaviour
+public abstract class ProjectileEffect : ScriptableObject
 {
-    public abstract void DoProjectileEffect();
+    public abstract void DoProjectileEffect(GameObject carrier);
 }

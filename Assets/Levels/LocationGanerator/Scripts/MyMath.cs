@@ -4,6 +4,25 @@ using UnityEngine;
 
 public static class MyMath {
 
+    public static float PointToRightOfLine(Vector2 point, Vector2 finishSection, Vector2 startSection)
+    {
+        //D = (х3 - х1) * (у2 - у1) - (у3 - у1) * (х2 - х1)
+        return (point.x - startSection.x) * (finishSection.y - startSection.y) - (point.y - startSection.y) * (finishSection.x - startSection.x);
+    }
+
+    public static float sqrDistanceFromPointToPoint(Vector3 point1, Vector3 point2) {
+        Vector3 differenceVector = point1 - point2;
+        float distance = (differenceVector.x * differenceVector.x) + (differenceVector.y * differenceVector.y) + (differenceVector.z * differenceVector.z);
+        return distance;
+    }
+
+    public static float sqrDistanceFromPointToPoint(Vector2 point1, Vector2 point2)
+    {
+        Vector2 differenceVector = point1 - point2;
+        float distance = (differenceVector.x * differenceVector.x) + (differenceVector.y * differenceVector.y);
+        return distance;
+    }
+
     public static float Angle360BetweenClockwiseVector2(Vector2 point, Vector2 finishSection, Vector2 startSection)
     {
         float D = (point.x - startSection.x) * (finishSection.y - startSection.y) - (point.y - startSection.y) * (finishSection.x - startSection.x);
@@ -42,7 +61,31 @@ public static class MyMath {
             return sqrSideB;
         }
         else {
-            return Mathf.Pow(Mathf.Abs(finishSection.y * point.x - finishSection.x * point.y) / Mathf.Sqrt(finishSection.x * finishSection.x + finishSection.y * finishSection.y), 2);
+            return Mathf.Pow(Mathf.Abs(finishSection.y * point.x - finishSection.x * point.y) / Mathf.Sqrt(sqrSideC), 2);
+        }
+    }
+
+    public static float sqrDistanceFromPointToRay(Vector2 point, Vector2 finishSection, Vector2 startSection)
+    {
+        finishSection.x -= startSection.x;
+        finishSection.y -= startSection.y;
+        point.x -= startSection.x;
+        point.y -= startSection.y;
+        return sqrDistanceFromPointToRay(point, finishSection);
+    }
+
+    public static float sqrDistanceFromPointToRay(Vector2 point, Vector2 finishSection)
+    {
+        float sqrSideA = (point.x - finishSection.x) * (point.x - finishSection.x) + (point.y - finishSection.y) * (point.y - finishSection.y);
+        float sqrSideB = point.x * point.x + point.y * point.y;
+        float sqrSideC = finishSection.x * finishSection.x + finishSection.y * finishSection.y;
+        if (sqrSideB + sqrSideC - sqrSideA < 0)
+        {
+            return sqrSideB;
+        }
+        else
+        {
+            return Mathf.Pow(Mathf.Abs(finishSection.y * point.x - finishSection.x * point.y) / Mathf.Sqrt(sqrSideC), 2);
         }
     }
 

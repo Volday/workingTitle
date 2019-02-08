@@ -9,13 +9,14 @@ public class UnitTeam : MonoBehaviour
 
     UnitManager unitManager;
 
-    bool fineOurTime = false;
-
     private void Start()
     {
         GameObject gameManager = GameObject.FindGameObjectWithTag("GameManager");
         unitManager = gameManager.GetComponent<UnitManager>();
         FindOurTeam();
+        if (GetComponent<Projectile>() != null) {
+            unitManager.projectiles.Add(gameObject);
+        }
     }
 
     //Заменяет свою команду
@@ -28,8 +29,18 @@ public class UnitTeam : MonoBehaviour
         FindOurTeam();
     }
 
+    //Удаляет объект
+    public void RemoveFromTeam()
+    {
+        if (unitManager.teams.IndexOf(team) != -1)
+        {
+            unitManager.teams[unitManager.teams.IndexOf(team)].units.Remove(gameObject);
+        }
+    }
+
     //Довавляет себя в список своей команды
     public void FindOurTeam() {
+        bool fineOurTime = false;
         for (int t = 0; t < unitManager.teams.Count; t++)
         {
             if (unitManager.teams[t].name == name)

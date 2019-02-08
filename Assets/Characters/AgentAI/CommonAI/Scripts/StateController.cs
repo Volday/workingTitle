@@ -23,6 +23,8 @@ public class StateController : MonoBehaviour
     [HideInInspector] public UnitAbility nextUnitAbility;
     [HideInInspector] public PointToMove pointToMove;
     [HideInInspector] public UnitAbility abilityPending;
+    [HideInInspector] public Vector3 futureTargetPosition;
+    [HideInInspector] public Vector3 pointEscape;
 
     void Awake()
     {
@@ -51,7 +53,6 @@ public class StateController : MonoBehaviour
     {
         if (nextState != remainState)
         {
-            //Debug.Log(nextState);
             currentState = nextState;
         }
     }

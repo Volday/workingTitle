@@ -2,34 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(ProjectileEffects))]
+[RequireComponent(typeof(ProjectileEffectsManager))]
 [RequireComponent(typeof(MoveSpeed))]
 [RequireComponent(typeof(HealthPoints))]
 [RequireComponent(typeof(Death))]
 [RequireComponent(typeof(UnitTeam))]
 [RequireComponent(typeof(EnemiesAround))]
+[RequireComponent(typeof(ProjectileDeathEffect))]
 public class Projectile : MonoBehaviour
 {
     public float radius = 0;
     public GameObject owner;
     MoveSpeed moveSpeed;
     public bool penetrating = false;
-    public float lifeTime = 5;
+    public float lifeTime = 1;
+    public float spawnTime;
     TimeManager timeManager;
     EnemiesAround enemiesAround;
     public RaycastHit hit;
     HealthPoints healthPoints;
+    public bool pernicious = false;
+    UnitTeam myTeam;
 
-    public ProjectileEffects projectileEffects;
+    List<GameObject> damagedTargets = new List<GameObject>();
+
+    ProjectileEffectsManager projectileEffectsManager;
 
     private void Start()
     {
+        myTeam = GetComponent<UnitTeam>();
         healthPoints = GetComponent<HealthPoints>();
+        healthPoints.currentHealthPoints = 1;
+        healthPoints.maxHealthPoints = 1;
         enemiesAround = GetComponent<EnemiesAround>();
-        projectileEffects = GetComponent<ProjectileEffects>();
+        projectileEffectsManager = GetComponent<ProjectileEffectsManager>();
         GameObject gameManager = GameObject.FindGameObjectWithTag("GameManager");
         timeManager = gameManager.GetComponent<TimeManager>();
-        timeManager.AddAction(GetComponent<Death>().Die, lifeTime, gameObject);
+        spawnTime = timeManager.gameTime;
+        timeManager.AddAction(GetComponent<Death>().Die, lifeTime, this);
         moveSpeed = gameObject.GetComponent<MoveSpeed>();
     }
 
@@ -38,49 +48,61 @@ public class Projectile : MonoBehaviour
         if (moveSpeed.moveSpeed != 0) {
             CheckCollisions();
         }
-        projectileEffects.UpdateProjectileEffect();
     }
 
     void CheckCollisions()
     {
-        float moveDistance = moveSpeed.moveSpeed * Time.deltaTime;
+        float moveDistance = 2 * moveSpeed.moveSpeed * Time.deltaTime;
         Ray ray = new Ray(transform.position, transform.forward);
 
+        hit = new RaycastHit();
         if (Physics.Raycast(ray, out hit, moveDistance))
         {
-            hit = new RaycastHit();
-            if (hit.collider.gameObject.GetComponent<HealthPoints>() != null)
+            HealthPoints healthPoints = hit.collider.gameObject.GetComponent<HealthPoints>();
+            if (healthPoints != null)
             {
-                if (!hit.collider.gameObject.GetComponent<Collider>().isTrigger && hit.collider.gameObject.GetComponent<Creature>() != null)
+                if (damagedTargets.IndexOf(hit.collider.gameObject) == -1)
                 {
-                    AbilityEffects targetAbilityEffects = hit.collider.gameObject.GetComponent<AbilityEffects>();
-                    if (targetAbilityEffects != null)
-                    {
-                        for (int t = 0; t < projectileEffects.abilityEffects.Count; t++)
-                        {
-                            targetAbilityEffects.abilityEffects.Add(projectileEffects.abilityEffects[t]);
-                        }
-                    }
-                    if (!penetrating) {
+                    damagedTargets.Add(hit.collider.gameObject);
+                    Creature targetCreature = hit.collider.gameObject.GetComponent<Creature>();
+                    Projectile targetProjectile = hit.collider.gameObject.GetComponent<Projectile>();
+
+                    if (targetCreature == null && targetProjectile == null) {
                         GetComponent<Death>().Die();
                     }
-                }
-                else
-                {
-                    Projectile targetProjectile = hit.collider.gameObject.GetComponent<Projectile>();
-                    if (hit.collider.gameObject.GetComponent<Collider>().isTrigger && hit.collider.gameObject.GetComponent<Projectile>() != null)
+
+                    if (!hit.collider.gameObject.GetComponent<Collider>().isTrigger && targetCreature != null && hit.collider.gameObject.GetComponent<UnitTeam>().name != myTeam.name)
                     {
-                        if (!targetProjectile.penetrating && !penetrating) {
-                        }else if (targetProjectile.penetrating && !penetrating) {
+                        projectileEffectsManager.ApplyAbilityEffects(hit.collider.gameObject, owner);
+                        if (!penetrating)
+                        {
                             GetComponent<Death>().Die();
-                        }else if (penetrating) {
-                            HealthPoints targetHealthPoints = targetProjectile.gameObject.GetComponent<HealthPoints>();
-                            float exchangeOfHealth = targetHealthPoints.currentHealthPoints;
-                            targetHealthPoints.currentHealthPoints -= healthPoints.currentHealthPoints;
-                            healthPoints.currentHealthPoints -= exchangeOfHealth;
+                        }
+                    }
+                    else
+                    {
+                        if (hit.collider.gameObject.GetComponent<Collider>().isTrigger && targetProjectile != null)
+                        {
+                            if (!targetProjectile.penetrating && !penetrating)
+                            {
+                            }
+                            else if (targetProjectile.penetrating && !penetrating)
+                            {
+                                GetComponent<Death>().Die();
+                            }
+                            else if (penetrating)
+                            {
+                                HealthPoints targetHealthPoints = targetProjectile.gameObject.GetComponent<HealthPoints>();
+                                float exchangeOfHealth = targetHealthPoints.currentHealthPoints;
+                                targetHealthPoints.TakeDamage(healthPoints.currentHealthPoints);
+                                healthPoints.TakeDamage(exchangeOfHealth);
+                            }
                         }
                     }
                 }
+            }
+            else {
+                GetComponent<Death>().Die();
             }
         }
     }

@@ -18,4 +18,10 @@ public class HealthPoints : MonoBehaviour
             currentHealthPoints = maxHealthPoints;
         }
     }
+
+    public void Refresh() {
+        if (maxHealthPoints > currentHealthPoints) {
+            currentHealthPoints = maxHealthPoints;
+        }
+    }
 }

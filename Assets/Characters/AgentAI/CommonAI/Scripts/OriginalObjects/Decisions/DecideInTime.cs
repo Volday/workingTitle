@@ -6,16 +6,15 @@ using UnityEngine;
 public class DecideInTime : Decision
 {
     public float timeToDicide;
-    float currentTimeToDicide;
     public override float Decide(StateController controller)
     {
-        if (currentTimeToDicide > timeToDicide)
-        {
+        if (controller.GetComponent<DecideInTimeComponent>() == null) {
+            DecideInTimeComponent decideInTimeComponent = controller.gameObject.AddComponent<DecideInTimeComponent>();
+            decideInTimeComponent.StartDecide(timeToDicide);
+        }else if(controller.GetComponent<DecideInTimeComponent>().readyDecide) {
             return float.MaxValue;
         }
-        else {
-            currentTimeToDicide += 0.2f;
-        }
+
         return float.MinValue;
     }
 }

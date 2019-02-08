@@ -7,6 +7,8 @@ public class MoveToTarget : ActionInState
 {
     public override void Act(StateController controller)
     {
-        controller.navMeshAgent.destination = controller.targetToAttack.targetToAtack.transform.position;
+        if (controller.targetToAttack.targetToAtack != null) {
+            controller.navMeshAgent.destination = controller.targetToAttack.targetToAtack.transform.position;
+        }
     }
 }
