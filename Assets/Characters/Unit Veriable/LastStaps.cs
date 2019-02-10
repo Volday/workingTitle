@@ -14,7 +14,7 @@ public class LastStaps : MonoBehaviour
 
     MoveSpeed moveSpeed;
 
-    void Start()
+    void Awake()
     {
         moveSpeed = GetComponent<MoveSpeed>();
 

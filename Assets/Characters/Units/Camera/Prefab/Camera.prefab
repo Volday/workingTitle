@@ -96,3 +96,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  cameraOffset: {x: 0, y: 0, z: 0}
+  smoothSpeed: 0
+  distanceCoefficient: 0.5
+  minDistance: 1.1
+  minDistanceCoefficient: 1.5
