@@ -9,12 +9,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95f6f1bcd23554e4ab9feb7384a78264, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d399335e5a6f134985bac3364ab61c4, type: 3}
   m_Name: RunAway
   m_EditorClassIdentifier: 
-  balanceCoefficient: 1
-  speedFactorCoefficient: 8
-  aggressionFactorCoefficient: 1
-  healthPointsFactorCoefficient: 1.5
-  distanceFactorFactorCoefficient: 1
-  cooperationFactorCoefficient: 1
+  factors:
+  - decisionFactors: {fileID: 11400000, guid: 8b26bb855005bfd4fa2155d6c402ac9b, type: 2}
+    factorCoefficient: -2
+    factorShift: 0
+  - decisionFactors: {fileID: 11400000, guid: 251572491f725aa4181c081c7c809e2a, type: 2}
+    factorCoefficient: 1
+    factorShift: 0
+  - decisionFactors: {fileID: 11400000, guid: ac2fac7f57c5c114d82e6467e8818a13, type: 2}
+    factorCoefficient: 1
+    factorShift: 0
+  - decisionFactors: {fileID: 11400000, guid: e4d914c9ea80cc843b0b278fe3746beb, type: 2}
+    factorCoefficient: 1
+    factorShift: 0
+  - decisionFactors: {fileID: 11400000, guid: 1e28d46d2edefd643b29c1eb649e4ba9, type: 2}
+    factorCoefficient: -1
+    factorShift: -0.5

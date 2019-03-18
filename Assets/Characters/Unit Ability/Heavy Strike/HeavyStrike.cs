@@ -20,9 +20,14 @@ public class HeavyStrike : UnitAbility
     {
         if (CooldownReady())
         {
-            Vector3 target = abilityTarget.transform.position;
+            GameObject newAbilityTarget = new GameObject();
+            newAbilityTarget.transform.position = abilityTarget.transform.position;
+            if (GetComponent<StateController>() != null && GetComponent<StateController>().isActiveAndEnabled) {
+                newAbilityTarget.transform.position = GetComponent<StateController>().futureTargetPosition;
+            }
+            Vector3 target = newAbilityTarget.transform.position;
             target.y = transform.position.y;
-            transform.LookAt(abilityTarget.transform);
+            transform.LookAt(newAbilityTarget.transform);
             GameObject newProjectile = Instantiate(projectile, muzzle.muzzle.position, transform.rotation);
             newProjectile.transform.LookAt(target);
             Projectile projectileComponent = projectile.GetComponent<Projectile>();
@@ -31,8 +36,8 @@ public class HeavyStrike : UnitAbility
             SetEffectsToProjectile(newProjectile, abilityEffects, projectileEffects);
 
             timeAfterLastCast = 0;
+            Destroy(newAbilityTarget);
         }
-        Destroy(abilityTarget);
         CastAbilityEnd();
     }
 

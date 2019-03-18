@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class TargetToAttack : MonoBehaviour
 {
-    public GameObject targetToAtack;
+    public GameObject targetToAttack;
 }

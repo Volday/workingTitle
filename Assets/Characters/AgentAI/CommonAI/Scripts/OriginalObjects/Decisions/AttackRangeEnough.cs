@@ -7,7 +7,7 @@ public class AttackRangeEnough : Decision
 {
     public override float Decide(StateController controller)
     {
-        Vector3 differenceVector = controller.targetToAttack.targetToAtack.transform.position - controller.transform.position;
+        Vector3 differenceVector = controller.targetToAttack.targetToAttack.transform.position - controller.transform.position;
         float distance = (differenceVector.x * differenceVector.x) + (differenceVector.y * differenceVector.y) + (differenceVector.z * differenceVector.z);
 
         if (distance < controller.nextUnitAbility.rangeCast * controller.nextUnitAbility.rangeCast &&

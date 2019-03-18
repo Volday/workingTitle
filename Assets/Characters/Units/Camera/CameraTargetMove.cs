@@ -36,6 +36,7 @@ public class CameraTargetMove : MonoBehaviour
     void Update()
     {
         Vector3 positionBetween = new Vector3(0, 0, 0);
+        Vector3 frontPosition = Vector3.zero;
         if (enemies.Count > 0)
         {
             for (int t = 0; t < enemies.Count; t++)
@@ -49,10 +50,9 @@ public class CameraTargetMove : MonoBehaviour
         }
         else {
             positionBetween = trackedObject.transform.position;
-        }
-
-        Vector3 frontPosition = Vector3.Lerp(lastStaps.steps[lastStaps.steps.Count - 1] - lastStaps.steps[lastStaps.steps.Count - stapsCount * 2 - 1], 
+            frontPosition = Vector3.Lerp(lastStaps.steps[lastStaps.steps.Count - 1] - lastStaps.steps[lastStaps.steps.Count - stapsCount * 2 - 1],
             Vector3.zero, 1.0f - 1.0f / 2.0f);
+        }
 
         transform.position = positionBetween + frontPosition;
     }

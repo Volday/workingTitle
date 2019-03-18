@@ -9,7 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37095dbb612a3dd4eba2eff7c2a3732f, type: 3}
-  m_Name: ToReturn
+  m_Script: {fileID: 11500000, guid: 5045eccc31926f34f933ab233b49fe24, type: 3}
+  m_Name: NotMeleeAbility
   m_EditorClassIdentifier: 
-  cautionFactorCoefficient: 1

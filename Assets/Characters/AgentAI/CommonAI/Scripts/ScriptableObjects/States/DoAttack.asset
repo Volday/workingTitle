@@ -20,5 +20,9 @@ MonoBehaviour:
     newState: {fileID: 11400000, guid: 8b5c75e07bb96b145ae0f4dc08094d65, type: 2}
   - decision: {fileID: 11400000, guid: 328fff84011210741bc5e06d95277adc, type: 2}
     newState: {fileID: 11400000, guid: bb70698608e18b94892d9b5251578c67, type: 2}
-  - decision: {fileID: 11400000, guid: 84f722c678fef714882ae1596265773d, type: 2}
+  - decision: {fileID: 11400000, guid: 04b38ffcac943bf46a1dcf3f5fe5a7a1, type: 2}
     newState: {fileID: 11400000, guid: 4aed5dcc5d3a8094f97a560d5cce700a, type: 2}
+  - decision: {fileID: 11400000, guid: 3407d1f477eb6ee499f301dc05906163, type: 2}
+    newState: {fileID: 11400000, guid: 9a88ce3fca2466141be85d04ac514181, type: 2}
+  - decision: {fileID: 11400000, guid: 1e8498e946133244b99a0adad642f284, type: 2}
+    newState: {fileID: 11400000, guid: add848578b4e3f744b933f71d1b2aa13, type: 2}

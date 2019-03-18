@@ -20,8 +20,9 @@ public class AOESkill : UnitAbility
     {
         if (CooldownReady())
         {
-            
-            GameObject newProjectile = Instantiate(projectile, abilityTarget.transform.position, transform.rotation);
+            GameObject newAbilityTarget = new GameObject();
+            newAbilityTarget.transform.position = GetComponent<StateController>().futureTargetPosition;
+            GameObject newProjectile = Instantiate(projectile, newAbilityTarget.transform.position, transform.rotation);
             Projectile projectileComponent = newProjectile.GetComponent<Projectile>();
             projectileComponent.pernicious = true;
             projectileComponent.lifeTime = 1.5f;
@@ -30,8 +31,8 @@ public class AOESkill : UnitAbility
             SetEffectsToProjectile(newProjectile, abilityEffects, projectileEffects);
 
             timeAfterLastCast = 0;
+            Destroy(newAbilityTarget);
         }
-        Destroy(abilityTarget);
         CastAbilityEnd();
     }
 

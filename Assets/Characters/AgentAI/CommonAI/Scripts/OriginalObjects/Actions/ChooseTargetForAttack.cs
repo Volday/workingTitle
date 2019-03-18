@@ -26,7 +26,7 @@ public class ChooseTargetForAttack : ActionInState
                                 controller.enemiesAround.enemiesAround.Add(controller.unitManager.teams[i].units[t]);
                                 if (newDistance < minDistance)
                                 {
-                                    controller.targetToAttack.targetToAtack = controller.unitManager.teams[i].units[t];
+                                    controller.targetToAttack.targetToAttack = controller.unitManager.teams[i].units[t];
                                     minDistance = newDistance;
                                 }
                             }

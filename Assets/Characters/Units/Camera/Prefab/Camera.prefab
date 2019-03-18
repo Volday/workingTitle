@@ -98,6 +98,6 @@ MonoBehaviour:
   target: {fileID: 0}
   cameraOffset: {x: 0, y: 0, z: 0}
   smoothSpeed: 0
-  distanceCoefficient: 0.5
+  distanceCoefficient: 0.4
   minDistance: 1.1
-  minDistanceCoefficient: 1.5
+  acceleration: 1000

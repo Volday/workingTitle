@@ -8,6 +8,8 @@ public class Death : MonoBehaviour {
     HealthPoints healthPoints;
     UnitTeam unitTeam;
 
+    public DestroyGameObjectDeathEffect destroyGameObjectDeathEffect;
+
     void Start()
     {
         GameObject gameManager = GameObject.FindGameObjectWithTag("GameManager");
@@ -25,8 +27,19 @@ public class Death : MonoBehaviour {
 
     public void Die() {
         DeathEffect[] deathEffects = GetComponents<DeathEffect>();
+        int destroyIndex = -1;
         for (int t = 0; t < deathEffects.Length; t++) {
-            deathEffects[t].DoDeathEffect();
+            if (deathEffects[t].name == "DestroyGameObjectDeathEffect")
+            {
+                destroyIndex = t;
+            }
+            else {
+                deathEffects[t].DoDeathEffect();
+            }
+        }
+
+        if (destroyIndex > -1) {
+            deathEffects[destroyIndex].DoDeathEffect();
         }
     }
 }

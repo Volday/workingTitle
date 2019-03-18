@@ -9,8 +9,8 @@ public class JointAttack : Decision
 
     public override float Decide(StateController controller)
     {
-        if (controller.targetToAttack.targetToAtack != null) {
-            EnemiesAround targetEnemiesAround = controller.targetToAttack.targetToAtack.GetComponent<EnemiesAround>();
+        if (controller.targetToAttack.targetToAttack != null) {
+            EnemiesAround targetEnemiesAround = controller.targetToAttack.targetToAttack.GetComponent<EnemiesAround>();
             targetEnemiesAround.FindEnemiesAround();
             float cooperationFactor = (controller.AISkills.cooperation) * cooperationFactorCoefficient;
             if (targetEnemiesAround.enemiesAround.Count * cooperationFactor > 150)

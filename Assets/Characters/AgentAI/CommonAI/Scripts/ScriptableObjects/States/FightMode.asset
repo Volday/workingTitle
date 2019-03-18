@@ -16,10 +16,11 @@ MonoBehaviour:
   actionsUpdateFrequency: 0.001
   actions:
   - {fileID: 11400000, guid: 3ade56f9a67829d4c8f93621c7909c50, type: 2}
+  - {fileID: 11400000, guid: e7ac882e9df6488448c48f91b712646e, type: 2}
   transitions:
   - decision: {fileID: 11400000, guid: f4f123bacf129d24cace6ba6686ebb8a, type: 2}
     newState: {fileID: 11400000, guid: d7142cb537e65264abc0cf3ce85f73e7, type: 2}
-  - decision: {fileID: 11400000, guid: a14472fed1c478c4f98148011a91507c, type: 2}
+  - decision: {fileID: 11400000, guid: bec04574e3d7898478f3ca493a45b935, type: 2}
     newState: {fileID: 11400000, guid: ee7598bb1291880418872d58fff53872, type: 2}
   - decision: {fileID: 11400000, guid: 55802e2f519562b4c979b09f0ce01c77, type: 2}
     newState: {fileID: 11400000, guid: 834ad48c45a62c24d84d76252b2b897e, type: 2}

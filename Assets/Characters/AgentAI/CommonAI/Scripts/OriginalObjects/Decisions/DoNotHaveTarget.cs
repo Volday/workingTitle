@@ -7,7 +7,7 @@ public class DoNotHaveTarget : Decision
 {
     public override float Decide(StateController controller)
     {
-        if (controller.targetToAttack.targetToAtack == null)
+        if (controller.targetToAttack.targetToAttack == null)
         {
             return float.MaxValue;
         }

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnPosition : MonoBehaviour
+public class PurposeOfTravel : MonoBehaviour
 {
-    public Vector3 spawnPosition;
+    public Vector3 purposeOfTravel;
 
     private void Start()
     {
-        spawnPosition = transform.position;
+        purposeOfTravel = Vector3.zero;
     }
 }

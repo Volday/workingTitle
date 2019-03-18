@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Evasion
   m_EditorClassIdentifier: 
   transitionsUpdateFrequency: 0.1
-  actionsUpdateFrequency: 0.001
+  actionsUpdateFrequency: 0.05
   actions:
-  - {fileID: 11400000, guid: 2268c5f0f0bf74447a06d335f2d432e1, type: 2}
+  - {fileID: 11400000, guid: 4519038014488ff49b6d7d5d39c3f297, type: 2}
   transitions:
   - decision: {fileID: 11400000, guid: fcce08e2bca758543afe78b79038cca9, type: 2}
     newState: {fileID: 11400000, guid: 8b5c75e07bb96b145ae0f4dc08094d65, type: 2}

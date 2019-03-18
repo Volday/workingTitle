@@ -256,12 +256,12 @@ PrefabInstance:
     - target: {fileID: 694699895099269788, guid: 5d37b3051c2da2640a3de87ab570ed7e,
         type: 3}
       propertyPath: maxHealthPoints
-      value: 300
+      value: 3000
       objectReference: {fileID: 0}
     - target: {fileID: 694699895099269788, guid: 5d37b3051c2da2640a3de87ab570ed7e,
         type: 3}
       propertyPath: currentHealthPoints
-      value: 300
+      value: 3000
       objectReference: {fileID: 0}
     - target: {fileID: 6789274295866340073, guid: 5d37b3051c2da2640a3de87ab570ed7e,
         type: 3}
@@ -310,13 +310,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2665056123859333525, guid: 5d37b3051c2da2640a3de87ab570ed7e,
         type: 3}
-      propertyPath: cooldown
-      value: 2
+      propertyPath: castSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2665056123859333525, guid: 5d37b3051c2da2640a3de87ab570ed7e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7124115348944201085, guid: 5d37b3051c2da2640a3de87ab570ed7e,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 345216036732896864, guid: 5d37b3051c2da2640a3de87ab570ed7e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7884923158660714559, guid: 5d37b3051c2da2640a3de87ab570ed7e, type: 3}
@@ -604,6 +614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d582fdbe06bcbe9469222e01105af6fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seed: 330
 --- !u!114 &1456386958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -794,7 +805,6 @@ GameObject:
   - component: {fileID: 1909174364}
   - component: {fileID: 1909174363}
   - component: {fileID: 1909174366}
-  - component: {fileID: 1909174362}
   - component: {fileID: 1909174368}
   - component: {fileID: 1909174367}
   m_Layer: 0
@@ -804,20 +814,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!136 &1909174362
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1909174361}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1909174363
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -872,7 +868,7 @@ Transform:
   m_GameObject: {fileID: 1909174361}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 37, y: 6.6, z: 2.3}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
@@ -1090,7 +1086,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1981549916
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1272,15 +1268,15 @@ PrefabInstance:
       propertyPath: currentHealthPoints
       value: 200
       objectReference: {fileID: 0}
-    - target: {fileID: 8009233707047955628, guid: 2a5dc1e331708c74f9fe4ea3fe8da6fa,
-        type: 3}
-      propertyPath: cooldown
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 5718502744406487346, guid: 2a5dc1e331708c74f9fe4ea3fe8da6fa,
         type: 3}
       propertyPath: moveSpeed
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3752818782905892400, guid: 2a5dc1e331708c74f9fe4ea3fe8da6fa,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 447930079868328223, guid: 2a5dc1e331708c74f9fe4ea3fe8da6fa, type: 3}

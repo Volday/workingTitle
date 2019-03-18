@@ -15,8 +15,9 @@ MonoBehaviour:
   transitionsUpdateFrequency: 0.001
   actionsUpdateFrequency: 0.001
   actions:
-  - {fileID: 11400000, guid: e7ac882e9df6488448c48f91b712646e, type: 2}
   - {fileID: 11400000, guid: bf5be96f956a7cb45b8cbe7ff8e404c1, type: 2}
   transitions:
+  - decision: {fileID: 11400000, guid: 94fa4a1800af50f499b4d4bd0895b101, type: 2}
+    newState: {fileID: 11400000, guid: 8b5c75e07bb96b145ae0f4dc08094d65, type: 2}
   - decision: {fileID: 11400000, guid: 4cbb88e2c6dec8042a7df85df79c2567, type: 2}
     newState: {fileID: 11400000, guid: 57d2ef7d1797b6b4ebf7c06cb2c7e42c, type: 2}

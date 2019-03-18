@@ -10,7 +10,7 @@ public class SpeedDifferenceFactor : DecisionFactor
         float speedDifferenceFactor = 0;
         if (controller.moveSpeed.moveSpeed > 0)
         {
-            float targetMoveSpeed = controller.targetToAttack.targetToAtack.GetComponent<MoveSpeed>().moveSpeed;
+            float targetMoveSpeed = controller.targetToAttack.targetToAttack.GetComponent<MoveSpeed>().moveSpeed;
             float speedDifference = controller.moveSpeed.moveSpeed - targetMoveSpeed;
             float halfOfYourSpeed = controller.moveSpeed.moveSpeed / 2;
             if (speedDifference > halfOfYourSpeed)
@@ -23,7 +23,7 @@ public class SpeedDifferenceFactor : DecisionFactor
             }
             else
             {
-                speedDifferenceFactor = ((targetMoveSpeed - halfOfYourSpeed) / (controller.moveSpeed.moveSpeed - halfOfYourSpeed) - 0.5f) * 100;
+                speedDifferenceFactor = ((controller.moveSpeed.moveSpeed - targetMoveSpeed) / (halfOfYourSpeed) * 50);
             }
         }
         else {

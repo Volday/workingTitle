@@ -7,7 +7,7 @@ public class ToEvasion : Decision
 {
     public override float Decide(StateController controller)
     {
-        Vector3 vectorToTarget = controller.transform.position - controller.targetToAttack.targetToAtack.transform.position;
+        Vector3 vectorToTarget = controller.transform.position - controller.targetToAttack.targetToAttack.transform.position;
         float distanceToTarget = Mathf.Sqrt(vectorToTarget.x * vectorToTarget.x + vectorToTarget.z * vectorToTarget.z);
         if ((distanceToTarget / (controller.radiusOfView.radiusOfView)) * 200 - 100
             + (controller.GetComponent<AISkills>().agility - 50) > 0) {
@@ -47,7 +47,7 @@ public class ToEvasion : Decision
                                 pointEscape = MyMath.Rotate(pointEscape, 90) * 1.2f * timeToDodge * controller.moveSpeed.moveSpeed;
                             }
                             controller.gameObject.AddComponent<NowEvasion>().StartEvasion(timeToDodge * 1.2f);
-                            controller.pointEscape = new Vector3(pointEscape.x + controller.transform.position.x,
+                            controller.pointToMove.pointToMove = new Vector3(pointEscape.x + controller.transform.position.x,
                                 controller.transform.position.y, pointEscape.y + controller.transform.position.z);
                             return float.MaxValue;
                         }

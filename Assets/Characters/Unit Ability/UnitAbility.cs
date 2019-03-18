@@ -7,7 +7,11 @@ public abstract class UnitAbility : MonoBehaviour
     public float cooldown = 0;
     [HideInInspector] public float timeAfterLastCast = 0;
     public float rangeCast = 0;
+    public float radiusAffect = 1;
+    public float currentRadiusAffect = 1;
     public float value = 1;
+    public float castSize = 1;
+    public float currentCastSize = 1;
 
     public Decision decision;
     public bool flyingProjectile = false;
@@ -38,6 +42,14 @@ public abstract class UnitAbility : MonoBehaviour
         }
     }
 
+    public void CastAbilityStart()
+    {
+        if (gameObject.GetComponent<CastAbilityTime>() == null)
+        {
+            gameObject.AddComponent<CastAbilityTime>();
+        }
+    }
+
     public bool CooldownReady()
     {
         if (timeAfterLastCast > cooldown)
@@ -48,6 +60,8 @@ public abstract class UnitAbility : MonoBehaviour
     }
 
     public void SetEffectsToProjectile(GameObject projectile, List<AbilityEffect> abilityEffects, List<ProjectileEffect> projectileEffects) {
+        projectile.transform.localScale *= castSize;
+
         Projectile projectileComponent = projectile.GetComponent<Projectile>();
         projectileComponent.owner = gameObject;
 

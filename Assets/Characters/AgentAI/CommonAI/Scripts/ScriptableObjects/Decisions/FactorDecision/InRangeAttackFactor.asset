@@ -9,7 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e16eff3f8ec12074fa6339d3d061cd2a, type: 3}
-  m_Name: JointAttack
+  m_Script: {fileID: 11500000, guid: b2e4c39fd60e74541924f5fead8749ce, type: 3}
+  m_Name: InRangeAttackFactor
   m_EditorClassIdentifier: 
-  cooperationFactorCoefficient: 1

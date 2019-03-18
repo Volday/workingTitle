@@ -98,14 +98,17 @@ GameObject:
   - component: {fileID: 3952746614023565631}
   - component: {fileID: 7124115348944201085}
   - component: {fileID: 7128728473871582878}
+  - component: {fileID: 2901034536266878407}
   - component: {fileID: 2665056123859333525}
   - component: {fileID: 186724200888449273}
   - component: {fileID: 7905314258452025449}
   - component: {fileID: 3073911466994080653}
+  - component: {fileID: 8360196373745511043}
   - component: {fileID: 353407236172937099}
   - component: {fileID: 6494774413974577645}
   - component: {fileID: 5213131431898170549}
   - component: {fileID: 6789274295866340073}
+  - component: {fileID: 6822379514663007837}
   - component: {fileID: 711847227136703049}
   - component: {fileID: 3533689435000049020}
   - component: {fileID: 842514589263513887}
@@ -299,7 +302,7 @@ MonoBehaviour:
   team:
     name: 
     units: []
---- !u!114 &2665056123859333525
+--- !u!114 &2901034536266878407
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -308,13 +311,46 @@ MonoBehaviour:
   m_GameObject: {fileID: 3559141445525831181}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0b1e075128a38f4d9048f6acbcac606, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 7
+  timeAfterLastCast: 0
+  rangeCast: 10
+  radiusAffect: 1
+  currentRadiusAffect: 1
+  value: 1
+  castSize: 1
+  currentCastSize: 1
+  decision: {fileID: 0}
+  flyingProjectile: 1
+  muzzle: {fileID: 0}
+  projectile: {fileID: 0}
+  abilityEffects: []
+  projectileEffects: []
+  angle: 60
+  projectileCount: 15
+  castDuration: 3
+--- !u!114 &2665056123859333525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3559141445525831181}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d57bc1af5455094caa8d0a34f3929c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 2
   timeAfterLastCast: 0
   rangeCast: 20
+  radiusAffect: 0
+  currentRadiusAffect: 1
   value: 1
+  castSize: 1
+  currentCastSize: 1
   decision: {fileID: 11400000, guid: 071dd5f1863e7a94785b82b4ce28d572, type: 2}
   flyingProjectile: 0
   muzzle: {fileID: 0}
@@ -346,6 +382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046138a2ca1ff8d4b91a99c90b206fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyGameObjectDeathEffect: {fileID: 0}
 --- !u!114 &3073911466994080653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,6 +395,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1348c303a4bb984f959a4338b1f3c00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8360196373745511043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3559141445525831181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d18c356f9b0f7d24fa2066889ed50e05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamage: 1
+  currentDamage: 1
 --- !u!114 &353407236172937099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -398,7 +449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ea0c8fa572e8644c875046727f2f3fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPosition: {x: 0, y: 0, z: 0}
+  purposeOfTravel: {x: 0, y: 0, z: 0}
 --- !u!114 &6789274295866340073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,6 +467,20 @@ MonoBehaviour:
   beginTail: 1
   finishTail: 2
   steps: []
+--- !u!114 &6822379514663007837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3559141445525831181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2062b6792c79f4e4e9d12a922719042a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseRadius: 1
+  currentRadius: 1
 --- !u!114 &711847227136703049
 MonoBehaviour:
   m_ObjectHideFlags: 0

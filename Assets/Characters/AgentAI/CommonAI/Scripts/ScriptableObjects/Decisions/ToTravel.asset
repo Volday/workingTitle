@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fb96ee007a3c01438d8b82869104c2b, type: 3}
-  m_Name: DealDamageInAreaPE
+  m_Script: {fileID: 11500000, guid: 37095dbb612a3dd4eba2eff7c2a3732f, type: 3}
+  m_Name: ToTravel
   m_EditorClassIdentifier: 
-  damage: 40
-  activationTime: 1
+  cautionFactorCoefficient: 1

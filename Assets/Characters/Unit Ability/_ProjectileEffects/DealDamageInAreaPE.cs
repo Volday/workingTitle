@@ -10,8 +10,8 @@ public class DealDamageInAreaPE : ProjectileEffect
 
     public override void DoProjectileEffect(GameObject carrier)
     {
-        DealDamageInAreaPEComponent newMoveForwardPEComponent = carrier.AddComponent<DealDamageInAreaPEComponent>();
-        newMoveForwardPEComponent.damage = damage;
-        newMoveForwardPEComponent.activationTime = activationTime;
+        DealDamageInAreaPEComponent newDealDamageInAreaPEComponent = carrier.AddComponent<DealDamageInAreaPEComponent>();
+        newDealDamageInAreaPEComponent.damage = damage;
+        newDealDamageInAreaPEComponent.activationTime = activationTime;
     }
 }

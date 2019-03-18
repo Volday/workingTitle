@@ -59,6 +59,10 @@ public class MapGenerator : MonoBehaviour {
 
     public void Awake()
     {
+        MapManager mapManager;
+        GameObject gameManager = GameObject.FindGameObjectWithTag("GameManager");
+        mapManager = gameManager.GetComponent<MapManager>();
+        seed = mapManager.seed;
         // 0 Вокруг, 1 с одной стороны, 2 с двух сторон(внешний угол), 3 кроме стороны, 4 с двух сторон
         falloffMapContain = FalloffGenerator.GenerateFalloffMap(mapChunkSize + 2, 0);
         falloffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize + 2, 0);

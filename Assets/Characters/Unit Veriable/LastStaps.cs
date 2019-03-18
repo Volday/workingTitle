@@ -51,7 +51,7 @@ public class LastStaps : MonoBehaviour
         float nextAngle = 180;
         if (!(steps[t - partLenght].x == steps[t].x && steps[t - partLenght].z == steps[t].z) && !(steps[t + partLenght].x == steps[t].x && steps[t + partLenght].z == steps[t].z))
         {
-            nextAngle = MyMath.Angle360BetweenClockwiseVector2(new Vector2(steps[t - partLenght].x, steps[t - partLenght].z),
+            nextAngle = MyMath.Angle360BetweenСounterСlockwiseVector2(new Vector2(steps[t - partLenght].x, steps[t - partLenght].z),
             new Vector2(steps[t + partLenght].x, steps[t + partLenght].z), new Vector2(steps[t].x, steps[t].z));
         }
         if (nextAngle <= 180)
@@ -70,7 +70,7 @@ public class LastStaps : MonoBehaviour
 
         Vector3 currentDirection = new Vector3(steps[steps.Count - 1].x - steps[steps.Count - 1 - partLenght].x,
                     steps[steps.Count - 1].y - steps[steps.Count - 1 - partLenght].y, steps[steps.Count - 1].z - steps[steps.Count - 1 - partLenght].z);
-        float currentAngle = MyMath.Angle360BetweenClockwiseVector2(new Vector2(currentDirection.x, currentDirection.z),
+        float currentAngle = MyMath.Angle360BetweenСounterСlockwiseVector2(new Vector2(currentDirection.x, currentDirection.z),
                     new Vector2(0, 1), new Vector2(0, 0));
 
         if (partDistance != 0) {
@@ -88,7 +88,7 @@ public class LastStaps : MonoBehaviour
                     steps[t + partLenght - (int)(partLenght * finishTail)].z == steps[t].z) &&
                     !(steps[t + partLenght].x == steps[t].x && steps[t + partLenght].z == steps[t].z))
                 {
-                    nextTailAngle = MyMath.Angle360BetweenClockwiseVector2(new Vector2(steps[t + partLenght - (int)(partLenght * finishTail)].x, steps[t + partLenght - (int)(partLenght * finishTail)].z),
+                    nextTailAngle = MyMath.Angle360BetweenСounterСlockwiseVector2(new Vector2(steps[t + partLenght - (int)(partLenght * finishTail)].x, steps[t + partLenght - (int)(partLenght * finishTail)].z),
                     new Vector2(steps[t + partLenght].x, steps[t + partLenght].z), new Vector2(steps[t].x, steps[t].z));
                 }
                 float tailAngle = 0;

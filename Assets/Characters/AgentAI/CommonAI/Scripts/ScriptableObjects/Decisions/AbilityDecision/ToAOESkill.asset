@@ -13,11 +13,6 @@ MonoBehaviour:
   m_Name: ToAOESkill
   m_EditorClassIdentifier: 
   factors:
-  - decisionFactors: {fileID: 11400000, guid: c121b604de5d14841a2da0f873eabffa, type: 2}
-    factorCoefficient: 1
-  - decisionFactors: {fileID: 11400000, guid: c9ffefb02b1b1074d897f3c3ca4a40a2, type: 2}
-    factorCoefficient: 1
   - decisionFactors: {fileID: 11400000, guid: d49a41fdec37598489d02589484cb1ae, type: 2}
     factorCoefficient: 1
-  - decisionFactors: {fileID: 11400000, guid: 251572491f725aa4181c081c7c809e2a, type: 2}
-    factorCoefficient: 1
+    factorShift: 0

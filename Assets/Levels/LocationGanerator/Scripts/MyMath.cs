@@ -23,7 +23,8 @@ public static class MyMath {
         return distance;
     }
 
-    public static float Angle360BetweenClockwiseVector2(Vector2 point, Vector2 finishSection, Vector2 startSection)
+
+    public static float Angle360BetweenСounterСlockwiseVector2(Vector2 point, Vector2 finishSection, Vector2 startSection)
     {
         float D = (point.x - startSection.x) * (finishSection.y - startSection.y) - (point.y - startSection.y) * (finishSection.x - startSection.x);
         finishSection.x -= startSection.x;
@@ -36,6 +37,23 @@ public static class MyMath {
         }
         else {
             return 360 - Vector2.Angle(finishSection, point);
+        }
+    }
+
+    public static float Angle360BetweenСlockwiseVector2(Vector2 point, Vector2 finishSection, Vector2 startSection)
+    {
+        float D = (point.x - startSection.x) * (finishSection.y - startSection.y) - (point.y - startSection.y) * (finishSection.x - startSection.x);
+        finishSection.x -= startSection.x;
+        finishSection.y -= startSection.y;
+        point.x -= startSection.x;
+        point.y -= startSection.y;
+        if (D <= 0)
+        {
+            return 360 - Vector2.Angle(finishSection, point);
+        }
+        else
+        {
+            return Vector2.Angle(finishSection, point);
         }
     }
 

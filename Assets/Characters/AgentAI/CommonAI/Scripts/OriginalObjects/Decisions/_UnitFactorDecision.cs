@@ -12,12 +12,16 @@ public class _UnitFactorDecision : Decision
         float factorsSum = 0;
         float factorCoefficientSum = 0;
         for (int t = 0; t < factors.Count; t++) {
-            factorsSum += factors[t].decisionFactors.GetDecisionFactor(controller) * factors[t].factorCoefficient;
+            float nextFactor = factors[t].decisionFactors.GetDecisionFactor(controller);
+            if (nextFactor == float.MinValue) {
+                return float.MinValue;
+            }
+            factorsSum += (nextFactor + factors[t].factorShift * 50) * factors[t].factorCoefficient;
             factorCoefficientSum += Mathf.Abs(factors[t].factorCoefficient);
         }
         float factorsCount = factors.Count;
-        factorsSum = factorsSum * (factorsCount / factorCoefficientSum);
-        factorsSum = factorsSum * (4 / factorsCount);
+        //factorsSum = factorsSum * (factorsCount / factorCoefficientSum); нормализовал коэфициенты, чтобы их средний коэфициенты был равен 1
+        //factorsSum = factorsSum * (4 / factorsCount); нормализовал факторы, как-будто их всегда 4 штуки
         return factorsSum;
     }
 
@@ -25,6 +29,8 @@ public class _UnitFactorDecision : Decision
     public class Factor {
         public DecisionFactor decisionFactors;
         public float factorCoefficient = 1;
+        [Range(-1,1)]
+        public float factorShift;
         public Factor() {
             factorCoefficient = 1;
         }

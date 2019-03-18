@@ -14,11 +14,11 @@ public class ToDoAbility : Decision
         if (controller.nextUnitAbility.flyingProjectile)
         {
             //растояние до цели
-            differenceVector = controller.targetToAttack.targetToAtack.transform.position - controller.transform.position;
+            differenceVector = controller.targetToAttack.targetToAttack.transform.position - controller.transform.position;
             distance = Mathf.Sqrt((differenceVector.x * differenceVector.x) + (differenceVector.z * differenceVector.z));
 
             //первичная будующая позиция
-            futureTargetPosition = controller.targetToAttack.targetToAtack.GetComponent<LastStaps>().GetMotionVector(
+            futureTargetPosition = controller.targetToAttack.targetToAttack.GetComponent<LastStaps>().GetMotionVector(
                 controller.nextUnitAbility.TimeToActivate(distance));
 
             //растояние до будующей позиции
@@ -27,8 +27,8 @@ public class ToDoAbility : Decision
 
             //будующая позиция
             float distanceShift = distanceToFutureTargetPosition / distance;
-            futureTargetPosition = controller.targetToAttack.targetToAtack.GetComponent<LastStaps>().GetMotionVector(
-                controller.nextUnitAbility.TimeToActivate(distanceToFutureTargetPosition * distanceShift) /** accuracyCoefficient*/);
+            futureTargetPosition = controller.targetToAttack.targetToAttack.GetComponent<LastStaps>().GetMotionVector(
+                controller.nextUnitAbility.TimeToActivate(distanceToFutureTargetPosition * distanceShift) * accuracyCoefficient);
             controller.futureTargetPosition = futureTargetPosition;
             
             //проверка на препядствея
@@ -37,13 +37,13 @@ public class ToDoAbility : Decision
             RaycastHit hit = new RaycastHit();
             if (Physics.Raycast(ray, out hit, distanceToFutureTargetPosition * distanceShift))
             {
-                if (hit.collider.gameObject != controller.targetToAttack.targetToAtack) {
+                if (hit.collider.gameObject != controller.targetToAttack.targetToAttack) {
                     return float.MinValue;
                 }
             }
         }
         else {
-            futureTargetPosition = controller.targetToAttack.targetToAtack.GetComponent<LastStaps>().GetMotionVector(
+            futureTargetPosition = controller.targetToAttack.targetToAttack.GetComponent<LastStaps>().GetMotionVector(
                 controller.nextUnitAbility.TimeToActivate(0) * accuracyCoefficient);
             controller.futureTargetPosition = futureTargetPosition;
         }

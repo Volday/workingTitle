@@ -7,8 +7,8 @@ public class DoRunAway : ActionInState
 {
     public override void Act(StateController controller)
     {
-        if (controller.targetToAttack.targetToAtack != null) {
-            controller.navMeshAgent.destination = 2 * controller.transform.position - controller.targetToAttack.targetToAtack.transform.position;
+        if (controller.targetToAttack.targetToAttack != null) {
+            controller.navMeshAgent.destination = 2 * controller.transform.position - controller.targetToAttack.targetToAttack.transform.position;
         }
     }
 }
