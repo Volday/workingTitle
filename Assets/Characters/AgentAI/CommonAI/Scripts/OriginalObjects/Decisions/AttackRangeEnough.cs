@@ -10,7 +10,7 @@ public class AttackRangeEnough : Decision
         Vector3 differenceVector = controller.targetToAttack.targetToAttack.transform.position - controller.transform.position;
         float distance = (differenceVector.x * differenceVector.x) + (differenceVector.y * differenceVector.y) + (differenceVector.z * differenceVector.z);
 
-        if (distance < controller.nextUnitAbility.rangeCast * controller.nextUnitAbility.rangeCast &&
+        if (controller.nextUnitAbility != null && distance < controller.nextUnitAbility.rangeCast * controller.nextUnitAbility.rangeCast &&
             controller.nextUnitAbility.timeAfterLastCast > controller.nextUnitAbility.cooldown)
         {
             return float.MaxValue;

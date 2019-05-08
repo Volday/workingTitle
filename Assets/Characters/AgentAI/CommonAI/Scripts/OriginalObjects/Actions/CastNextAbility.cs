@@ -9,7 +9,7 @@ public class CastNextAbility : ActionInState
     {
         CastAbilityTime castAbilityTime = controller.gameObject.GetComponent<CastAbilityTime>();
         if (castAbilityTime == null && controller.nextUnitAbility != null) {
-            controller.nextUnitAbility.UseAbility(controller.targetToAttack.targetToAttack);
+            controller.nextUnitAbility.UseAbility();
         }
     }
 }

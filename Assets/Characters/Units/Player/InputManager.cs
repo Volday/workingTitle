@@ -20,17 +20,9 @@ public class InputManager : MonoBehaviour
         nexttimeAfterLastClick += Time.deltaTime;
         if (Input.GetAxis("Fire1") > 0 && nexttimeAfterLastClick > 0.1f)
         {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition); ;
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
+            for (int t = 0; t < unitAbilities.unitAbilities.Count; t++)
             {
-                for (int t = 0; t < unitAbilities.unitAbilities.Count; t++)
-                {
-                    GameObject emptyTarget = new GameObject();
-                    emptyTarget.transform.position = hit.point;
-                    unitAbilities.unitAbilities[t].UseAbility(emptyTarget);
-                }
+                unitAbilities.unitAbilities[t].UseAbility();
             }
         }
     }

@@ -12,4 +12,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77115cb7d7da5bf4aba090900f8c0e4e, type: 3}
   m_Name: DealDamageAE
   m_EditorClassIdentifier: 
-  damage: 40

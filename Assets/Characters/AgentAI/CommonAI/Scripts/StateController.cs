@@ -3,11 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(HealthPoints))]
+[RequireComponent(typeof(UnitAbilities))]
+[RequireComponent(typeof(EnemiesAround))]
+[RequireComponent(typeof(TargetToAttack))]
+[RequireComponent(typeof(MoveSpeed))]
+[RequireComponent(typeof(AISkills))]
+[RequireComponent(typeof(RadiusOfView))]
+[RequireComponent(typeof(UnitTeam))]
+[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(PointToMove))]
+[RequireComponent(typeof(Damage))]
+[RequireComponent(typeof(RadiusAffect))]
+[RequireComponent(typeof(PurposeOfTravel))]
+[RequireComponent(typeof(LastStaps))]
+[RequireComponent(typeof(ChangeTeamToDeadDeathEffect))]
+[RequireComponent(typeof(DeactivateGameObjectDeathEffect))]
+[RequireComponent(typeof(Muzzle))]
+[RequireComponent(typeof(Creature))]
+
 public class StateController : MonoBehaviour
 {
 
     public State currentState;
-    public State remainState;
 
     [HideInInspector] public HealthPoints healthPoints;
     [HideInInspector] public UnitAbilities unitAbilities;
@@ -51,9 +69,6 @@ public class StateController : MonoBehaviour
 
     public void TransitionToState(State nextState)
     {
-        if (nextState != remainState)
-        {
-            currentState = nextState;
-        }
+        currentState = nextState;
     }
 }

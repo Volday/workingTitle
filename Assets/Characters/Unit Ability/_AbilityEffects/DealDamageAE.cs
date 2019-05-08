@@ -5,12 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Ability/AbilityEffect/DealDamageAE")]
 public class DealDamageAE : AbilityEffect
 {
-    public float damage;
-
-    public override void DoAbilityEffect(GameObject target, GameObject owner)
+    public override void DoAbilityEffect(GameObject target, GameObject owner, GameObject projectile)
     {
-        DealDamageAEComponent newDealDamageAEComponent = target.AddComponent<DealDamageAEComponent>();
-        newDealDamageAEComponent.damage = damage;
-        newDealDamageAEComponent.owner = owner;
+        DealDamageAEComponent dealDamageAEComponent = target.AddComponent<DealDamageAEComponent>();
+        dealDamageAEComponent.damage = projectile.GetComponent<Damage>().currentDamage * projectile.GetComponent<Projectile>().damage;
     }
 }

@@ -14,14 +14,15 @@ public class HeavyStrike : UnitAbility
         base.Start();
         flyingProjectile = true;
         rangeCast = 20;
+        projectileSpeed = 20;
     }
 
-    public override void UseAbility(GameObject abilityTarget)
+    public override void UseAbility()
     {
         if (CooldownReady())
         {
             GameObject newAbilityTarget = new GameObject();
-            newAbilityTarget.transform.position = abilityTarget.transform.position;
+            newAbilityTarget.transform.position = FindFrontTragetToCast();
             if (GetComponent<StateController>() != null && GetComponent<StateController>().isActiveAndEnabled) {
                 newAbilityTarget.transform.position = GetComponent<StateController>().futureTargetPosition;
             }
@@ -39,10 +40,5 @@ public class HeavyStrike : UnitAbility
             Destroy(newAbilityTarget);
         }
         CastAbilityEnd();
-    }
-
-    public override float TimeToActivate(float distance)
-    {
-        return distance / 20;
     }
 }

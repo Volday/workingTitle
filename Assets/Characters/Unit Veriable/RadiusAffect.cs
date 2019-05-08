@@ -6,4 +6,9 @@ public class RadiusAffect : MonoBehaviour
 {
     public float baseRadius = 1;
     public float currentRadius = 1;
+
+    private void Start()
+    {
+        currentRadius = baseRadius;
+    }
 }

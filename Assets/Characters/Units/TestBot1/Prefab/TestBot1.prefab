@@ -131,8 +131,12 @@ GameObject:
   - component: {fileID: 3752818782905892400}
   - component: {fileID: 8009233707047955628}
   - component: {fileID: 4303854585664221323}
+  - component: {fileID: 4592015059896365925}
+  - component: {fileID: 3466375899378443678}
   - component: {fileID: 5598483661318566708}
   - component: {fileID: 5751501200327253097}
+  - component: {fileID: 8554994858202179981}
+  - component: {fileID: 6276901621627231200}
   - component: {fileID: 3800412252055906944}
   - component: {fileID: 2402426958944325899}
   - component: {fileID: 7748444826843206265}
@@ -157,7 +161,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7083527572793143893}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -220,7 +224,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.7
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -275,7 +279,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 11400000, guid: d7142cb537e65264abc0cf3ce85f73e7, type: 2}
-  remainState: {fileID: 11400000, guid: 91a71cc72b6c28740b2eb2553e098937, type: 2}
   healthPoints: {fileID: 0}
   unitAbilities: {fileID: 0}
   enemiesAround: {fileID: 0}
@@ -365,7 +368,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7083527572793143893}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a048b62e30bbc14c9dfbe51aad65777, type: 3}
   m_Name: 
@@ -374,9 +377,11 @@ MonoBehaviour:
   timeAfterLastCast: 0
   rangeCast: 0
   value: 1
+  projectileSpeed: 0
   decision: {fileID: 11400000, guid: 9d9bbc3c1e86e1f4cb00583d9a596ea7, type: 2}
   flyingProjectile: 0
   muzzle: {fileID: 0}
+  damage: 0
   projectile: {fileID: 4937394472768534574, guid: d16d1015a83c3fc4e99772861d9fa795,
     type: 3}
   abilityEffects: []
@@ -388,7 +393,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7083527572793143893}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d57bc1af5455094caa8d0a34f3929c4, type: 3}
   m_Name: 
@@ -397,9 +402,11 @@ MonoBehaviour:
   timeAfterLastCast: 0
   rangeCast: 20
   value: 1
+  projectileSpeed: 0
   decision: {fileID: 11400000, guid: 071dd5f1863e7a94785b82b4ce28d572, type: 2}
   flyingProjectile: 0
   muzzle: {fileID: 0}
+  damage: 0
   projectile: {fileID: 5579999711580737452, guid: 76c0a55aaba48034b886240bb787bcf3,
     type: 3}
   abilityEffects: []
@@ -411,7 +418,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7083527572793143893}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 079ba5e1a82c00e4ba220525e7e496ec, type: 3}
   m_Name: 
@@ -420,13 +427,68 @@ MonoBehaviour:
   timeAfterLastCast: 0
   rangeCast: 0
   value: 1
+  projectileSpeed: 0
   decision: {fileID: 11400000, guid: c42e02ef7f865e74cadd6c117f8d255b, type: 2}
   flyingProjectile: 0
   muzzle: {fileID: 0}
+  damage: 0
   projectile: {fileID: 2116159841598432315, guid: e1d4edf7e62a2a842a4c51cd7510f281,
     type: 3}
   abilityEffects: []
   projectileEffects: []
+--- !u!114 &4592015059896365925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083527572793143893}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0b1e075128a38f4d9048f6acbcac606, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 0
+  timeAfterLastCast: 0
+  rangeCast: 0
+  value: 1
+  projectileSpeed: 0
+  decision: {fileID: 11400000, guid: b33de9765d7992c4591d0ac26cf92d3a, type: 2}
+  flyingProjectile: 0
+  muzzle: {fileID: 0}
+  damage: 0
+  projectile: {fileID: 7821389895293932706, guid: 4b9282f10f69f704f8a89d1ab42eda51,
+    type: 3}
+  abilityEffects: []
+  projectileEffects: []
+  angle: 45
+  projectileCount: 30
+  castDuration: 3
+--- !u!114 &3466375899378443678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083527572793143893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b70a4462f84537247bd21c71ef065fe5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 0
+  timeAfterLastCast: 0
+  rangeCast: 0
+  value: 1
+  projectileSpeed: 0
+  decision: {fileID: 11400000, guid: 4340332f4dc48cc4ca5455e80a1e46ba, type: 2}
+  flyingProjectile: 0
+  muzzle: {fileID: 0}
+  damage: 0
+  projectile: {fileID: 8092375592505597781, guid: c48562fcdd7fd654a9f4f437f1efc74e,
+    type: 3}
+  castDuration: 1
+  radiusOfAffect: 1
 --- !u!114 &5598483661318566708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,6 +517,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046138a2ca1ff8d4b91a99c90b206fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyGameObjectDeathEffect: {fileID: 0}
+--- !u!114 &8554994858202179981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083527572793143893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d18c356f9b0f7d24fa2066889ed50e05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamage: 1
+  currentDamage: 1
+--- !u!114 &6276901621627231200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083527572793143893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2062b6792c79f4e4e9d12a922719042a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseRadius: 1
+  currentRadius: 1
 --- !u!114 &3800412252055906944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -508,6 +599,7 @@ MonoBehaviour:
   agility: 50
   aggression: 50
   caution: 50
+  personalSeed: 0
 --- !u!114 &5718502744406487346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -591,4 +683,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ea0c8fa572e8644c875046727f2f3fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPosition: {x: 0, y: 0, z: 0}
+  purposeOfTravel: {x: 0, y: 0, z: 0}

@@ -15,6 +15,7 @@ public class TimeManager : MonoBehaviour
 
     void Update()
     {
+
         gameTime += Time.deltaTime;
 
         for (int t = 0; t < actionsToDo.Count; t++) {

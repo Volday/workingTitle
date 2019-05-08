@@ -16,9 +16,10 @@ public class ProjectileEffectsManager : MonoBehaviour
         }
     }
 
-    public void ApplyAbilityEffects(GameObject target, GameObject owner) {
+    public void ApplyAbilityEffects(GameObject target) {
         for (int t = 0; t < abilityEffects.Count; t++) {
-            abilityEffects[t].DoAbilityEffect(target, owner);
+            
+            abilityEffects[t].DoAbilityEffect(target, gameObject.GetComponent<Projectile>().owner, gameObject);
         }
     }
 }

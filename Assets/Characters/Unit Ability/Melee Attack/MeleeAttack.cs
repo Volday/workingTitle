@@ -16,13 +16,12 @@ public class MeleeAttack : UnitAbility
         cooldown = 2;
     }
 
-    public override void UseAbility(GameObject abilityTarget)
+    public override void UseAbility()
     {
         if (CooldownReady())
         {
-            Vector3 target = abilityTarget.transform.position;
+            Vector3 target = FindFrontTragetToCast();
             target.y = transform.position.y;
-            transform.LookAt(abilityTarget.transform);
             GameObject newProjectile = Instantiate(projectile, muzzle.muzzle.position, transform.rotation);
             newProjectile.transform.LookAt(target);
             Projectile projectileComponent = projectile.GetComponent<Projectile>();
@@ -32,10 +31,5 @@ public class MeleeAttack : UnitAbility
             timeAfterLastCast = 0;
         }
         CastAbilityEnd();
-    }
-
-    public override float TimeToActivate(float distance)
-    {
-        return 0;
     }
 }

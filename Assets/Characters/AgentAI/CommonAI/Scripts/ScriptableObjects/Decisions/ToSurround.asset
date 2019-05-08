@@ -15,5 +15,7 @@ MonoBehaviour:
   factors:
   - decisionFactors: {fileID: 11400000, guid: 6a0d51c755b73ff409330a6e4bef9c28, type: 2}
     factorCoefficient: 1
+    factorShift: 0
   - decisionFactors: {fileID: 11400000, guid: 251572491f725aa4181c081c7c809e2a, type: 2}
-    factorCoefficient: 1
+    factorCoefficient: 0.2
+    factorShift: 0

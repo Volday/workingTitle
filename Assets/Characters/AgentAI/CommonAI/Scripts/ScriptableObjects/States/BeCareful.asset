@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf2d62994940da45a0f94613c7280a4, type: 3}
   m_Name: BeCareful
   m_EditorClassIdentifier: 
-  transitionsUpdateFrequency: 0.001
-  actionsUpdateFrequency: 0.001
+  transitionsUpdateFrequency: 0.05
+  actionsUpdateFrequency: 0.1
   actions:
   - {fileID: 11400000, guid: 6f8837c2a3b1c864f81ced6487ae452e, type: 2}
   - {fileID: 11400000, guid: 4519038014488ff49b6d7d5d39c3f297, type: 2}

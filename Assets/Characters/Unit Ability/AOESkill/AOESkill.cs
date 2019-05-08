@@ -16,12 +16,19 @@ public class AOESkill : UnitAbility
         cooldown = 4;
     }
 
-    public override void UseAbility(GameObject abilityTarget)
+    public override void UseAbility()
     {
         if (CooldownReady())
         {
             GameObject newAbilityTarget = new GameObject();
-            newAbilityTarget.transform.position = GetComponent<StateController>().futureTargetPosition;
+            StateController stateController = GetComponent<StateController>();
+            if (stateController != null && stateController.isActiveAndEnabled)
+            {
+                newAbilityTarget.transform.position = stateController.futureTargetPosition;
+            }
+            else {
+                newAbilityTarget.transform.position = FindFrontTragetToCast();
+            }
             GameObject newProjectile = Instantiate(projectile, newAbilityTarget.transform.position, transform.rotation);
             Projectile projectileComponent = newProjectile.GetComponent<Projectile>();
             projectileComponent.pernicious = true;
@@ -32,12 +39,7 @@ public class AOESkill : UnitAbility
 
             timeAfterLastCast = 0;
             Destroy(newAbilityTarget);
+            CastAbilityEnd();
         }
-        CastAbilityEnd();
-    }
-
-    public override float TimeToActivate(float distance)
-    {
-        return 1;
     }
 }

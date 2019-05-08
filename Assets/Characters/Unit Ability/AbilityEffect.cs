@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class AbilityEffect : ScriptableObject
 {
-    public abstract void DoAbilityEffect(GameObject target, GameObject owner);
+    public abstract void DoAbilityEffect(GameObject target, GameObject owner, GameObject projectile);
 }

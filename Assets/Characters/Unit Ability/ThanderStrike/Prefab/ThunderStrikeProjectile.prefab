@@ -1,0 +1,201 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8092375592505597781
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6622098132978016828}
+  - component: {fileID: 4330759510833737461}
+  - component: {fileID: 158795561650985600}
+  - component: {fileID: 2837652067382905754}
+  - component: {fileID: 8297934908724699818}
+  - component: {fileID: 7384077244506921583}
+  - component: {fileID: 1298619031964181497}
+  - component: {fileID: 4072250266078649687}
+  - component: {fileID: 3231865596166966379}
+  - component: {fileID: 5882153088308893015}
+  - component: {fileID: 8971538668455309517}
+  - component: {fileID: 6940554386196699329}
+  m_Layer: 0
+  m_Name: ThunderStrikeProjectile
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6622098132978016828
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8092375592505597781}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4330759510833737461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8092375592505597781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17ca046bbebb77948a76c3bb86cab00e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 0
+  owner: {fileID: 0}
+  penetrating: 0
+  lifeTime: 1
+  spawnTime: 0
+  pernicious: 0
+  damage: 0
+  haveHit: 0
+--- !u!114 &158795561650985600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8092375592505597781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ee9c38eedcb432459c0294ebae1533c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2837652067382905754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8092375592505597781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 989b43c38e9e3a14fb0471524a684015, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8297934908724699818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8092375592505597781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 754b985666e4fa94e82f61a364d5f454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemiesAround: []
+  distanceToCheck: 30
+--- !u!114 &7384077244506921583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8092375592505597781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb71519075c0d14d8fe040bded30ab6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: 
+  team:
+    name: 
+    units: []
+--- !u!114 &1298619031964181497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8092375592505597781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 046138a2ca1ff8d4b91a99c90b206fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyGameObjectDeathEffect: {fileID: 0}
+--- !u!114 &4072250266078649687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8092375592505597781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6acfefbae653bcd41b883c5ff00ba505, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealthPoints: 0
+  currentHealthPoints: 0
+--- !u!114 &3231865596166966379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8092375592505597781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2062b6792c79f4e4e9d12a922719042a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseRadius: 1
+  currentRadius: 1
+--- !u!114 &5882153088308893015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8092375592505597781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d18c356f9b0f7d24fa2066889ed50e05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamage: 1
+  currentDamage: 1
+--- !u!114 &8971538668455309517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8092375592505597781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b190e4a9a5dde34095cd32ec8d7e05f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseMoveSpeed: 0
+  moveSpeed: 0
+--- !u!114 &6940554386196699329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8092375592505597781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 504b50dd29bd8ae468ac819ee79f6746, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileEffects:
+  - {fileID: 11400000, guid: 682d69acd8e1b1342ac13c59b7fff552, type: 2}
+  abilityEffects: []

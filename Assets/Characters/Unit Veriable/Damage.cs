@@ -6,4 +6,9 @@ public class Damage : MonoBehaviour
 {
     public float baseDamage = 1;
     public float currentDamage = 1;
+
+    private void Start()
+    {
+        currentDamage = baseDamage;
+    }
 }

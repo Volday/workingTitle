@@ -2,24 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AISkills))]
+
 public abstract class UnitAbility : MonoBehaviour
 {
     public float cooldown = 0;
     [HideInInspector] public float timeAfterLastCast = 0;
     public float rangeCast = 0;
-    public float radiusAffect = 1;
-    public float currentRadiusAffect = 1;
     public float value = 1;
-    public float castSize = 1;
-    public float currentCastSize = 1;
+    public float projectileSpeed = 0;
 
     public Decision decision;
     public bool flyingProjectile = false;
     [HideInInspector] public Muzzle muzzle;
+    public float damage;
 
-    public abstract void UseAbility(GameObject abilityTarget);
+    public abstract void UseAbility();
 
-    public abstract float TimeToActivate(float distance);
+    public float TimeToActivate(float distance)
+    {
+        if (projectileSpeed != 0)
+        {
+            return distance / projectileSpeed;
+        }
+        else {
+            return 0;
+        }
+    }
 
     public virtual void Start()
     {
@@ -50,6 +59,24 @@ public abstract class UnitAbility : MonoBehaviour
         }
     }
 
+    public Vector3 FindFrontTragetToCast() {
+        Vector3 tragetToCast;
+        Camera mainCamera;
+        mainCamera = Camera.main;
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit hit = new RaycastHit();
+        if (Physics.Raycast(ray, out hit, float.MaxValue, LayerMask.GetMask("Landscape")))
+        {
+            tragetToCast = hit.point;
+        }
+        else {
+            tragetToCast = Vector3.zero;
+        }
+        tragetToCast.y = muzzle.transform.position.y;
+        return tragetToCast;
+    }
+
     public bool CooldownReady()
     {
         if (timeAfterLastCast > cooldown)
@@ -60,10 +87,12 @@ public abstract class UnitAbility : MonoBehaviour
     }
 
     public void SetEffectsToProjectile(GameObject projectile, List<AbilityEffect> abilityEffects, List<ProjectileEffect> projectileEffects) {
-        projectile.transform.localScale *= castSize;
 
         Projectile projectileComponent = projectile.GetComponent<Projectile>();
         projectileComponent.owner = gameObject;
+        projectileComponent.GetComponent<MoveSpeed>().baseMoveSpeed = projectileSpeed;
+        projectileComponent.GetComponent<Damage>().baseDamage = GetComponent<Damage>().currentDamage;
+        projectileComponent.GetComponent<RadiusAffect>().baseRadius = GetComponent<RadiusAffect>().currentRadius;
 
         UnitTeam newProjectileUnitTeam = projectile.GetComponent<UnitTeam>();
         newProjectileUnitTeam.name = GetComponent<UnitTeam>().name;

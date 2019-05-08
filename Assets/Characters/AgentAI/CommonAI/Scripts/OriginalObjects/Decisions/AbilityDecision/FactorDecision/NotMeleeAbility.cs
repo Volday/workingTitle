@@ -7,7 +7,7 @@ public class NotMeleeAbility : DecisionFactor
 {
     public override float GetDecisionFactor(StateController controller)
     {
-        if (controller.nextUnitAbility.rangeCast > 5)
+        if (controller.nextUnitAbility != null && controller.nextUnitAbility.rangeCast > 5)
         {
             return 0;
         }

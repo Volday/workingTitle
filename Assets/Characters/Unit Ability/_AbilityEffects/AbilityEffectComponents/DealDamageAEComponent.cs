@@ -8,11 +8,10 @@ public class DealDamageAEComponent : AbilityEffectsComponent
 
     void Start()
     {
-        HealthPoints targetHealthPoints = GetComponent<HealthPoints>();
-        if (targetHealthPoints != null && GetComponent<Creature>() != null &&
-            GetComponent<UnitTeam>().name != owner.GetComponent<UnitTeam>().name &&
-            GetComponent<UnitTeam>().name != "Dead") {
-            targetHealthPoints.TakeDamage(damage);
+        HealthPoints healthPoints = GetComponent<HealthPoints>();
+        if (healthPoints != null)
+        {
+            healthPoints.TakeDamage(damage);
         }
         Destroy(this);
     }

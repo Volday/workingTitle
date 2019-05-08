@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 5579999711580737453}
   - component: {fileID: 5579999711580737370}
   - component: {fileID: 5579999711580737445}
+  - component: {fileID: 1936348069120576195}
+  - component: {fileID: 3382223176018303652}
   - component: {fileID: 5579999711580737371}
   - component: {fileID: 3026092204724504166}
   - component: {fileID: 4045098467230663921}
@@ -190,6 +192,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemiesAround: []
   distanceToCheck: 25
+--- !u!114 &1936348069120576195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5579999711580737452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d18c356f9b0f7d24fa2066889ed50e05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamage: 1
+  currentDamage: 1
+--- !u!114 &3382223176018303652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5579999711580737452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2062b6792c79f4e4e9d12a922719042a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseRadius: 1
+  currentRadius: 1
 --- !u!114 &5579999711580737371
 MonoBehaviour:
   m_ObjectHideFlags: 0
