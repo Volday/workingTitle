@@ -9,27 +9,32 @@ public class MeleeAttack : UnitAbility
     public List<AbilityEffect> abilityEffects;
     public List<ProjectileEffect> projectileEffects;
 
+    public float radius = 1;
+
     private void Start()
     {
         base.Start();
-        rangeCast = 2;
+        rangeCast = 3;
         cooldown = 2;
+        damage = 20;
     }
 
+    //Здесь что-то не так не используй, лучше перепиши
     public override void UseAbility()
     {
         if (CooldownReady())
         {
-            Vector3 target = FindFrontTragetToCast();
-            target.y = transform.position.y;
-            GameObject newProjectile = Instantiate(projectile, muzzle.muzzle.position, transform.rotation);
-            newProjectile.transform.LookAt(target);
-            Projectile projectileComponent = projectile.GetComponent<Projectile>();
-            projectileComponent.lifeTime = 0.1f;
-            SetEffectsToProjectile(newProjectile, abilityEffects, projectileEffects);
-
-            timeAfterLastCast = 0;
+            CastAbilityStart();
+            GetComponent<TargetToAttack>().targetToAttack.GetComponent<HealthPoints>().TakeDamage(20);
+            //Vector3 target = GetComponent<TargetToAttack>().targetToAttack.transform.position;
+            //target.y = transform.position.y;
+            //GameObject newProjectile = Instantiate(projectile, target, transform.rotation);
+            //newProjectile.GetComponent<Projectile>().damage = GetComponent<Damage>().currentDamage * damage;
+            //newProjectile.GetComponent<Projectile>().radius = GetComponent<RadiusAffect>().currentRadius * radius;
+            //newProjectile.GetComponent<Projectile>().lifeTime = 0;
+            //SetEffectsToProjectile(newProjectile, abilityEffects, projectileEffects);
+            //timeAfterLastCast = 0;
+            CastAbilityEnd();
         }
-        CastAbilityEnd();
     }
 }

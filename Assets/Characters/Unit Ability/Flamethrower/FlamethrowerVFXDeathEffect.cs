@@ -7,8 +7,10 @@ public class FlamethrowerVFXDeathEffect : DeathEffect
     public override void DoDeathEffect()
     {
         Transform projectileVFX = transform.Find("Flamethrower_FireBall");
-        projectileVFX.parent = null;
-        projectileVFX.GetComponent<ParticleSystem>().Stop(true);
-        projectileVFX.gameObject.AddComponent<DestroyAfterTime>();
+        if (projectileVFX != null) {
+            projectileVFX.parent = null;
+            projectileVFX.GetComponent<ParticleSystem>().Stop(true);
+            projectileVFX.gameObject.AddComponent<DestroyAfterTime>();
+        }
     }
 }

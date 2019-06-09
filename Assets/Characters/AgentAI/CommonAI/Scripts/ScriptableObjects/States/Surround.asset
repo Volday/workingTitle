@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf2d62994940da45a0f94613c7280a4, type: 3}
   m_Name: Surround
   m_EditorClassIdentifier: 
-  transitionsUpdateFrequency: 0.05
+  transitionsUpdateFrequency: 0.1
   actionsUpdateFrequency: 0.2
   actions:
   - {fileID: 11400000, guid: eb04c4288cc3a064d852d106b981b7dd, type: 2}
@@ -20,9 +20,9 @@ MonoBehaviour:
   transitions:
   - decision: {fileID: 11400000, guid: 94fa4a1800af50f499b4d4bd0895b101, type: 2}
     newState: {fileID: 11400000, guid: 8b5c75e07bb96b145ae0f4dc08094d65, type: 2}
+  - decision: {fileID: 11400000, guid: 01f7083f45fd529499c5bee6c25d85f1, type: 2}
+    newState: {fileID: 11400000, guid: 853ede93cb925834bab510d332dc4712, type: 2}
   - decision: {fileID: 11400000, guid: f305ac62ef44b004a95109784f40a901, type: 2}
     newState: {fileID: 11400000, guid: 8b5c75e07bb96b145ae0f4dc08094d65, type: 2}
   - decision: {fileID: 11400000, guid: ac3fce8a5d16f47408e8cf4d00523971, type: 2}
     newState: {fileID: 11400000, guid: 8b5c75e07bb96b145ae0f4dc08094d65, type: 2}
-  - decision: {fileID: 11400000, guid: 01f7083f45fd529499c5bee6c25d85f1, type: 2}
-    newState: {fileID: 11400000, guid: 853ede93cb925834bab510d332dc4712, type: 2}

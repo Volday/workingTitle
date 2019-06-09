@@ -10,6 +10,7 @@ using UnityEngine;
 [RequireComponent(typeof(UnitTeam))]
 [RequireComponent(typeof(EnemiesAround))]
 [RequireComponent(typeof(ProjectileDeathEffect))]
+[RequireComponent(typeof(Weight))]
 public class Projectile : MonoBehaviour
 {
     public float radius = 0;

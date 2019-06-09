@@ -12,9 +12,24 @@ public class _UnitFactorDecision : Decision
         float factorsSum = 0;
         float factorCoefficientSum = 0;
         for (int t = 0; t < factors.Count; t++) {
-            float nextFactor = factors[t].decisionFactors.GetDecisionFactor(controller);
-            if (nextFactor == float.MinValue) {
-                return float.MinValue;
+            float nextFactor = 0;
+            AlreadyHasFactorDecision alreadyHasFactorDecision = controller.gameObject.GetComponent<AlreadyHasFactorDecision>();
+            if (alreadyHasFactorDecision == null){
+                alreadyHasFactorDecision = controller.gameObject.AddComponent<AlreadyHasFactorDecision>();
+            }
+            float alreadyHasFactorDecisionValue = alreadyHasFactorDecision.GetFactorValue(factors[t].decisionFactors);
+            //возвращает float.MinValue + 1 в случае если этого фактора выбора ещё нет в библиотеке
+            if (alreadyHasFactorDecisionValue == float.MinValue + 1)
+            {
+                nextFactor = factors[t].decisionFactors.GetDecisionFactor(controller);
+                if (nextFactor == float.MinValue)
+                {
+                    return float.MinValue;
+                }
+                alreadyHasFactorDecision.SetFactorValue(factors[t].decisionFactors, nextFactor);
+            }
+            else {
+                nextFactor = alreadyHasFactorDecisionValue;
             }
             factorsSum += (nextFactor + factors[t].factorShift * 50) * factors[t].factorCoefficient;
             factorCoefficientSum += Mathf.Abs(factors[t].factorCoefficient);

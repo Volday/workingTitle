@@ -7,6 +7,6 @@ public class ApplyAbilityEffectsInRadiusAffectPE : ProjectileEffect
 {
     public override void DoProjectileEffect(GameObject carrier)
     {
-        ApplyAbilityEffectsInRadiusAffectPEComponent newMoveForwardPEComponent = carrier.AddComponent<ApplyAbilityEffectsInRadiusAffectPEComponent>();
+        carrier.AddComponent<ApplyAbilityEffectsInRadiusAffectPEComponent>();
     }
 }

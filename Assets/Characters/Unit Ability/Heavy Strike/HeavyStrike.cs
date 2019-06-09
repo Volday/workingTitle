@@ -13,8 +13,9 @@ public class HeavyStrike : UnitAbility
     {
         base.Start();
         flyingProjectile = true;
-        rangeCast = 20;
+        //rangeCast = 20;
         projectileSpeed = 20;
+        damage = 30;
     }
 
     public override void UseAbility()
@@ -22,9 +23,21 @@ public class HeavyStrike : UnitAbility
         if (CooldownReady())
         {
             GameObject newAbilityTarget = new GameObject();
-            newAbilityTarget.transform.position = FindFrontTragetToCast();
-            if (GetComponent<StateController>() != null && GetComponent<StateController>().isActiveAndEnabled) {
-                newAbilityTarget.transform.position = GetComponent<StateController>().futureTargetPosition;
+            if (GetComponent<StateController>() != null && GetComponent<StateController>().isActiveAndEnabled)
+            {
+                //if (rangeCast > 10)
+                //{
+                    newAbilityTarget.transform.position = GetComponent<StateController>().futureTargetPosition;
+                //}else
+                //{
+                    //newAbilityTarget.transform.position = GetComponent<TargetToAttack>().targetToAttack.GetComponent<LastStaps>().GetMotionVector(1);
+                //}
+            }
+            else {
+                if (GetComponent<InputManager>() != null && GetComponent<InputManager>().isActiveAndEnabled)
+                {
+                    newAbilityTarget.transform.position = FindFrontTragetToCast();
+                }
             }
             Vector3 target = newAbilityTarget.transform.position;
             target.y = transform.position.y;
@@ -34,11 +47,12 @@ public class HeavyStrike : UnitAbility
             Projectile projectileComponent = projectile.GetComponent<Projectile>();
             projectileComponent.pernicious = true;
             projectileComponent.lifeTime = 1f;
+            projectileComponent.damage = GetComponent<Damage>().currentDamage * damage;
             SetEffectsToProjectile(newProjectile, abilityEffects, projectileEffects);
 
             timeAfterLastCast = 0;
             Destroy(newAbilityTarget);
+            CastAbilityEnd();
         }
-        CastAbilityEnd();
     }
 }

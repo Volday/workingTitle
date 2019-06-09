@@ -7,7 +7,7 @@ public class HealthPointFactor : DecisionFactor
 {
     public override float GetDecisionFactor(StateController controller)
     {
-        if (controller.healthPoints.currentHealthPoints != 0)
+        if (controller.healthPoints.maxHealthPoints != 0)
         {
             return ((controller.healthPoints.currentHealthPoints / controller.healthPoints.maxHealthPoints) - 0.5f) * 100;
         }

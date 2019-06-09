@@ -39,20 +39,26 @@ public class Spawner : MonoBehaviour
                     AISkills.caution = prng.Next(0, 101);
                     AISkills.agility = prng.Next(0, 101);
                     AISkills.accuracy = prng.Next(0, 101);
-                    newUnit.GetComponent<PurposeOfTravel>().purposeOfTravel = target.transform.position;
-                    if (prng.Next(0, 2) == 0) {
-                        newUnit.GetComponent<AOESkill>().enabled = false;
-                    }
-                    if (prng.Next(0, 2) == 0)
+                    newUnit.GetComponent<PurposeOfTravel>().purposeOfTravel = target.transform.position + new Vector3(0.68f,0,1.3f);
+                    if (prng.Next(0, 5) == 0)
                     {
-                        newUnit.GetComponent<HeavyStrike>().enabled = false;
+                        //newUnit.GetComponent<Flamethrower>().enabled = true;
                     }
-                    if (prng.Next(0, 4) == 0)
+                    if (prng.Next(0, 16) == 0)
                     {
-                        newUnit.GetComponent<MeleeAttack>().enabled = false;
+                        newUnit.GetComponent<BlackHole>().enabled = true;
                     }
-                    if (newUnit.GetComponent<AOESkill>().enabled == false && newUnit.GetComponent<HeavyStrike>().enabled == false && newUnit.GetComponent<MeleeAttack>().enabled == false) {
+                    if (prng.Next(0, 3) == 0)
+                    {
+                        newUnit.GetComponent<ThunderStrike>().enabled = true;
+                    }
+                    if (prng.Next(0, 1) == 0)
+                    {
                         newUnit.GetComponent<HeavyStrike>().enabled = true;
+                    }
+                    if (prng.Next(0, 3) == 0)
+                    {
+                        newUnit.GetComponent<MeleeAttack>().enabled = true;
                     }
                 }
             }

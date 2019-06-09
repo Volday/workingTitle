@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LastStaps : MonoBehaviour
 {
-    public float timeBetweenSteps = 0.1f;
+    public float timeBetweenSteps = 0.2f;
     public float trackedTime = 20;
     public float beginTail = 1;
     public float finishTail = 2;
@@ -20,7 +20,6 @@ public class LastStaps : MonoBehaviour
 
         GameObject gameManager = GameObject.FindGameObjectWithTag("GameManager");
         timeManager = gameManager.GetComponent<TimeManager>();
-
         maxStaps = trackedTime / timeBetweenSteps;
         StapsClear();
         NextStep();

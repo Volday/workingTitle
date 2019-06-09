@@ -17,7 +17,16 @@ public class FlamethrowerComponent : AbilityComponent
     void Update()
     {
         if (stateController.isActiveAndEnabled) {
-            GetComponent<NavMeshAgent>().destination = stateController.targetToAttack.targetToAttack.transform.position;
+            float enemyRadius = stateController.targetToAttack.targetToAttack.GetComponent<CapsuleCollider>().radius;
+            float myRadius = GetComponent<CapsuleCollider>().radius;
+            if (MyMath.sqrDistanceFromPointToPoint(stateController.targetToAttack.targetToAttack.transform.position, transform.position) >
+                enemyRadius * enemyRadius + myRadius * myRadius + 9)
+            {
+                GetComponent<NavMeshAgent>().destination = stateController.targetToAttack.targetToAttack.transform.position;
+            }
+            else {
+                GetComponent<NavMeshAgent>().destination = transform.position;
+            }
         }
     }
 

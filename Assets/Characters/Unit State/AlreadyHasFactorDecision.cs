@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class AlreadyHasFactorDecision : MonoBehaviour
 {
-    Dictionary<Decision, float> decisionFactorsValue = new Dictionary<Decision, float>();
+    Dictionary<DecisionFactor, float> decisionFactorsValue = new Dictionary<DecisionFactor, float>();
 
-    public float GetFactorValue(Decision _decisionFactor) {
+    public float GetFactorValue(DecisionFactor _decisionFactor) {
         if (decisionFactorsValue.ContainsKey(_decisionFactor))
         {
             return decisionFactorsValue[_decisionFactor];
         }
         else {
-            return float.MinValue;
+            return float.MinValue + 1;
         }
     }
 
-    public void SetFactorValue(Decision _decisionFactor, float _value)
+    public void SetFactorValue(DecisionFactor _decisionFactor, float _value)
     {
         if (!decisionFactorsValue.ContainsKey(_decisionFactor))
         {

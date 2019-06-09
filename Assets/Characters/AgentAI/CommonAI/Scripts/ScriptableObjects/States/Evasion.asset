@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Evasion
   m_EditorClassIdentifier: 
   transitionsUpdateFrequency: 0.1
-  actionsUpdateFrequency: 0.05
+  actionsUpdateFrequency: 0.01
   actions:
   - {fileID: 11400000, guid: 4519038014488ff49b6d7d5d39c3f297, type: 2}
   transitions:

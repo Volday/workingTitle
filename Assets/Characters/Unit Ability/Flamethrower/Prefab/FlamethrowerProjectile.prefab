@@ -214,6 +214,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b1153460290f4114bbcc3a04a4cb6d3a, type: 2}
   - {fileID: 11400000, guid: fb85f5888c180ce4bab5d64e414bf21a, type: 2}
   - {fileID: 11400000, guid: a0733e7186ce17243976aecada9a05f5, type: 2}
+  - {fileID: 11400000, guid: 11a914f5868f9b04d8c4278636a89152, type: 2}
   - {fileID: 11400000, guid: 289396ab2975fa94fba036da9db11c45, type: 2}
   abilityEffects:
   - {fileID: 11400000, guid: cb7471185d406bd408b4add26b75174c, type: 2}

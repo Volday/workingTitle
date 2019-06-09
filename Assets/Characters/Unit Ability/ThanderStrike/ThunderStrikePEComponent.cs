@@ -32,7 +32,7 @@ public class ThunderStrikePEComponent : MonoBehaviour
             {
                 GameObject newProjectile = Instantiate(vfxProjectile, targets[t].transform.position, Quaternion.identity);
                 targets[t].GetComponent<HealthPoints>().TakeDamage(damage / targets.Count);
-                ThanderStrikeVFXProjectile thanderStrikeVFXProjectile = newProjectile.GetComponent<ThanderStrikeVFXProjectile>();
+                ThunderStrikeVFXProjectile thanderStrikeVFXProjectile = newProjectile.GetComponent<ThunderStrikeVFXProjectile>();
                 thanderStrikeVFXProjectile.target = targets[t];
                 thanderStrikeVFXProjectile.showTime = 0.2f + 0.3f / targets.Count;
             }

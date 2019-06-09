@@ -4,42 +4,30 @@ using UnityEngine;
 
 public class CameraMove : MonoBehaviour
 {
-    //параметры передаются из цели слежения
-    public Transform target;
+    //параметр передаётся из цели слежения
+    public GameObject target;
+
     public Vector3 cameraOffset;
+    public bool smoothing = true;
     public float smoothSpeed;
-    //
-    float smoothDistanceCoefficient = 0;
-    public float distanceCoefficient = 0.1f;
-    public float minDistance = 1.1f;
-    public float acceleration = 1.5f;
-    float lastStap = 0;
 
     private void Start()
     {
         transform.position = target.transform.position + cameraOffset;
-        transform.LookAt(target);
+        transform.LookAt(target.transform);
     }
 
     void FixedUpdate()
     {
         Vector3 targetPosition = target.transform.position + cameraOffset;
-        Vector3 smoothPosition = Vector3.Lerp(transform.position, targetPosition, smoothSpeed * Time.deltaTime);
-        float distanceToMove = Mathf.Sqrt(MyMath.sqrDistanceFromPointToPoint(smoothPosition, transform.position));
-        if (distanceToMove > lastStap * acceleration)
+        //Сглаживание движения
+        if (smoothing)
         {
-            if (lastStap * acceleration > minDistance)
-            {
-                smoothDistanceCoefficient = lastStap * acceleration;
-            }
-            else
-            {
-                smoothDistanceCoefficient = minDistance;
-            }
-            smoothPosition = Vector3.Lerp(transform.position, smoothPosition, smoothDistanceCoefficient / distanceToMove);
+            Vector3 smoothPosition = Vector3.Lerp(transform.position, targetPosition, smoothSpeed * Time.fixedDeltaTime);
+            transform.position = smoothPosition;
         }
-        lastStap = Mathf.Sqrt(MyMath.sqrDistanceFromPointToPoint(smoothPosition, transform.position));
-        smoothPosition = Vector3.Lerp(transform.position, smoothPosition, distanceCoefficient);
-        transform.position = smoothPosition;
+        else {
+            transform.position = targetPosition;
+        }
     }
 }

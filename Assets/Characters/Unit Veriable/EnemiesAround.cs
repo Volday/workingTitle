@@ -44,7 +44,7 @@ public class EnemiesAround : MonoBehaviour
         List <float> closestEnemiesDistance = new List<float>();
 
         for (int t = 0; t < count; t++) {
-            closestEnemies.Add(new GameObject());
+            closestEnemies.Add(null);
             closestEnemiesDistance.Add(float.MaxValue);
         }
 
@@ -87,6 +87,7 @@ public class EnemiesAround : MonoBehaviour
         return FindedClosestEnemies;
     }
 
+    //находит все живые, не дружественне цели в заданном радиусе
     public List<GameObject> FindEnemiesAround(float searchRadius)
     {
         enemiesAround.Clear();
@@ -112,6 +113,7 @@ public class EnemiesAround : MonoBehaviour
         return enemiesAround;
     }
 
+    //находит все цели включая себя в заданном радиусе
     public List<GameObject> FindTargetsAroundInRadius(float radius)
     {
         List<GameObject> targetsAroundInRadius = new List<GameObject>();
@@ -124,6 +126,27 @@ public class EnemiesAround : MonoBehaviour
                 if (newDistance < radius * radius)
                 {
                     targetsAroundInRadius.Add(unitManager.teams[i].units[t]);
+                }
+            }
+        }
+        return targetsAroundInRadius;
+    }
+
+    //находит всех существ включая себя в заданном радиусе
+    public List<GameObject> FindTargetsCreatureAroundInRadius(float radius)
+    {
+        List<GameObject> targetsAroundInRadius = new List<GameObject>();
+        for (int i = 0; i < unitManager.teams.Count; i++)
+        {
+            for (int t = 0; t < unitManager.teams[i].units.Count; t++)
+            {
+                if (unitManager.teams[i].units[t].GetComponent<Creature>() != null) {
+                    Vector3 differenceVector = unitManager.teams[i].units[t].transform.position - transform.position;
+                    float newDistance = (differenceVector.x * differenceVector.x) + (differenceVector.z * differenceVector.z);
+                    if (newDistance < radius * radius)
+                    {
+                        targetsAroundInRadius.Add(unitManager.teams[i].units[t]);
+                    }
                 }
             }
         }

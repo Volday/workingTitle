@@ -43,6 +43,7 @@ public class StateController : MonoBehaviour
     [HideInInspector] public UnitAbility abilityPending;
     [HideInInspector] public Vector3 futureTargetPosition;
     [HideInInspector] public Vector3 pointEscape;
+    [HideInInspector] public GameObject targetToSurround;
 
     void Awake()
     {

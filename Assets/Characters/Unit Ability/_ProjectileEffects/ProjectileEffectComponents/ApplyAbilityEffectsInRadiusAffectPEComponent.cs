@@ -24,11 +24,13 @@ public class ApplyAbilityEffectsInRadiusAffectPEComponent : MonoBehaviour
     }
 
     void ApplyWithRadiusAffect() {
-        List<GameObject> targetsForApply = enemiesAround.FindEnemiesAround(radiusAffect.currentRadius);
-        if (targetsForApply.Count > 0) {
-            for (int t = 0; t < targetsForApply.Count; t++) {
-                projectileEffectsManager.ApplyAbilityEffects(targetsForApply[t]);
-                AddTargetHitPEComponent();
+        if (radiusAffect.currentRadius > 0) {
+            List<GameObject> targetsForApply = enemiesAround.FindEnemiesAround(radiusAffect.currentRadius);
+            if (targetsForApply.Count > 0) {
+                for (int t = 0; t < targetsForApply.Count; t++) {
+                    projectileEffectsManager.ApplyAbilityEffects(targetsForApply[t]);
+                    AddTargetHitPEComponent();
+                }
             }
         }
     }
@@ -45,7 +47,7 @@ public class ApplyAbilityEffectsInRadiusAffectPEComponent : MonoBehaviour
     }
 
     void AddTargetHitPEComponent() {
-        if (gameObject.GetComponent<TargetHitPE>() != null) {
+        if (gameObject.GetComponent<TargetHitPE>() == null) {
             gameObject.AddComponent<TargetHitPE>();
         }
     }

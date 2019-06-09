@@ -8,6 +8,9 @@ public class InRangeAttackFactor : DecisionFactor
     //даёт +50 если стоишь близко к цели, и -50 если на границе радиуса атаки
     public override float GetDecisionFactor(StateController controller)
     {
+        if (controller.targetToAttack.targetToAttack == null) {
+            return 0;
+        }
         float distanceFactorValue = 0;
         float distanceToTarget = Mathf.Sqrt(MyMath.sqrDistanceFromPointToPoint(controller.targetToAttack.targetToAttack.transform.position, controller.transform.position));
         float rangeCast = controller.abilityPending.rangeCast;

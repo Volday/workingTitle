@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 8545015646052020173}
   - component: {fileID: 7031957112538088225}
   - component: {fileID: 8188228124983532646}
+  - component: {fileID: 3284871375417703424}
+  - component: {fileID: 1094828748049949343}
   m_Layer: 0
   m_Name: MeleeAttackProjectile
   m_TagString: Untagged
@@ -93,6 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046138a2ca1ff8d4b91a99c90b206fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyGameObjectDeathEffect: {fileID: 0}
 --- !u!114 &1772130088421570293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,8 +137,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileEffects:
-  - {fileID: 11400000, guid: 9720797bba5a6364d9e668375ad125dd, type: 2}
-  abilityEffects: []
+  - {fileID: 11400000, guid: a0733e7186ce17243976aecada9a05f5, type: 2}
+  abilityEffects:
+  - {fileID: 11400000, guid: cb7471185d406bd408b4add26b75174c, type: 2}
 --- !u!114 &7031957112538088225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,6 +158,8 @@ MonoBehaviour:
   lifeTime: 1
   spawnTime: 0
   pernicious: 0
+  damage: 0
+  haveHit: 0
 --- !u!114 &8188228124983532646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,3 +172,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 989b43c38e9e3a14fb0471524a684015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3284871375417703424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4937394472768534574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d18c356f9b0f7d24fa2066889ed50e05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamage: 1
+  currentDamage: 1
+--- !u!114 &1094828748049949343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4937394472768534574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2062b6792c79f4e4e9d12a922719042a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseRadius: 1
+  currentRadius: 1

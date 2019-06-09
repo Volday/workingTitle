@@ -13,6 +13,7 @@ public class DieWhenHitPEComponent : MonoBehaviour
 
     private void Update()
     {
+        //Инициирует смерть при сталкновении с любым колайдером
         if (projectile.haveHit) {
             if (projectile.hit.collider.isTrigger == false) {
                 if (projectile.hit.collider.gameObject != projectile.owner) {

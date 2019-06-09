@@ -6,18 +6,19 @@ public class ThunderStrike : UnitAbility
 {
     public GameObject projectile;
 
+    public List<AbilityEffect> abilityEffects;
+    public List<ProjectileEffect> projectileEffects;
+
     private TimeManager timeManager;
 
     AISkills aISkills;
 
-    public float castDuration = 1;
+    public float applicationDelay = 1;
     public float radius = 5;
 
     private void Start()
     {
         base.Start();
-
-        aISkills = GetComponent<AISkills>();
 
         GameObject gameManager = GameObject.FindGameObjectWithTag("GameManager");
         timeManager = gameManager.GetComponent<TimeManager>();
@@ -25,6 +26,7 @@ public class ThunderStrike : UnitAbility
         rangeCast = 20;
         damage = 100;
         cooldown =5;
+        castDuration = 0.4f;
     }
 
     public override void UseAbility()
@@ -35,7 +37,7 @@ public class ThunderStrike : UnitAbility
             GameObject newProjectile;
             if (GetComponent<StateController>() != null && GetComponent<StateController>().isActiveAndEnabled)
             {
-                newProjectile = Instantiate(projectile, GetComponent<StateController>().targetToAttack.targetToAttack.GetComponent<LastStaps>().GetMotionVector(castDuration), transform.rotation);
+                newProjectile = Instantiate(projectile, GetComponent<StateController>().targetToAttack.targetToAttack.GetComponent<LastStaps>().GetMotionVector(applicationDelay), transform.rotation);
             }
             else
             {
@@ -43,10 +45,11 @@ public class ThunderStrike : UnitAbility
             }
             newProjectile.GetComponent<Projectile>().radius = GetComponent<RadiusAffect>().currentRadius * radius;
             newProjectile.GetComponent<Projectile>().damage = GetComponent<Damage>().currentDamage * damage;
-            newProjectile.GetComponent<Projectile>().lifeTime = castDuration + 0.5f;
-            newProjectile.GetComponent<UnitTeam>().name = GetComponent<UnitTeam>().name;
-            timeManager.AddAction(CastAbilityEnd, castDuration + 0.002f, this);
-            timeAfterLastCast = 0;
+            newProjectile.GetComponent<Projectile>().lifeTime = applicationDelay + 0.5f;
+
+            SetEffectsToProjectile(newProjectile, abilityEffects, projectileEffects);
+
+            timeManager.AddAction(CastAbilityEnd, applicationDelay + 0.002f, this);
         }
     }
 }

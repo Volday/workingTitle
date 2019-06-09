@@ -52,13 +52,13 @@ public class Player : MonoBehaviour {
 
     private void MoveForward()
     {
-        Vector3 movement = new Vector3(0, 0, 1) * m_MovementForwardInputValue * m_Speed * Time.deltaTime;
+        Vector3 movement = new Vector3(0, 0, 1) * m_MovementForwardInputValue * m_Speed * Time.fixedDeltaTime;
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
     }
 
     private void MoveRight()
     {
-        Vector3 movement = new Vector3(1, 0, 0) * m_MovementRightInputValue * m_Speed * Time.deltaTime;
+        Vector3 movement = new Vector3(1, 0, 0) * m_MovementRightInputValue * m_Speed * Time.fixedDeltaTime;
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
     }
 

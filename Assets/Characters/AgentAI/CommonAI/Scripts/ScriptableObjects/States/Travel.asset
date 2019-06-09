@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf2d62994940da45a0f94613c7280a4, type: 3}
   m_Name: Travel
   m_EditorClassIdentifier: 
-  transitionsUpdateFrequency: 0.2
-  actionsUpdateFrequency: 0.5
+  transitionsUpdateFrequency: 0.1
+  actionsUpdateFrequency: 0.1
   actions:
+  - {fileID: 11400000, guid: e438a37c581db9e4a8824e64bf460166, type: 2}
   - {fileID: 11400000, guid: 4519038014488ff49b6d7d5d39c3f297, type: 2}
   transitions:
-  - decision: {fileID: 11400000, guid: 665fdd30d057b6e46bdf627259a58dd2, type: 2}
-    newState: {fileID: 11400000, guid: d7142cb537e65264abc0cf3ce85f73e7, type: 2}
   - decision: {fileID: 11400000, guid: 73fee9fd18d77c447a291417e3c1d55f, type: 2}
     newState: {fileID: 11400000, guid: 8b5c75e07bb96b145ae0f4dc08094d65, type: 2}
+  - decision: {fileID: 11400000, guid: 665fdd30d057b6e46bdf627259a58dd2, type: 2}
+    newState: {fileID: 11400000, guid: d7142cb537e65264abc0cf3ce85f73e7, type: 2}
