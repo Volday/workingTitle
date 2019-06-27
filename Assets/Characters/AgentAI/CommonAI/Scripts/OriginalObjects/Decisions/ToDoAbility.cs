@@ -13,28 +13,29 @@ public class ToDoAbility : Decision
             Vector3 futureTargetPosition;
             float distance;
             float accuracyCoefficient = controller.AISkills.accuracy / 100;
+            Vector3 muzzle = controller.GetComponent<Muzzle>().muzzle.position;
             if (controller.nextUnitAbility.flyingProjectile)
             {
                 //растояние до цели
-                differenceVector = controller.targetToAttack.targetToAttack.transform.position - controller.transform.position;
+                differenceVector = controller.targetToAttack.targetToAttack.transform.position - muzzle;
                 distance = Mathf.Sqrt((differenceVector.x * differenceVector.x) + (differenceVector.z * differenceVector.z));
 
                 //первичная будующая позиция
                 futureTargetPosition = controller.targetToAttack.targetToAttack.GetComponent<LastStaps>().GetMotionVector(
-                    controller.nextUnitAbility.TimeToActivate(distance));
+                    controller.nextUnitAbility.TimeToActivate(distance) + 0.1f);
 
                 //растояние до будующей позиции
-                differenceVector = futureTargetPosition - controller.transform.position;
+                differenceVector = futureTargetPosition - muzzle;
                 float distanceToFutureTargetPosition = Mathf.Sqrt((differenceVector.x * differenceVector.x) + (differenceVector.z * differenceVector.z));
 
                 //будующая позиция
                 float distanceShift = distanceToFutureTargetPosition / distance;
                 futureTargetPosition = controller.targetToAttack.targetToAttack.GetComponent<LastStaps>().GetMotionVector(
-                    controller.nextUnitAbility.TimeToActivate(distanceToFutureTargetPosition * distanceShift) * accuracyCoefficient);
+                    controller.nextUnitAbility.TimeToActivate(distanceToFutureTargetPosition * distanceShift) * accuracyCoefficient + 0.1f);
                 controller.futureTargetPosition = futureTargetPosition;
 
                 //проверка на препядствея
-                Ray ray = new Ray(controller.transform.position, futureTargetPosition - controller.transform.position);
+                Ray ray = new Ray(muzzle, futureTargetPosition - muzzle);
 
                 RaycastHit hit = new RaycastHit();
                 if (Physics.Raycast(ray, out hit, distanceToFutureTargetPosition * distanceShift))

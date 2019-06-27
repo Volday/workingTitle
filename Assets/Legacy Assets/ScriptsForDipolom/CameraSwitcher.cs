@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class CameraSwitcher : MonoBehaviour
 {
-    public List<GameObject> target = new List<GameObject>();
-    public int currentSlide = 4;
+    public Slide[] slides;
+    public int currentSlide = 0;
     public GameObject spawn;
+    private bool hasImput = false;
+    float nextImputTime = 0.5f;
+    float currentNextImputTime = 0;
 
     private void Start()
     {
@@ -15,58 +18,64 @@ public class CameraSwitcher : MonoBehaviour
 
     void Update()
     {
+        if (hasImput == true) {
+            currentNextImputTime += Time.deltaTime;
+            if (currentNextImputTime > nextImputTime) {
+                currentNextImputTime = 0;
+                hasImput = false;
+            }
+        }
         SwitchTriger();
         SwitchNow();
     }
 
     void SwitchNow() {
-        GetComponent<CameraTargetMove>().trackedObject = target[currentSlide];
+        for (int t = 0; t < slides.Length; t++) {
+            if (slides[t].slideImage != null) {
+                slides[t].slideImage.SetActive(false);
+            }
+        }
+        if (slides[currentSlide].slidePisition != null) {
+            GetComponent<CameraTargetMove>().trackedObject = slides[currentSlide].slidePisition;
+        }
+        if (slides[currentSlide].slideImage != null) {
+            slides[currentSlide].slideImage.SetActive(true);
+        }
     }
 
     void SwitchTriger() {
-        if (Input.GetAxis("1") > 0) {
-            currentSlide = 1;
-        }
-        if (Input.GetAxis("2") > 0)
+        if (Input.GetAxis("1") > 0)
         {
-            currentSlide = 2;
+            spawn.SetActive(true);
         }
-        if (Input.GetAxis("3") > 0)
+        if (Input.GetAxis("Horizontal") > 0 && !hasImput) {
+            hasImput = true;
+            if (slides.Length > currentSlide + 1)
+            {
+                currentSlide++;
+            }
+            else {
+                currentSlide = 0;
+            }
+        }
+        if (Input.GetAxis("Horizontal") < 0 && !hasImput)
         {
-            currentSlide = 3;
+            hasImput = true;
+            if (currentSlide > 0)
+            {
+                currentSlide--;
+            }
+            else
+            {
+                currentSlide = slides.Length - 1;
+            }
         }
-        if (Input.GetAxis("4") > 0)
-        {
-            currentSlide = 4;
-        }
-        if (Input.GetAxis("5") > 0)
-        {
-            currentSlide = 5;
-        }
-        if (Input.GetAxis("6") > 0)
-        {
-            currentSlide = 6;
-        }
-        if (Input.GetAxis("7") > 0)
-        {
-            currentSlide = 7;
-        }
-        if (Input.GetAxis("8") > 0)
-        {
-            currentSlide = 8;
-        }
-        if (Input.GetAxis("9") > 0)
-        {
-            currentSlide = 9;
-        }
-        if (Input.GetAxis("0") > 0)
-        {
-            currentSlide = 0;
-        }
-        //if (Input.GetAxis("l") > 0)
-        //{
-        //    spawn.SetActive(true);
-        //    Debug.Log("l");
-        //}
     }
+}
+
+[System.Serializable]
+public class Slide {
+    public int index;
+    public GameObject slidePisition;
+    public GameObject slideImage;
 }

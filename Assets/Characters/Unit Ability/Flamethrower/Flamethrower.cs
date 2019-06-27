@@ -59,7 +59,7 @@ public class Flamethrower : UnitAbility
             if (GetComponent<StateController>() != null && GetComponent<StateController>().isActiveAndEnabled)
             {
                 TargetToAttack targetToAttack = GetComponent<TargetToAttack>();
-                if (targetToAttack.targetToAttack.activeSelf || targetToAttack.targetToAttack == null) {
+                if (targetToAttack.targetToAttack == null || targetToAttack.targetToAttack.activeSelf == false) {
                     List<GameObject> newTargets = GetComponent<EnemiesAround>().FindClosestEnemies(1);
                     if (newTargets[0] != null) {
                         targetToAttack.targetToAttack = newTargets[0];

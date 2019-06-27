@@ -264,8 +264,10 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
             StaticObjectAssemble staticObjectAssemble = new StaticObjectAssemble(mapGenerator.seed, staticObjectGenerator, mapGenerator);
             coverageMap = staticObjectAssemble.BuildingAssemble(coverageMap, wholeMapData, roadGenerator, numberOfBuildings, minBuildSide, maxBuildSide, widthRoad, minFreeHeight, maxFreeHeight, openAreaHouse);
             coverageMap = staticObjectAssemble.TreeAssemble(coverageMap, wholeMapData, minFreeHeight, maxFreeHeight, treeCount);
+            staticObjectAssemble.WaterAssemble(chunkSize, minFreeHeight, mapGenerator.meshHeightMultiplier, mapGenerator.meshHeightCurve, widthLocation, heightLocation);
             Debug.Log(Time.realtimeSinceStartup + "Начало ");
-            coverageMap = staticObjectAssemble.PierAssemble(coverageMap, wholeMapData, minFreeHeight, maxFreeHeight, minIslandSize);
+            staticObjectAssemble.InvisibleWallAssemble(wholeMapData, maxFreeHeight, mapGenerator.meshHeightMultiplier);
+            //coverageMap = staticObjectAssemble.PierAssemble(coverageMap, wholeMapData, minFreeHeight, maxFreeHeight, minIslandSize);
             Debug.Log(Time.realtimeSinceStartup + "Конец ");
             MapDisplay display = FindObjectOfType<MapDisplay>();
             display.DrawTexture(TextureGenerator.TextureFromHeightMapResize(coverageMap));

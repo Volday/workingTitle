@@ -7,6 +7,7 @@ public class FlamethrowerComponent : AbilityComponent
 {
     StateController stateController;
     float slowdownCoefficient = 0.5f;
+    NavMeshAgent navMeshAgent;
 
     private void Start()
     {
@@ -22,10 +23,11 @@ public class FlamethrowerComponent : AbilityComponent
             if (MyMath.sqrDistanceFromPointToPoint(stateController.targetToAttack.targetToAttack.transform.position, transform.position) >
                 enemyRadius * enemyRadius + myRadius * myRadius + 9)
             {
-                GetComponent<NavMeshAgent>().destination = stateController.targetToAttack.targetToAttack.transform.position;
+                stateController.navMeshAgent.destination = stateController.targetToAttack.targetToAttack.transform.position;
             }
             else {
-                GetComponent<NavMeshAgent>().destination = transform.position;
+                stateController.navMeshAgent.destination = transform.position;
+                transform.LookAt(stateController.targetToAttack.targetToAttack.transform.position);
             }
         }
     }

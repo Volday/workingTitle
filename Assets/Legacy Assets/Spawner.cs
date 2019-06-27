@@ -42,9 +42,9 @@ public class Spawner : MonoBehaviour
                     newUnit.GetComponent<PurposeOfTravel>().purposeOfTravel = target.transform.position + new Vector3(0.68f,0,1.3f);
                     if (prng.Next(0, 5) == 0)
                     {
-                        //newUnit.GetComponent<Flamethrower>().enabled = true;
+                        newUnit.GetComponent<Flamethrower>().enabled = true;
                     }
-                    if (prng.Next(0, 16) == 0)
+                    if (prng.Next(0, 16) == 1)
                     {
                         newUnit.GetComponent<BlackHole>().enabled = true;
                     }

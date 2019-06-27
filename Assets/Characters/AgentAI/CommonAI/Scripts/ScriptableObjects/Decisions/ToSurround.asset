@@ -17,5 +17,5 @@ MonoBehaviour:
     factorCoefficient: 1
     factorShift: 0
   - decisionFactors: {fileID: 11400000, guid: 251572491f725aa4181c081c7c809e2a, type: 2}
-    factorCoefficient: 1
-    factorShift: -0.42
+    factorCoefficient: 0.5
+    factorShift: -1

@@ -11,9 +11,11 @@ public class StaticObjectAssemble
 
     List<HouseStaticObject> houseStaticObjects = new List<HouseStaticObject>();
 
-    List<IslandForPier> islandForPiers = new List<IslandForPier>();
-
     int[,] islandsMap;
+    List<IslandForPier> islandForPiers;
+
+    int[,] invisibleWallMap;
+    List<IslandForPier> invisibleWallsLine = new List<IslandForPier>();
 
     int currentIslandSize;
 
@@ -26,8 +28,82 @@ public class StaticObjectAssemble
         this.mapGenerator = mapGenerator;
     }
 
+    public void WaterAssemble(int chunkSize, float minFreeHeight, float meshHeightMultiplier, AnimationCurve meshHeightCurve, int widthLocation, int heightLocation)
+    {
+        chunkSize = chunkSize - 1;
+        Vector2 coord = new Vector2(((widthLocation * (float)chunkSize))  / 2 - (float)chunkSize / 2, 
+            ((heightLocation * (float)chunkSize)) / 2 - (float)chunkSize / 2);
+        float height = meshHeightCurve.Evaluate(minFreeHeight) * meshHeightMultiplier;
+        staticObjectGenerator.WaterGenerate(coord, widthLocation + 2, heightLocation + 2, height);
+    }
+
+    public void InvisibleWallAssemble(float[,] wholeMapData, float maxFreeHeight, float meshHeightMultiplier)
+    {
+        maxFreeHeight = maxFreeHeight + 0.07f;
+
+        islandForPiers = new List<IslandForPier>();
+
+        islandsMap = new int[wholeMapData.GetLength(0), wholeMapData.GetLength(1)];
+
+        for (int y = 11; y < wholeMapData.GetLength(1) - 10; y++) {
+            for (int x = 11; x < wholeMapData.GetLength(0) - 10; x++)
+            {
+                if (islandsMap[x, y] == 0 && wholeMapData[x, y] > maxFreeHeight) {
+                    IslandForPier newIslandForPier = new IslandForPier();
+                    FindFullIsland(new Vector2(x, y), newIslandForPier, wholeMapData, maxFreeHeight);
+
+                    for (int i = 0; i < newIslandForPier.coastline.Count; i++)
+                    {
+                        islandsMap[(int)newIslandForPier.coastline[i].x, (int)newIslandForPier.coastline[i].y] = 2;
+                    }
+
+                    for (int i = 0; i < newIslandForPier.coastline.Count; i++)
+                    {
+                        bool isLine = false;
+                        if (islandsMap[(int)newIslandForPier.coastline[i].x - 1, (int)newIslandForPier.coastline[i].y] == 1) {
+                            isLine = true;
+                        }
+                        if (islandsMap[(int)newIslandForPier.coastline[i].x + 1, (int)newIslandForPier.coastline[i].y] == 1)
+                        {
+                            isLine = true;
+                        }
+                        if (islandsMap[(int)newIslandForPier.coastline[i].x, (int)newIslandForPier.coastline[i].y - 1] == 1)
+                        {
+                            isLine = true;
+                        }
+                        if (islandsMap[(int)newIslandForPier.coastline[i].x, (int)newIslandForPier.coastline[i].y + 1] == 1)
+                        {
+                            isLine = true;
+                        }
+                        if (!isLine) {
+                            //islandsMap[(int)newIslandForPier.coastline[i].x, (int)newIslandForPier.coastline[i].y] = 3;
+                            newIslandForPier.coastline.RemoveAt(i);
+                            i--;
+                        }
+                    }
+
+                    if (newIslandForPier.coastline.Count > 3) {
+                        islandForPiers.Add(newIslandForPier);
+                    }
+                }
+            }
+        }
+
+        List<Vector2> invisibleWallsPoints = new List<Vector2>();
+        for (int t = 0; t < islandForPiers.Count; t++) {
+            for (int i = 0; i < islandForPiers[t].coastline.Count; i++)
+            {
+                invisibleWallsPoints.Add(islandForPiers[t].coastline[i]);
+            }
+        }
+
+        staticObjectGenerator.InvisibleWallGenerator(invisibleWallsPoints, wholeMapData.GetLength(0), wholeMapData.GetLength(1));
+    }
+
     public int[,] PierAssemble(int[,] coverageMap, float[,] wholeMapData, float minFreeHeight, float maxFreeHeight, int minIslandSize) {
         float coastHeight = minFreeHeight - 0.1f;
+
+        islandForPiers = new List<IslandForPier>();
 
         islandsMap = new int[coverageMap.GetLength(0), coverageMap.GetLength(1)];
         for (int y = 11; y < islandsMap.GetLength(1) - 10; y++) {
