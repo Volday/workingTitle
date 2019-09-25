@@ -269,6 +269,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestBot1
       objectReference: {fileID: 0}
+    - target: {fileID: 7083527572793143893, guid: 2a5dc1e331708c74f9fe4ea3fe8da6fa,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2113302871511391818, guid: 2a5dc1e331708c74f9fe4ea3fe8da6fa,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -419,7 +424,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0.0000000071007413, y: 4e-45, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -822,8 +827,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1ec64b75e68eee4e9e532666c0afc10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  widthLocation: 3
-  heightLocation: 3
+  widthLocation: 6
+  heightLocation: 6
   maxFreeHeight: 0.5
   minFreeHeight: 0.2
   hideRemoteChunks: 0
@@ -835,12 +840,16 @@ MonoBehaviour:
   minDistanceBetweenRoads: 40
   minRoadLenght: 7
   closedAreaRoad: 0.015
-  minBuildSide: 19
+  minBuildSide: 15
   maxBuildSide: 40
   numberOfBuildings: 100
   openAreaHouse: 0.06
   treeCount: 10
   minIslandSize: 2000
+  pierOffset: 35
+  maxPierDistance: 70
+  widthOfPiers: 10
+  minPierAngle: 45
   viewer: {fileID: 0}
   mapMaterial: {fileID: 2100000, guid: ee023b4aa0f898646ba73b74032f98b0, type: 2}
 --- !u!114 &1258183038
@@ -1156,8 +1165,8 @@ MonoBehaviour:
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 1
-  m_TileSize: 32
+  m_OverrideTileSize: 0
+  m_TileSize: 256
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.23333333
   m_BuildHeightMesh: 0

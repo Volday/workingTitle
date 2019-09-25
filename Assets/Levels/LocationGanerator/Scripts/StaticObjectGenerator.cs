@@ -64,7 +64,10 @@ public class StaticObjectGenerator : MonoBehaviour {
         invisibleWalls.transform.parent = transform;
         invisibleWalls.name = "Invisible Walls";
         for (int t = 0; t < invisibleWallsPoints.Count; t++) {
-            GameObject newTree = Instantiate(invisibleWall, new Vector3(mapWidth - invisibleWallsPoints[t].x - (float)MapGenerator.mapChunkSize / 2, 0, mapHeight - invisibleWallsPoints[t].y - (float)MapGenerator.mapChunkSize / 2), Quaternion.identity, invisibleWalls.transform);
+            GameObject newInvisibleWall = Instantiate(invisibleWall, new Vector3(mapWidth - invisibleWallsPoints[t].x - 
+                (float)MapGenerator.mapChunkSize / 2, 0, mapHeight - invisibleWallsPoints[t].y - (float)MapGenerator.mapChunkSize / 2), 
+                Quaternion.identity, invisibleWalls.transform);
+            newInvisibleWall.layer = 10;
         }
     }
 }

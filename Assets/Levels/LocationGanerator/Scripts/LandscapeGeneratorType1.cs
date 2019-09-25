@@ -14,38 +14,43 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
     [Range(0, 1)]
     public float minFreeHeight;
 
-    public bool hideRemoteChunks;
+    [HideInInspector] public bool hideRemoteChunks = false;
+    [HideInInspector] public Transform viewer;
 
     const float viewerMoveThresholdForChankUpdate = 25f;
     const float sqrViewerMoveThresholdForChankUpdate = viewerMoveThresholdForChankUpdate * viewerMoveThresholdForChankUpdate;
 
     public float maxVievDst;
 
-    public Color colorRoad;
+    public Material mapMaterial;
 
+    [Header("Roads variables")]
+    public Color colorRoad;
     [Range(10, 90)]
     public float angle;
     public float stapLenght;
     public float widthRoad;
     public float minDistanceBetweenRoads;
     public int minRoadLenght;
-
     [Range(0, 0.1f)]
     public float closedAreaRoad;
 
+    [Header("Builds variables")]
     public int minBuildSide;
     public int maxBuildSide;
     public int numberOfBuildings;
-
     [Range(0, 0.1f)]
     public float openAreaHouse;
 
+    [Header("Tree variables")]
     public int treeCount;
 
+    [Header("Piers variables")]
     public int minIslandSize;
-
-    public Transform viewer;
-    public Material mapMaterial;
+    public int pierOffset;
+    public float maxPierDistance;
+    public float widthOfPiers;
+    public float minPierAngle;
 
     public static Vector2 viewerPosition;
     Vector2 viewerPositionOld;
@@ -62,20 +67,7 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
     static List<TerrainChunk> terrainChunksVisibleLastUpdate = new List<TerrainChunk>();
 
-    
-
-    void Update()
-    {
-        if (hideRemoteChunks) {
-            viewerPosition = new Vector2(viewer.position.x, viewer.position.z) / scale;
-
-            if ((viewerPositionOld - viewerPosition).sqrMagnitude > sqrViewerMoveThresholdForChankUpdate)
-            {
-                viewerPositionOld = viewerPosition;
-                UpdateVisibleChunks();
-            }
-        }
-    }
+   
 
     public void LandscapeGenerate()
     {
@@ -262,17 +254,24 @@ public class LandscapeGeneratorType1 : MonoBehaviour {
 
             StaticObjectGenerator staticObjectGenerator = FindObjectOfType<StaticObjectGenerator>();
             StaticObjectAssemble staticObjectAssemble = new StaticObjectAssemble(mapGenerator.seed, staticObjectGenerator, mapGenerator);
-            coverageMap = staticObjectAssemble.BuildingAssemble(coverageMap, wholeMapData, roadGenerator, numberOfBuildings, minBuildSide, maxBuildSide, widthRoad, minFreeHeight, maxFreeHeight, openAreaHouse);
+
+            //coverageMap 3
+            coverageMap = staticObjectAssemble.BuildingAssemble(coverageMap, wholeMapData, roadGenerator, numberOfBuildings,
+                minBuildSide, maxBuildSide, widthRoad, minFreeHeight, maxFreeHeight, openAreaHouse);
+            //coverageMap 4
             coverageMap = staticObjectAssemble.TreeAssemble(coverageMap, wholeMapData, minFreeHeight, maxFreeHeight, treeCount);
-            staticObjectAssemble.WaterAssemble(chunkSize, minFreeHeight, mapGenerator.meshHeightMultiplier, mapGenerator.meshHeightCurve, widthLocation, heightLocation);
-            Debug.Log(Time.realtimeSinceStartup + "Начало ");
+            
+            staticObjectAssemble.WaterAssemble(chunkSize, minFreeHeight, mapGenerator.meshHeightMultiplier, mapGenerator.meshHeightCurve,
+                widthLocation, heightLocation);
+
             staticObjectAssemble.InvisibleWallAssemble(wholeMapData, maxFreeHeight, mapGenerator.meshHeightMultiplier);
-            //coverageMap = staticObjectAssemble.PierAssemble(coverageMap, wholeMapData, minFreeHeight, maxFreeHeight, minIslandSize);
+            Debug.Log(Time.realtimeSinceStartup + "Начало ");
+            //coverageMap 5
+            coverageMap = staticObjectAssemble.PierAssemble(coverageMap, wholeMapData, minFreeHeight, maxFreeHeight, minIslandSize, 
+                pierOffset, maxPierDistance, widthOfPiers, minPierAngle);
             Debug.Log(Time.realtimeSinceStartup + "Конец ");
             MapDisplay display = FindObjectOfType<MapDisplay>();
             display.DrawTexture(TextureGenerator.TextureFromHeightMapResize(coverageMap));
-
-            //display.DrawTexture(TextureGenerator.TextureFromHeightMap(mapGenerator.islandsMap));
 
             FindObjectOfType<LocationGenerator>().GenerationComplete();
 
