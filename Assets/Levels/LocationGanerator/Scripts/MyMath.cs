@@ -1,9 +1,42 @@
-﻿using System.Collections;
+﻿using Hydra.HydraCommon.Utils.Comparers;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public static class MyMath {
 
+
+    /// <summary>
+    /// Сортировка массива Vector2 по часовой стрелке
+    /// </summary>
+    // Сортировка массива Vector2 по часовой стрелке (начальный угол сортировки неизвестен)
+    static public Vector2[] SortVector2ArrayByClockwiseComparer(Vector2[] arrayToSort)
+    {
+        Array.Sort(arrayToSort, new ClockwiseComparer(Vector2.zero));
+        return arrayToSort;
+    }
+
+    /// <summary>
+    /// Сортировка списка Vector2 по часовой стрелке
+    /// </summary>
+    // Сортировка массива Vector2 по часовой стрелке (начальный угол сортировки неизвестен)
+    static public List<Vector2> SortVector2ListByClockwiseComparer(List<Vector2> listToSort)
+    {
+        Vector2[] arrayToSort = new Vector2[listToSort.Count];
+        for (int t = 0; t < arrayToSort.Length; t++) {
+            arrayToSort[t] = listToSort[t];
+        }
+
+        Array.Sort(arrayToSort, new ClockwiseComparer(Vector2.zero));
+
+        for (int t = 0; t < arrayToSort.Length; t++)
+        {
+            listToSort[t] = arrayToSort[t];
+        }
+
+        return listToSort;
+    }
 
     /// <summary>
     /// Точка пересечения двух отрезков
@@ -163,7 +196,7 @@ public static class MyMath {
     }
 
     /// <summary>
-    /// Поворот вектора на заданный угл в градусах
+    /// Поворот вектора на заданный угл в градусах против часовой
     /// </summary>
     public static Vector2 Rotate(Vector2 point, float angle)
     {

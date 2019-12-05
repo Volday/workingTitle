@@ -395,28 +395,126 @@ public class StaticObjectAssemble
         for (int t = 0; t < walkableChains.Count; t++) {
             if (walkableChains[t].piers.Count > 0) {
                 for (int i = 0; i < walkableChains[t].piers.Count; i++) {
-                    CreatePierPlatform(walkableChains[t].piers[i]);
+                    CreatePierPlatform(walkableChains[t].piers[i], widthOfPiers);
                 }
             }
         }
 
-        Vector2[] ar = new Vector2[4];
-        ar[2] = new Vector2(0, 1);
-        ar[3] = new Vector2(1, 0);
-        ar[0] = new Vector2(-1, 0);
-        ar[1] = new Vector2(0, -1);
-        Array.Sort(ar, new ClockwiseComparer(Vector2.zero));
-        Debug.Log("test start");
-        for (int t = 0; t < ar.Length; t++) {
-            Debug.Log(ar[t]);
+        for (int t = 0; t < walkableChains[0].piers[2].platformPillars.Count; t++) {
+            Debug.Log(walkableChains[0].piers[2].platformPillars[t]);
         }
-        Debug.Log("test end");
 
         return coverageMap;
     }
 
-    void CreatePierPlatform(Pier pier) {
+    void CreatePierPlatform(Pier pier, float widthOfPiers) {
+        if (pier.neighbors.Count > 1)
+        {
+            //Сорсировка соседей по часоваой стрелке
+            List<Vector2> neighborsLocation = new List<Vector2>();
+            for (int t = 0; t < pier.neighbors.Count; t++)
+            {
+                neighborsLocation.Add(pier.neighbors[t].location);
+            }
+            neighborsLocation = MyMath.SortVector2ListByClockwiseComparer(neighborsLocation);
+            //Нормализация верторов относительно центра
+            for (int t = 0; t < neighborsLocation.Count; t++)
+            {
+                neighborsLocation[t] = neighborsLocation[t] - pier.location;
+            }
 
+            //Поиск максимальной дистанции пересечения двух мостов
+            float maxDistanceToIntersectionPoint = -1;
+            Vector2 pointOfMaxDistanceToIntersectionPoint = Vector2.zero;
+            Vector2 neighborsPointOfMaxDistanceToIntersectionPoint = Vector2.zero;
+            for (int t = 0; t < neighborsLocation.Count; t++)
+            {
+                int nextLineIndex = 0;
+                if (t < neighborsLocation.Count - 1)
+                {
+                    nextLineIndex = t + 1;
+                }
+                //Смещение
+                Vector2 firstShiftVector2 = MyMath.Rotate(neighborsLocation[t], -90).normalized * (widthOfPiers / 2);
+                Vector2 secondShiftVector2 = MyMath.Rotate(neighborsLocation[nextLineIndex], 90).normalized * (widthOfPiers / 2);
+
+                Vector2 firstLineFirstPoint = -neighborsLocation[t] + firstShiftVector2;
+                Vector2 firstLineSecondPoint = neighborsLocation[t] + firstShiftVector2;
+                Vector2 secondLineFirstPoint = -neighborsLocation[nextLineIndex] + secondShiftVector2;
+                Vector2 secondLineSecondPoint = neighborsLocation[nextLineIndex] + secondShiftVector2;
+                //Точка пересечения векторов
+                Vector2 intersectionPointOfTwoLines = MyMath.IntersectionPointOfTwoLines(firstLineFirstPoint,
+                    firstLineSecondPoint, secondLineFirstPoint, secondLineSecondPoint);
+
+                if (maxDistanceToIntersectionPoint * maxDistanceToIntersectionPoint <
+                    MyMath.sqrDistanceFromPointToPoint(intersectionPointOfTwoLines, Vector2.zero))
+                {
+                    maxDistanceToIntersectionPoint = intersectionPointOfTwoLines.magnitude;
+                    pointOfMaxDistanceToIntersectionPoint = intersectionPointOfTwoLines;
+                    neighborsPointOfMaxDistanceToIntersectionPoint = neighborsLocation[t];
+                }
+            }
+
+            float rotationAngle = Vector2.Angle(pointOfMaxDistanceToIntersectionPoint, neighborsPointOfMaxDistanceToIntersectionPoint);
+            //Добавление краёв мостов в список точек для генерации платформы
+            List<Vector2> platformPillars = new List<Vector2>();
+            for (int t = 0; t < neighborsLocation.Count; t++)
+            {
+                platformPillars.Add(MyMath.Rotate(neighborsLocation[t].normalized * maxDistanceToIntersectionPoint, rotationAngle));
+                platformPillars.Add(MyMath.Rotate(neighborsLocation[t].normalized * maxDistanceToIntersectionPoint, -rotationAngle));
+            }
+            //Добавление центра мостов в список точек для генерации платформы
+            bool hasUp = false;
+            bool hasDown = false;
+            bool hasLeft = false;
+            bool hasRight = false;
+            for (int t = 0; t < neighborsLocation.Count; t++)
+            {
+                if (neighborsLocation[t].x >= 0)
+                {
+                    hasLeft = true;
+                }
+                if (neighborsLocation[t].x <= 0)
+                {
+                    hasRight = true;
+                }
+                if (neighborsLocation[t].y >= 0)
+                {
+                    hasUp = true;
+                }
+                if (neighborsLocation[t].y <= 0)
+                {
+                    hasDown = true;
+                }
+            }
+            if (!hasUp || !hasDown || !hasLeft || !hasRight)
+            {
+                platformPillars.Add(Vector2.zero);
+            }
+
+            //Удаление дубликатов вершин
+            for (int t = 0; t < platformPillars.Count - 1; t++)
+            {
+                for (int i = t + 1; i < platformPillars.Count; i++)
+                {
+                    if (MyMath.sqrDistanceFromPointToPoint(platformPillars[t], platformPillars[i]) < 1)
+                    {
+                        platformPillars.RemoveAt(i);
+                    }
+                }
+            }
+
+            platformPillars = MyMath.SortVector2ListByClockwiseComparer(platformPillars);
+
+            for (int t = 0; t < platformPillars.Count; t++) {
+                platformPillars[t] += pier.location;
+            }
+
+            pier.platformPillars = platformPillars;
+        }
+        else {
+            pier.maxDistanceToBridge = 0;
+        }
     }
 
     int[,] DrawOnCoverageMap(int[,] coverageMap, List<WalkableChain> walkableChains, float widthOfPiers) {
